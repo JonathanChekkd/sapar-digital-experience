@@ -36,7 +36,7 @@ function RatingLane({ lane }: { readonly lane: (typeof ratingLanes)[number] }): 
     <Link className={`sa-rating-lane sa-rating-${lane.lane}`} href="/app/ratings">
       <span>{lane.label}</span>
       <strong>{lane.value.toLocaleString()}</strong>
-      <small>{lane.status} · {lane.ratedBoutCount} eligible results</small>
+      <small>{lane.ratedBoutCount} eligible bouts<br />{lane.status}</small>
       <em>{lane.delta > 0 ? "+" : ""}{lane.delta}</em>
     </Link>
   );
