@@ -5547,74 +5547,157 @@
 
 .sa-division-board {
   min-width: 0;
-  padding: 17px;
+  scroll-margin-top: calc(96px + env(safe-area-inset-top));
+  padding: 18px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container: division-board / inline-size;
   display: grid;
-  gap: 15px;
-  background: var(--sa-earned);
-  border: 2px solid var(--sa-ink);
-  border-radius: 20px;
-  box-shadow: 0 6px 0 var(--sa-earned-shadow);
-  color: var(--sa-ink);
+  gap: 20px;
+  background:
+    linear-gradient(145deg, rgba(4, 20, 77, .93) 0%, rgba(6, 29, 110, .9) 48%, rgba(8, 18, 53, .98) 100%),
+    url("/generated/sapar-world/calibration/competition-arena.webp") center 38% / cover;
+  border-radius: 24px;
+  box-shadow: 0 15px 30px rgba(5, 18, 57, .26), inset 0 1px 0 rgba(255, 255, 255, .24);
+  color: var(--sa-white);
+  animation: sa-division-arena-arrive 680ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sa-division-board::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(128deg, transparent 0 47%, rgba(30, 217, 255, .16) 47.3% 48.4%, transparent 48.7%),
+    linear-gradient(52deg, transparent 0 69%, rgba(255, 184, 26, .2) 69.3% 71%, transparent 71.3%);
+  pointer-events: none;
+}
+
+.sa-division-board::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 18px;
+  bottom: 0;
+  left: 18px;
+  height: 4px;
+  background: linear-gradient(90deg, #19d7ff, #ffffff 48%, #ffb31a);
+  border-radius: 999px 999px 0 0;
+  box-shadow: 0 -3px 12px rgba(87, 204, 255, .38);
+  pointer-events: none;
 }
 
 .sa-division-board > header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.sa-division-board > header > div > span {
-  color: var(--sa-ink);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: .07em;
-  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 14px;
 }
 
 .sa-division-board h2 {
-  margin-top: 2px;
-  font: 800 clamp(28px, 8vw, 43px)/.95 var(--sa-display);
-  letter-spacing: -.045em;
+  max-width: 10ch;
+  font: 820 clamp(32px, 10vw, 48px)/.92 var(--sa-display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
 }
 
 .sa-division-board > header p {
-  max-width: 540px;
-  margin-top: 6px;
-  color: #5b4205;
-  font-size: 11px;
-  line-height: 1.45;
+  max-width: 58ch;
+  margin-top: 8px;
+  color: #d8e5ff;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.sa-division-board > header .sa-status {
-  flex: none;
+.sa-division-board-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sa-division-board-status .sa-synthetic {
+  color: #e5edff;
+}
+
+.sa-division-board-status .sa-status {
+  min-height: 32px;
+  padding-inline: 11px;
+  border: 0;
+  background: #ffcf43;
+  box-shadow: 0 5px 12px rgba(2, 10, 35, .28), inset 0 1px 0 rgba(255, 255, 255, .72);
+  color: #3f2a00;
+  font-size: 10px;
 }
 
 .sa-division-tickets {
   min-width: 0;
-  padding: 2px 1px 7px;
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-auto-columns: minmax(268px, 88%);
-  grid-auto-flow: column;
-  gap: 10px;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: inline mandatory;
-  scrollbar-width: thin;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 14px;
 }
 
 .sa-division-tickets article {
+  --sa-division-accent: #1fd8ff;
+  --sa-division-core: #0749d8;
+  --sa-division-surface: #edf4ff;
+  --sa-division-surface-strong: #d9e7ff;
+  --sa-division-ink: #071a4b;
   min-width: 0;
-  padding: 15px;
-  scroll-snap-align: start;
-  background: var(--sa-cream);
-  border: 2px solid var(--sa-ink);
-  border-radius: 15px;
-  box-shadow: 0 4px 0 var(--sa-ink);
+  min-height: 252px;
+  padding: 17px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .98), var(--sa-division-surface) 58%, var(--sa-division-surface-strong));
+  border-radius: 16px;
+  box-shadow: 0 11px 20px rgba(1, 10, 38, .3), inset 0 1px 0 rgba(255, 255, 255, .9);
+  color: var(--sa-division-ink);
+}
+
+.sa-division-tickets article::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48%;
+  height: 7px;
+  background: linear-gradient(90deg, var(--sa-division-accent), var(--sa-division-core));
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.sa-division-tickets article::after {
+  content: "";
+  position: absolute;
+  right: -46px;
+  bottom: -58px;
+  width: 164px;
+  height: 164px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--sa-division-accent) 24%, transparent), transparent 68%);
+  pointer-events: none;
 }
 
 .sa-division-tickets article.is-no-gi {
-  background: #dce6ff;
+  --sa-division-accent: #16d8ff;
+  --sa-division-core: #0646d7;
+  --sa-division-surface: #edf5ff;
+  --sa-division-surface-strong: #cfdeff;
+  --sa-division-ink: #071a4b;
+}
+
+.sa-division-tickets article.is-gi {
+  --sa-division-accent: #ffb31a;
+  --sa-division-core: #b72d37;
+  --sa-division-surface: #fff5e7;
+  --sa-division-surface-strong: #ffd9ca;
+  --sa-division-ink: #391316;
 }
 
 .sa-division-ticket-topline {
@@ -5625,77 +5708,171 @@
 }
 
 .sa-division-ticket-topline span {
-  min-height: 28px;
-  padding: 4px 8px;
+  min-height: 31px;
+  padding: 5px 10px;
   display: inline-grid;
   place-items: center;
-  background: var(--sa-cobalt);
-  border: 1px solid var(--sa-ink);
+  background: var(--sa-division-core);
   border-radius: 999px;
   color: var(--sa-white);
   font-size: 10px;
   font-weight: 900;
+  letter-spacing: .03em;
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--sa-division-core) 35%, transparent), inset 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 .sa-division-tickets article.is-gi .sa-division-ticket-topline span {
-  background: var(--sa-social);
-  color: var(--sa-social-ink);
+  background: var(--sa-division-core);
+  color: var(--sa-white);
 }
 
 .sa-division-ticket-topline strong {
-  color: var(--sa-verified-ink);
-  font-size: 10px;
-}
-
-.sa-division-tickets h3 {
-  margin-top: 13px;
-  font: 780 19px/1.08 var(--sa-display);
-  letter-spacing: -.025em;
-}
-
-.sa-division-tickets article > p {
-  margin-top: 5px;
-  color: var(--sa-muted);
-  font-size: 11px;
-}
-
-.sa-division-meter {
-  margin-top: 18px;
-  display: grid;
-  gap: 7px;
-}
-
-.sa-division-meter progress {
-  width: 100%;
-  height: 11px;
-  overflow: hidden;
-  appearance: none;
-  background: var(--sa-white);
-  border: 1px solid var(--sa-ink);
-  border-radius: 999px;
-}
-
-.sa-division-meter progress::-webkit-progress-bar {
-  background: var(--sa-white);
-}
-
-.sa-division-meter progress::-webkit-progress-value {
-  background: var(--sa-cobalt);
-}
-
-.sa-division-meter progress::-moz-progress-bar {
-  background: var(--sa-cobalt);
-}
-
-.sa-division-meter span {
-  color: var(--sa-muted);
+  color: #176a43;
   font-size: 10px;
   text-align: right;
 }
 
-.sa-division-meter span strong {
-  color: var(--sa-ink);
-  font-size: 13px;
+.sa-division-tickets h3 {
+  max-width: 15ch;
+  margin-top: 18px;
+  font: 820 clamp(22px, 6.5vw, 30px)/1 var(--sa-display);
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.sa-division-tags {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.sa-division-tags span {
+  min-height: 27px;
+  padding: 4px 9px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  background: #fff0b8;
+  color: #654300;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.sa-division-tags span:last-child {
+  background: #ece3ff;
+  color: #49217a;
+}
+
+.sa-division-meter {
+  margin-top: auto;
+  padding-top: 20px;
+  display: grid;
+  gap: 9px;
+}
+
+.sa-division-meter-label,
+.sa-division-roster-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sa-division-meter-label {
+  color: color-mix(in srgb, var(--sa-division-ink) 72%, white);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sa-division-meter-label span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sa-division-meter-label svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sa-division-meter-label strong {
+  color: var(--sa-division-ink);
+  font-size: 10px;
+}
+
+.sa-division-meter progress {
+  width: 100%;
+  height: 14px;
+  overflow: hidden;
+  appearance: none;
+  background: rgba(5, 19, 55, .17);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: inset 0 2px 5px rgba(3, 11, 37, .24);
+}
+
+.sa-division-meter progress::-webkit-progress-bar {
+  background: rgba(5, 19, 55, .17);
+}
+
+.sa-division-meter progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--sa-division-core), var(--sa-division-accent));
+  transform-origin: left;
+  animation: sa-division-meter-charge 760ms 180ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sa-division-meter progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--sa-division-core), var(--sa-division-accent));
+  transform-origin: left;
+  animation: sa-division-meter-charge 760ms 180ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sa-division-roster-stats {
+  color: color-mix(in srgb, var(--sa-division-ink) 70%, white);
+  font-size: 10px;
+}
+
+.sa-division-roster-stats span:last-child {
+  text-align: right;
+}
+
+.sa-division-roster-stats strong {
+  color: var(--sa-division-ink);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes sa-division-arena-arrive {
+  from {
+    opacity: .94;
+    filter: blur(7px);
+    transform: translateY(16px) scale(.985);
+    clip-path: inset(0 0 12% 0 round 24px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+    clip-path: inset(0 0 0 0 round 24px);
+  }
+}
+
+@keyframes sa-division-meter-charge {
+  from { transform: scaleX(.1); }
+  to { transform: scaleX(1); }
+}
+
+@container division-board (min-width: 600px) {
+  .sa-division-tickets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sa-division-tickets article:only-child {
+    grid-column: 1 / -1;
+  }
 }
 
 .sa-event-circuit {
@@ -6241,17 +6418,6 @@
 
   .sa-competition-passport {
     align-content: space-between;
-  }
-
-  .sa-division-tickets {
-    grid-auto-columns: auto;
-    grid-auto-flow: row;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow: visible;
-  }
-
-  .sa-division-tickets article:only-child {
-    grid-column: 1 / -1;
   }
 
   .sa-event-circuit {

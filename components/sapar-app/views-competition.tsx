@@ -26,7 +26,7 @@ import {
   Users,
 } from "lucide-react";
 import { Suspense, useEffect, useMemo, useState, type KeyboardEvent, type ReactNode } from "react";
-import { events, ratingLanes, results } from "@/lib/sapar-prototype";
+import { events, ratingLanes, results, type EventFixture as EventFixtureSchema } from "@/lib/sapar-prototype";
 import { Avatar, FighterMetaChips, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
@@ -89,6 +89,21 @@ function formatEventWeekday(startsAt: string): string {
     weekday: "long",
     timeZone: "UTC",
   }).format(new Date(startsAt));
+}
+
+function getDivisionAvailability(status: EventFixtureSchema["status"]): {
+  readonly label: string;
+  readonly remainingLabel: "open" | "unused";
+} {
+  if (status === "completed") {
+    return { label: "Final card", remainingLabel: "unused" };
+  }
+
+  if (status === "registration-closed") {
+    return { label: "Registration closed", remainingLabel: "unused" };
+  }
+
+  return { label: "Registration open", remainingLabel: "open" };
 }
 
 function formatEventFormat(format: EventFixture["formats"][number]): string {
@@ -261,32 +276,46 @@ function CompetitionPassport(): ReactNode {
 }
 
 function DivisionBoard({ event }: { readonly event: EventFixture }): ReactNode {
-  const completed = event.status === "completed";
-
   return (
     <section className="sa-division-board" id="division-board" aria-labelledby="division-board-title">
       <header>
         <div>
-          <span>Selected event</span>
           <h2 id="division-board-title">Division board</h2>
           <p>Capacity, experience band, and format stay separate for every card.</p>
         </div>
-        <StatusTag tone="cobalt">{event.divisions.length} {event.divisions.length === 1 ? "division" : "divisions"}</StatusTag>
+        <div className="sa-division-board-status">
+          <SyntheticLabel compact />
+          <StatusTag tone="earned">{event.divisions.length} {event.divisions.length === 1 ? "division" : "divisions"}</StatusTag>
+        </div>
       </header>
-        <div className="sa-division-tickets" role="region" aria-label={`Scrollable division cards for ${event.name}`} tabIndex={0}>
+      <div className="sa-division-tickets" role="list" aria-label={`Division cards for ${event.name}`}>
         {event.divisions.map((division) => {
           const remaining = Math.max(0, division.capacity - division.registeredCount);
+          const filledPercent = division.capacity > 0
+            ? Math.round((division.registeredCount / division.capacity) * 100)
+            : 0;
+          const availability = getDivisionAvailability(event.status);
           return (
-            <article key={division.id} className={division.format === "no-gi" ? "is-no-gi" : "is-gi"}>
+            <article key={division.id} className={division.format === "no-gi" ? "is-no-gi" : "is-gi"} role="listitem">
               <div className="sa-division-ticket-topline">
                 <span>{formatEventFormat(division.format)}</span>
-                <strong>{completed ? "Final card" : `${remaining} ${remaining === 1 ? "spot" : "spots"} open`}</strong>
+                <strong>{availability.label}</strong>
               </div>
               <h3>{division.weightLabel}</h3>
-              <p>{division.ageClass === "adult" ? "Adult" : division.ageClass} · {division.beltRange}</p>
+              <div className="sa-division-tags" aria-label={`${division.ageClass === "adult" ? "Adult" : division.ageClass}, ${division.beltRange}`}>
+                <span>{division.ageClass === "adult" ? "Adult" : division.ageClass}</span>
+                <span>{division.beltRange}</span>
+              </div>
               <div className="sa-division-meter">
+                <div className="sa-division-meter-label">
+                  <span><Users aria-hidden="true" /> Roster</span>
+                  <strong>{filledPercent}% filled</strong>
+                </div>
                 <progress max={division.capacity} value={division.registeredCount} aria-label={`${division.registeredCount} of ${division.capacity} synthetic roster places filled`} />
-                <span><strong>{division.registeredCount}</strong> / {division.capacity} rostered</span>
+                <div className="sa-division-roster-stats">
+                  <span><strong>{division.registeredCount}</strong> rostered</span>
+                  <span><strong>{remaining}</strong> {availability.remainingLabel}</span>
+                </div>
               </div>
             </article>
           );
