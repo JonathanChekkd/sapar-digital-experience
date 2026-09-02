@@ -1,0 +1,28 @@
+import { NextResponse } from "next/server";
+
+import {
+  buildPrototypeApiErrorResponse,
+  buildPrototypeHealthResponse,
+  PROTOTYPE_NO_STORE_HEADERS,
+  type PrototypeApiErrorResponse,
+  type PrototypeHealthResponse,
+} from "@/lib/sapar-prototype-api";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export function GET(): NextResponse<
+  PrototypeHealthResponse | PrototypeApiErrorResponse
+> {
+  try {
+    return NextResponse.json(buildPrototypeHealthResponse(new Date()), {
+      status: 200,
+      headers: PROTOTYPE_NO_STORE_HEADERS,
+    });
+  } catch {
+    return NextResponse.json(buildPrototypeApiErrorResponse(), {
+      status: 500,
+      headers: PROTOTYPE_NO_STORE_HEADERS,
+    });
+  }
+}

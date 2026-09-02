@@ -1,0 +1,10 @@
+{
+  "id": "hybrid-team-after-training",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic adult team with illustrated SAPAR campaign framing",
+  "generator": "OpenAI image generation",
+  "promptFile": "hybrid-team-after-training.prompt.txt"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "hybrid-nia-profile",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic adult athlete with illustrated SAPAR topographic edge treatment",
+  "generator": "OpenAI image generation",
+  "promptFile": "hybrid-nia-profile.prompt.txt"
+}

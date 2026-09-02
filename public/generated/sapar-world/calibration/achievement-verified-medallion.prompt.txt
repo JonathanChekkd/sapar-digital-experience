@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: transparent earned achievement medallion for SAPAR progression
+Primary request: Create one original deterministic achievement medallion that represents a human-confirmed competition result, designed as a tactile object rather than a gambling reward.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, dimensional finish, and earned-stamp material reference; do not reproduce its text, seals, icons, exact medallions, or layout.
+Subject: a substantial asymmetrical cobalt-and-green enamel medallion with a simple original linked-node motif at center, amber proof rivets, charcoal edge, and a small coral thread detail; no crown, trophy, currency, stars, roulette, or rank symbol.
+Style/medium: premium original stylized 3D product render, tactile enamel, stitched textile backing, precise bevels, restrained glow, believable wear from use.
+Composition/framing: centered square object, slightly tilted three-quarter view, full silhouette with ample transparent margin.
+Lighting/mood: crisp daylight studio lighting, earned, durable, trustworthy.
+Constraints: genuinely transparent background and preserved alpha; no text, letters, numbers, logo, watermark, government seal, gambling cue, loot-box cue, rarity color coding, copied badge design, or false official mark.

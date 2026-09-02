@@ -1,0 +1,14 @@
+{
+  "id": "ui-create-control-plate",
+  "status": "generated",
+  "mediaType": "image/png",
+  "dimensions": { "width": 1254, "height": 1254 },
+  "people": false,
+  "semanticContent": false,
+  "alpha": false,
+  "background": "clean warm cream",
+  "style": "blank tactile cobalt Create-control skin with cream and amber bezel",
+  "generator": "OpenAI built-in image generation",
+  "references": ["mat-atlas-pulse.png", "league-clubhouse-pulse.png", "matchday-passport-pulse.png"],
+  "promptFile": "ui-create-control-plate.prompt.txt"
+}

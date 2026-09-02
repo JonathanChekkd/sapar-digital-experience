@@ -1,0 +1,10 @@
+{
+  "id": "hybrid-training-replay",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic safe training replay with illustrated SAPAR analysis accents",
+  "generator": "OpenAI image generation",
+  "promptFile": "hybrid-training-replay.prompt.txt"
+}

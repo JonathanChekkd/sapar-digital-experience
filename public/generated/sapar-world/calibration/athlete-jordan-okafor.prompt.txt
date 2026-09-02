@@ -1,0 +1,19 @@
+Use case: stylized-concept
+Asset type: transparent athlete portrait for SAPAR discovery and social cards
+Primary request: Create an original waist-up portrait of Jordan Okafor, a fictional adult Brazilian Jiu-Jitsu athlete, for a vibrant mobile social competition app.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, finish, and character-rendering reference; do not reproduce its UI, text, emblems, layout, or existing athlete.
+Subject: fictional Black man in his mid-thirties with a powerful stocky adult build, close-cropped natural hair, short trimmed beard, warm focused expression, wearing a deep cobalt no-gi rashguard with subtle abstract seam geometry and no rank markings.
+Style/medium: polished original stylized 3D-cartoon illustration with realistic adult proportions, crisp facial modeling, tactile technical fabric, and premium mobile-game finish without resembling any existing game character.
+Composition/framing: waist-up three-quarter view, relaxed athletic stance, centered, complete silhouette with generous clean margin.
+Lighting/mood: optimistic warm daylight with soft coral edge light; composed, generous, competitive.
+Color palette: deep cobalt, charcoal, coral highlight, fresh green reflected light, natural warm skin tones.
+Constraints: genuinely transparent background and preserved alpha; fictional adult only; original design; no text, logo, badge, watermark, belt, sponsor mark, blood, injury, casino cue, or copied trade dress.
+
+---
+Final background-extraction edit prompt:
+
+Use case: background-extraction
+Asset type: final transparent athlete cutout correction
+Input image 1: edit target
+Primary request: Remove the entire baked checkerboard background and replace it with genuine transparency.
+Constraints: change only the background; preserve the fictional adult athlete's identity, face, body, pose, cobalt rashguard, colors, lighting, proportions, framing, and expression exactly; keep clean natural edges around hair, beard, shoulders, arms, and clothing; preserve actual alpha; no halo; no text, logo, badge, belt, sponsor, watermark, or new object.

@@ -1,0 +1,12 @@
+Use case: stylized-concept
+Asset type: transparent dimensional earned stamp for the SAPAR Matchday Passport
+Input images: The approved Matchday Passport comp supplies only tactile stamp scale, cobalt/green/amber/coral palette, and optimistic sporting-club finish. The existing SAPAR medallion supplies only its enamel, stitched textile, bevel, and believable wear vocabulary. Create a clearly new silhouette and motif.
+Primary request: Create an original non-person earned stamp conceptually meaning Identity Confirmed: a human-reviewed identity connection, not a government credential.
+Subject: a compact asymmetric rounded-diamond proof token with a deep cobalt enamel face, warm cream outer frame, court-green inset, amber proof rivet, and a small coral woven loop; the central original symbol is a simple profile-free identity frame made of two offset open brackets embracing one solid green confirmation node, with a short linked-node path beneath it. Avoid shields and official emblems.
+Style/medium: premium 2.5D stylized product render, tactile enamel, ceramic inlay, stitched fabric backing, precise bevels, dark charcoal edge, restrained highlights, minor honest wear.
+Composition/framing: centered square object, subtle three-quarter tilt, complete silhouette with ample transparent margin, bold motif readable at 64px.
+Lighting/mood: crisp daylight studio lighting, calm, human-confirmed, durable, trustworthy.
+Color palette: cobalt #003CCA, deep cobalt #082A87, court green #248A57, amber #F6B21A, coral #F36B5F, cream #FDF9F3, charcoal #182035.
+Constraints: genuinely transparent background and preserved alpha; no people, faces, fingerprints, ID cards, passports, text, letters, numbers, logo, watermark, shield, government/official seal, federation mark, trophy, crown, stars, currency, casino/gambling cue, loot-box cue, copied badge, copied game IP, excessive glow, or false certification.
+
+Alpha extraction edit: remove only the baked checkerboard background, preserve the medallion's silhouette, materials, motif, lighting, texture, tilt, crop, and wear, and output genuine RGBA transparency without a backdrop or shadow plate.

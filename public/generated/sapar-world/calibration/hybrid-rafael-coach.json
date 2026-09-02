@@ -1,0 +1,10 @@
+{
+  "id": "hybrid-rafael-coach",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic adult coach with illustrated SAPAR topographic edge treatment",
+  "generator": "OpenAI image generation",
+  "promptFile": "hybrid-rafael-coach.prompt.txt"
+}

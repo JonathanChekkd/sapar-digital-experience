@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import "@fontsource/barlow-condensed/900.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/manrope";
 import "./globals.css";
+import "./sapar-app.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://saparsport.com"),
@@ -46,7 +48,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <template
+          data-impeccable-direction="9c3a3594"
+          dangerouslySetInnerHTML={{
+            __html:
+              "<!-- IMPECCABLE_DIRECTION seed=9c3a3594; Mat Atlas Leaguehouse; approved Matchday Passport comp; warm cream ground; cobalt Fighter Passport; separate Gi and No-Gi lanes; Proof Thread journey; photoreal fictional adults framed by restrained illustrated topography; tactile center Create; mobile-first social navigation; no gradients, casino cues, government seals, or belt-rating conflation. -->",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

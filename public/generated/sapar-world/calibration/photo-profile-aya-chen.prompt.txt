@@ -1,0 +1,10 @@
+Use case: photorealistic-natural
+Asset type: athlete profile portrait for SAPAR's otherwise illustrated mobile world
+Primary request: Create a premium, candid editorial portrait of Aya Chen, a completely fictional adult Brazilian Jiu-Jitsu athlete, photographed just after a calm training session.
+Scene/backdrop: bright fictional neighborhood gym with a soft cream wall, out-of-focus cobalt mat edge, one fresh green plant, and natural window light; no readable signage.
+Subject: fictional East Asian woman in her early thirties with an athletic adult build, lightly flushed natural skin, short dark hair tucked behind one ear, relaxed confident gaze to camera, wearing an unbranded forest-green no-gi rashguard with simple amber seam piping and no rank marks.
+Style/medium: photorealistic natural sports portrait, 50mm lens, true skin texture, subtle perspiration, realistic fabric weave, restrained editorial color grade, no plastic retouching.
+Composition/framing: vertical 4:5, chest-up, subject slightly off center with clear negative space for live profile UI.
+Lighting/mood: soft late-afternoon daylight, grounded, capable, welcoming.
+Color palette: warm cream, forest green, selective cobalt, amber detail, charcoal.
+Constraints: adult fictional person who does not resemble any real athlete, celebrity, or public figure; no text, logo, watermark, branded or unlicensed uniform, belt, sponsor, child, blood, injury, medical claim, casino cue, or copied trade dress.

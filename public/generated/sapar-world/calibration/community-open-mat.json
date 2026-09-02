@@ -1,0 +1,10 @@
+{
+  "id": "community-open-mat",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic community training with illustrated SAPAR frame",
+  "generator": "OpenAI image generation",
+  "promptFile": "community-open-mat.prompt.txt"
+}

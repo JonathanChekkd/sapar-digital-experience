@@ -1,0 +1,10 @@
+{
+  "id": "athlete-maya-passport",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic editorial subject with illustrated SAPAR edge treatment",
+  "generator": "OpenAI image generation",
+  "promptFile": "athlete-maya-passport.prompt.txt"
+}

@@ -1,0 +1,9 @@
+Use case: photorealistic-natural
+Asset type: competition moment photograph for SAPAR Compete and replay cards
+Primary request: Create a high-end editorial sports photograph of a completely fictional adult jiu-jitsu match at the opening standing grip-fight, capturing concentration and movement without injury or spectacle.
+Scene/backdrop: bright regional civic fieldhouse with one clean cobalt mat, amber boundary line, cream architecture, soft-focus adult spectators, and an attentive referee in neutral black.
+Subject: two fictional adult women competitors, one Black and one Middle Eastern, both athletic and realistically proportioned, wearing unbranded charcoal and deep cobalt no-gi kits with no rank or sponsor markings; both balanced, controlled, and engaged in safe hand-fighting.
+Style/medium: photorealistic natural sports photography, 70mm lens, fast shutter with slight fabric motion, true skin texture, authentic mat reflections, restrained premium editorial grade.
+Composition/framing: cinematic 16:9 landscape, low mat-side viewpoint, athletes in the right two-thirds with useful negative space for live event UI.
+Lighting/mood: focused match-day energy, respectful, clear, human.
+Constraints: adult fictional people who do not resemble real athletes, celebrities, or public figures; no text, logo, watermark, branded or unlicensed uniform, child, blood, injury, cage, violent strike, unsafe technique, casino lighting, championship claim, or copied trade dress.

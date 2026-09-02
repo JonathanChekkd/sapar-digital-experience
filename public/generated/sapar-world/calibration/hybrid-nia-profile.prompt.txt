@@ -1,0 +1,11 @@
+Use case: photorealistic-natural
+Asset type: SAPAR mobile app athlete profile and social feed portrait
+Input images: Image 1 is a style reference only. Match its premium natural sports-photography finish and its boundary between a truly photographic person and original cobalt/cream illustrated topographic accents. Do not copy its person, pose, clothing, exact composition, or distinctive arc.
+Primary request: Create an original photorealistic fictional adult Black woman no-gi Brazilian Jiu-Jitsu athlete portrait for SAPAR.
+Scene/backdrop: a bright contemporary grappling gym at early morning, softly out of focus, with a bold cream field and cobalt topographic linework plus one restrained coral editorial brush shape at the outer edge.
+Subject: fictional adult Black woman, late 20s to late 30s, athletic realistic build, deep brown skin with natural texture, short natural twists gathered away from her face, calm warm confidence and direct eye contact. She wears a clean unbranded long-sleeve cobalt rashguard with simple cream side panels and plain black grappling shorts. No belt.
+Style/medium: believable high-end sports editorial photography; real pores, subtle perspiration, flyaway hair, authentic technical-fabric weave, natural anatomy. Keep the person clearly photographic and human. Illustrated elements appear only around and behind her.
+Composition/framing: vertical 4:5 portrait, waist-up, subject slightly right of center with generous cream/cobalt negative space on the left for semantic interface elements; full head, shoulders, and forearms visible; hands relaxed at her sides rather than crossed.
+Lighting/mood: optimistic window light with a soft cobalt rim, welcoming, poised, grounded, capable.
+Color palette: SAPAR cobalt #003CCA, warm cream #FDF9F3, coral #F36B5F, charcoal #182035.
+Constraints: fictional adult only; original face and identity; no resemblance to any real athlete, celebrity, or public figure; no text, letters, numerals, logos, brand marks, watermark, government seals, rating numbers, belt, medals, trophies, scoreboards, casino cues, neon game HUD, blood, injury, aggression, minors, or copied trade dress. Respectful safe pose and realistic no-gi clothing construction.

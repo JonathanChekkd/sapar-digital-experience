@@ -97,14 +97,13 @@ function HeroProductStage() {
 function ProductLoop() {
   return (
     <div className="product-loop" aria-label="SAPAR connected product loop">
-      {[
+      {([
         [Users, "Fighter joins", "Identity"],
         [MapPin, "Finds mat time", "Discovery"],
         [CalendarDays, "Trains or competes", "Activity"],
         [ShieldCheck, "Result is confirmed", "Trust"],
         [Activity, "Progress updates", "Return"],
-      ].map(([Icon, title, label], index) => {
-        const LoopIcon = Icon as typeof Users;
+      ] as const).map(([LoopIcon, title, label], index) => {
         return (
           <Reveal className="loop-step" delay={index * 0.07} key={String(title)}>
             <span className="loop-index">0{index + 1}</span>
@@ -170,6 +169,7 @@ function Chevron() {
 }
 
 export function HomeExperience() {
+  const reduce = useReducedMotion();
   return (
     <PageShell>
       <main id="main-content">
@@ -177,34 +177,34 @@ export function HomeExperience() {
           <div className="hero-noise" aria-hidden="true" />
           <div className="home-hero-copy">
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={reduce ? undefined : { opacity: 1, y: 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.45 }}
               className="eyebrow-row"
             >
               <StatusChip tone="green">Private beta</StatusChip>
             </motion.div>
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.08 }}
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={reduce ? undefined : { opacity: 1, y: 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.65, delay: 0.08 }}
             >
               Train. Connect.
               <span>Compete.</span>
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.18 }}
+              initial={reduce ? false : { opacity: 0, y: 18 }}
+              animate={reduce ? undefined : { opacity: 1, y: 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.55, delay: 0.18 }}
               className="hero-lede"
             >
               SAPAR is the digital layer for Jiu-Jitsu—connecting fighter identity,
               mat time, gym communities, competition records, and visible progress.
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.28 }}
+              initial={reduce ? false : { opacity: 0, y: 14 }}
+              animate={reduce ? undefined : { opacity: 1, y: 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.5, delay: 0.28 }}
               className="hero-actions"
             >
               <Link href="/app" className="button button-primary button-large">

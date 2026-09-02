@@ -1,0 +1,10 @@
+{
+  "id": "northside-gym",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic neighborhood academy with illustrated SAPAR framing",
+  "generator": "OpenAI image generation",
+  "promptFile": "northside-gym.prompt.txt"
+}

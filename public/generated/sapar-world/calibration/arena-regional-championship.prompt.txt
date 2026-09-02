@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: wide competition arena artwork for SAPAR Compete
+Primary request: Create an original adult regional jiu-jitsu competition arena with premium sporting energy and clear community scale, never a casino or combat spectacle.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, illustration finish, and material reference; do not reproduce its UI, text, stamps, or layout.
+Scene/backdrop: a daylight civic fieldhouse transformed for a fictional adult tournament, one cobalt competition mat in the foreground, amber boundary markings, cream structural arches, green and coral wayfinding shapes, adult competitors and referee at a safe neutral pre-match moment, coaches and spectators in soft focus.
+Style/medium: polished original stylized 3D-cartoon environment illustration with believable sports architecture, tactile mat texture, layered crowd depth, premium mobile-game scene quality.
+Composition/framing: cinematic 16:9 landscape, low eye-level view toward the central mat, clean focal corridor and useful upper negative space for live event UI.
+Lighting/mood: bright confident match-day anticipation, respectful and organized.
+Constraints: original environment; adults only; no readable text, logo, watermark, cage, blood, injury, violence, casino lighting, slot-machine cues, fireworks, championship claims, or copied trade dress.

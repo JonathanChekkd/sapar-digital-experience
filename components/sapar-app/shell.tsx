@@ -1,0 +1,378 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  Bell,
+  ChartNoAxesCombined,
+  CircleCheckBig,
+  CircleUserRound,
+  Compass,
+  Dumbbell,
+  Gift,
+  Home,
+  LoaderCircle,
+  Plus,
+  Search,
+  Settings,
+  ShieldCheck,
+  Trophy,
+  TriangleAlert,
+  Users,
+  WifiOff,
+} from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { notifications } from "@/lib/sapar-prototype";
+import { GlobalSheet, SyntheticLabel, ToastRegion } from "./primitives";
+import { usePrototypeDispatch, usePrototypeState } from "./state";
+
+export type AppView =
+  | "pulse"
+  | "profile"
+  | "competitions"
+  | "compete"
+  | "arena"
+  | "replay"
+  | "ratings"
+  | "gyms"
+  | "rewards"
+  | "create"
+  | "discover"
+  | "notifications"
+  | "settings"
+  | "onboarding"
+  | "leaderboards"
+  | "network"
+  | "quests";
+
+const primaryLinks = [
+  { href: "/app", label: "Pulse", icon: Home },
+  { href: "/app/compete", label: "Compete", icon: Trophy },
+  { href: "/app/discover", label: "Discover", icon: Compass },
+  { href: "/app/profile", label: "Profile", icon: CircleUserRound },
+] as const;
+
+const secondaryLinks = [
+  { href: "/app/ratings", label: "Rating lanes", icon: ChartNoAxesCombined },
+  { href: "/app/gyms", label: "Gyms & sessions", icon: Dumbbell },
+  { href: "/app/rewards", label: "Achievements", icon: Gift },
+  { href: "/app/quests", label: "Quests", icon: ShieldCheck },
+  { href: "/app/network", label: "My network", icon: Users },
+  { href: "/app/settings", label: "Settings", icon: Settings },
+] as const;
+
+function isCurrent(pathname: string, href: string): boolean {
+  if (href === "/app") return pathname === href;
+  if (href === "/app/compete") return pathname.startsWith("/app/compete") || pathname.startsWith("/app/competitions") || pathname.startsWith("/app/arena") || pathname.startsWith("/app/replay");
+  return pathname.startsWith(href);
+}
+
+type PrototypeServiceState = "checking" | "available" | "unavailable";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isStringArray(value: unknown): value is readonly string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isNonNegativeInteger(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0;
+}
+
+function isPrototypeHealth(value: unknown): boolean {
+  if (!isRecord(value) || !isRecord(value.capabilities)) return false;
+  const capabilities = value.capabilities;
+  const capabilityKeys = [
+    "athleteProfiles",
+    "socialFeed",
+    "competitionDiscovery",
+    "gymDiscovery",
+    "ratingsAndProof",
+    "clientInteractions",
+    "authentication",
+    "persistence",
+    "payments",
+    "externalSync",
+  ] as const;
+  const validCapabilityStates = new Set([
+    "synthetic-fixtures",
+    "client-local-only",
+    "not-connected",
+  ]);
+  return (
+    value.status === "ok" &&
+    value.mode === "local-prototype" &&
+    value.dataSource === "typed-synthetic-fixtures" &&
+    value.database === "not-connected" &&
+    value.externalServices === "not-connected" &&
+    typeof value.serverTime === "string" &&
+    capabilityKeys.every((key) => {
+      const state = capabilities[key];
+      return typeof state === "string" && validCapabilityStates.has(state);
+    })
+  );
+}
+
+function isPrototypeCatalog(value: unknown): boolean {
+  if (!isRecord(value) || !isRecord(value.fixture) || !isRecord(value.counts) || !isRecord(value.identifiers)) {
+    return false;
+  }
+  const counts = value.counts;
+  const identifiers = value.identifiers;
+  const countKeys = [
+    "athletes",
+    "ratingLanes",
+    "publicPosts",
+    "events",
+    "gyms",
+    "results",
+    "proofThreads",
+    "achievements",
+    "quests",
+  ] as const;
+  const identifierKeys = [
+    "athletes",
+    "ratingLanes",
+    "publicPosts",
+    "events",
+    "gyms",
+    "results",
+    "proofThreadResultIds",
+    "achievements",
+    "quests",
+  ] as const;
+  return (
+    value.mode === "local-prototype" &&
+    value.dataSource === "typed-synthetic-fixtures" &&
+    value.fixture.isSynthetic === true &&
+    value.fixture.label === "Synthetic prototype data" &&
+    typeof value.fixture.fixtureId === "string" &&
+    typeof value.fixture.snapshotAt === "string" &&
+    countKeys.every((key) => isNonNegativeInteger(counts[key])) &&
+    identifierKeys.every((key) => isStringArray(identifiers[key]))
+  );
+}
+
+async function readJson(response: Response): Promise<unknown> {
+  return response.json() as Promise<unknown>;
+}
+
+function isAvailableResponse(
+  healthResponse: Response,
+  catalogResponse: Response,
+  healthPayload: unknown,
+  catalogPayload: unknown,
+): boolean {
+  return (
+    healthResponse.ok &&
+    catalogResponse.ok &&
+    isPrototypeHealth(healthPayload) &&
+    isPrototypeCatalog(catalogPayload)
+  );
+}
+
+function PrototypeServiceStatus(): ReactNode {
+  const [serviceState, setServiceState] = useState<PrototypeServiceState>("checking");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let didUnmount = false;
+    let didTimeout = false;
+    const timeout = window.setTimeout(() => {
+      didTimeout = true;
+      controller.abort();
+      if (!didUnmount) setServiceState("unavailable");
+    }, 5000);
+
+    async function checkService(): Promise<void> {
+      try {
+        const [healthResponse, catalogResponse] = await Promise.all([
+          fetch("/api/prototype/health", {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          }),
+          fetch("/api/prototype/catalog", {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          }),
+        ]);
+        const [healthPayload, catalogPayload] = await Promise.all([
+          readJson(healthResponse),
+          readJson(catalogResponse),
+        ]);
+        if (!didUnmount && !didTimeout) {
+          setServiceState(
+            isAvailableResponse(
+              healthResponse,
+              catalogResponse,
+              healthPayload,
+              catalogPayload,
+            )
+              ? "available"
+              : "unavailable",
+          );
+        }
+      } catch {
+        if (!didUnmount) setServiceState("unavailable");
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
+
+    void checkService();
+    return () => {
+      didUnmount = true;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, []);
+
+  return (
+    <span className={`sa-service-status is-${serviceState}`} role="status" aria-live="polite">
+      {serviceState === "available" ? <CircleCheckBig aria-hidden="true" /> : serviceState === "unavailable" ? <TriangleAlert aria-hidden="true" /> : <LoaderCircle aria-hidden="true" />}
+      {serviceState === "available" ? "Typed fixture API ready" : serviceState === "unavailable" ? "Prototype API unavailable" : "Checking fixture API"}
+    </span>
+  );
+}
+
+function Brand(): ReactNode {
+  const reduce = useReducedMotion();
+  return (
+    <motion.span
+      className="sa-brand"
+      initial={reduce ? false : { opacity: 0.75, y: -4, filter: "blur(2px)" }}
+      animate={reduce ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <motion.img
+        className="sa-brand-mark"
+        src="/brand/sapar-mark.svg"
+        alt=""
+        width="60"
+        height="54"
+        initial={reduce ? false : { rotate: -8, scale: 0.84 }}
+        animate={reduce ? undefined : { rotate: 0, scale: 1 }}
+        transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      />
+      <span>SAPAR</span>
+    </motion.span>
+  );
+}
+
+function DesktopRail(): ReactNode {
+  const pathname = usePathname();
+  const dispatch = usePrototypeDispatch();
+  return (
+    <aside className="sa-rail">
+      <Link href="/" className="sa-rail-brand" aria-label="SAPAR public home"><Brand /></Link>
+      <SyntheticLabel compact />
+      <nav aria-label="SAPAR prototype sections">
+        <p>Core</p>
+        {primaryLinks.map(({ href, label, icon: Icon }) => (
+          <Link key={href} href={href} aria-current={isCurrent(pathname, href) ? "page" : undefined} className={isCurrent(pathname, href) ? "is-active" : ""}>
+            <Icon aria-hidden="true" /><span>{label}</span>
+          </Link>
+        ))}
+        <button type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "create" })}>
+          <Plus aria-hidden="true" /><span>Create</span>
+        </button>
+        <p>Explore</p>
+        {secondaryLinks.map(({ href, label, icon: Icon }) => (
+          <Link key={href} href={href} aria-current={isCurrent(pathname, href) ? "page" : undefined} className={isCurrent(pathname, href) ? "is-active" : ""}>
+            <Icon aria-hidden="true" /><span>{label}</span>
+          </Link>
+        ))}
+      </nav>
+      <div className="sa-rail-proof">
+        <ShieldCheck aria-hidden="true" />
+        <p><strong>Prototype boundary</strong><span>Same-app API · no database</span></p>
+      </div>
+    </aside>
+  );
+}
+
+function AppHeader(): ReactNode {
+  const state = usePrototypeState();
+  const dispatch = usePrototypeDispatch();
+  const unread = notifications.filter(
+    (notification) => !notification.read && !state.readNotificationIds.includes(notification.id),
+  ).length;
+  return (
+    <header className="sa-header">
+      <Link href="/app" className="sa-mobile-brand" aria-label="SAPAR Pulse"><Brand /></Link>
+      <button type="button" className="sa-scope" onClick={() => dispatch({ type: "open-sheet", sheet: "search" })}>
+        <span>Mat scope</span><strong>Denver, CO</strong>
+      </button>
+      <div className="sa-header-actions">
+        <button type="button" className="sa-icon-button" onClick={() => dispatch({ type: "open-sheet", sheet: "search" })} aria-label="Search synthetic athletes, gyms, and events"><Search aria-hidden="true" /></button>
+        <Link className="sa-icon-button sa-notification-button" href="/app/notifications" aria-label={`${unread} unread prototype notifications`}>
+          <Bell aria-hidden="true" /><span>{unread}</span>
+        </Link>
+        <Link className="sa-header-avatar" href="/app/profile" aria-label="Open Maya Torres synthetic profile">MT</Link>
+      </div>
+      {state.connectivity !== "online" ? (
+        <div className="sa-connectivity" role="status"><WifiOff aria-hidden="true" />{state.connectivity === "offline" ? "Offline preview · saved local state remains available" : "Fixture service error · retry from Settings"}</div>
+      ) : null}
+    </header>
+  );
+}
+
+function BottomNavigation(): ReactNode {
+  const pathname = usePathname();
+  const dispatch = usePrototypeDispatch();
+  const items = [
+    primaryLinks[0],
+    primaryLinks[1],
+    { href: "/app/create", label: "Create", icon: Plus },
+    primaryLinks[2],
+    primaryLinks[3],
+  ] as const;
+  return (
+    <nav className="sa-bottom-nav" aria-label="Primary app navigation">
+      {items.map(({ href, label, icon: Icon }) => {
+        const create = href === "/app/create";
+        if (create) {
+          return (
+            <button key={href} type="button" className="sa-create-control" onClick={() => dispatch({ type: "open-sheet", sheet: "create" })}>
+              <span><Icon aria-hidden="true" /></span><small>{label}</small>
+            </button>
+          );
+        }
+        const current = isCurrent(pathname, href);
+        return (
+          <Link key={href} href={href} className={current ? "is-active" : ""} aria-current={current ? "page" : undefined}>
+            <Icon aria-hidden="true" /><span>{label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+function AppFrame({ children, view }: { readonly children: ReactNode; readonly view: AppView }): ReactNode {
+  const state = usePrototypeState();
+
+  return (
+    <div className={`sa-app ${state.preferences.lowStimulation ? "is-low-stimulation" : ""}`} data-view={view}>
+      <a className="sa-skip-link" href="#sapar-app-content">Skip to app content</a>
+      <DesktopRail />
+      <div className="sa-stage">
+        <div className="sa-prototype-strip"><SyntheticLabel /><span className="sa-prototype-copy">Interactive concept · no official result, rating, booking, or payment</span><PrototypeServiceStatus /></div>
+        <AppHeader />
+        <main id="sapar-app-content" className="sa-content" tabIndex={-1}>{children}</main>
+      </div>
+      <BottomNavigation />
+      <GlobalSheet />
+      <ToastRegion />
+    </div>
+  );
+}
+
+export function SaparAppShell({ children, view }: { readonly children: ReactNode; readonly view: AppView }): ReactNode {
+  return <AppFrame view={view}>{children}</AppFrame>;
+}

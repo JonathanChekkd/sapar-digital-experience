@@ -1,0 +1,16 @@
+{
+  "id": "stamp-mat-tested",
+  "status": "generated",
+  "mediaType": "image/png",
+  "dimensions": { "width": 1254, "height": 1254 },
+  "people": false,
+  "semanticContent": false,
+  "alpha": true,
+  "style": "original tactile 2.5D mat-proof medallion",
+  "generator": "OpenAI built-in image generation",
+  "references": [
+    ".impeccable/mocks/matchday-passport-pulse.png",
+    "public/generated/sapar-world/calibration/achievement-verified-medallion.png"
+  ],
+  "promptFile": "stamp-mat-tested.prompt.txt"
+}

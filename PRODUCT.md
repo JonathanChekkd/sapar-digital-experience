@@ -4,7 +4,7 @@
 
 ## Platform
 
-Responsive public website and mobile-first interactive web-app prototype, delivered from one Next.js codebase with a shared SAPAR brand system.
+web
 
 ## Stack
 
@@ -46,13 +46,22 @@ SAPAR is the connected layer for Jiu-Jitsu: a community surface, a governed comp
 - `/vision` — responsible product sequence, data flywheel, and AI feasibility labels in plain language.
 - `/demo` — guided investor walkthrough into the clickable app prototype.
 - `/app` — Mat Pulse home.
-- `/app/profile` — Fighter Card.
-- `/app/competitions` — Tournament Hub.
+- `/app/profile` — Fighter Passport.
+- `/app/competitions` — legacy-compatible Tournament Hub entry.
+- `/app/compete` — competition calendar and registration preview.
+- `/app/create` — local post, session, result, and event creation previews.
+- `/app/discover` — typed fixture search across fighters, gyms, and events.
+- `/app/network` — teammates, coaches, rivals, and follow-state controls.
 - `/app/arena` — Bout Arena.
-- `/app/replay` — Victory Replay.
+- `/app/replay` — verified result and Proof Thread replay.
 - `/app/ratings` — Rating Lanes.
+- `/app/leaderboards` — transparent synthetic rankings.
 - `/app/gyms` — Smart Gym Hub.
 - `/app/rewards` — Achievement Vault.
+- `/app/quests` — deterministic evidence-based quests.
+- `/app/notifications` — local notification states.
+- `/app/settings` — privacy, accessibility, blocking, and connectivity states.
+- `/app/onboarding` — adult-only role, consent, and privacy preview.
 
 ## Capabilities and Constraints
 
@@ -69,16 +78,17 @@ Public capabilities:
 
 Prototype capabilities:
 
-- eight responsive frontend experiences using deterministic synthetic fixtures;
+- seventeen responsive frontend experiences using deterministic synthetic fixtures;
 - demo profiles, gyms, events, bouts, versioned results, rating transitions, achievements, and social posts;
 - chess-style rating presentation with lane, confidence, peak, eligible-bout count, form, source result, and explanation;
 - local interactions for following, saving, reacting, registering, exploring results, and adjusting presentation preferences;
 - purposeful motion, deterministic earned celebrations, optional sound cues, reduced-motion behavior, and low-stimulation mode;
 - an indexed 100-asset production inventory, with the highest-impact assets generated first rather than falsely claiming that all 100 are finished.
+- a read-only same-app prototype health and catalog API that reports its synthetic, database-free operating mode without implying a production backend.
 
 Hard constraints:
 
-- frontend demonstration only; no production backend or relational database in this repo;
+- frontend demonstration plus same-app read-only prototype endpoints only; no production backend or relational database in this repo;
 - no real authentication, uploads, payments, messages, precise locations, health data, footage, personal data, or external runtime APIs;
 - belt is a self-declared demo attribute and never inferred from rating, XP, badges, or payments;
 - ratings, rules, results, officials, and leaderboards are demonstrations, not federation approval;
@@ -90,7 +100,7 @@ Hard constraints:
 
 Brand name: **SAPAR**.
 
-Preserve the current recognizable SAPAR mark, electric cobalt accent, dark arena background, stark white typography, and the “Train. Connect. Compete.” line. Evolve the visual system toward premium live-sport broadcast energy: disciplined grids, purposeful data graphics, dramatic but respectful adult BJJ imagery, crisp glass-like overlays, restrained electric-blue light, and clear motion choreography.
+Preserve the recognizable SAPAR mark, electric cobalt accent, and the “Train. Connect. Compete.” line. The approved “Matchday Passport” direction uses a warm cream ground, a large cobalt Fighter Passport, separate rating lanes, a visible Proof Thread, tactile controls, restrained court-green/earned-amber/coral accents, and photorealistic fictional adults framed by original illustrated topography and brushwork.
 
 The interface should feel elite but welcoming, competitive but not threatening, energetic during earned moments, and calm during consent, safety, financial, and decision-making moments. It may learn from top-tier live-sports production, game UX, and statistical products, but it must remain original and visibly SAPAR.
 
@@ -121,4 +131,3 @@ The interface should feel elite but welcoming, competitive but not threatening, 
 - Respect `prefers-reduced-motion`; provide global mute and low-stimulation modes.
 - Avoid flashes above three per second and infinite motion behind reading surfaces.
 - Fictional adult athletes should reflect varied gender expression, age, body type, ethnicity, and adaptive participation without stereotypes.
-

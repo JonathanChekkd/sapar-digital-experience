@@ -1,0 +1,14 @@
+{
+  "id": "ui-section-divider-route",
+  "status": "generated",
+  "mediaType": "image/png",
+  "dimensions": { "width": 1983, "height": 793 },
+  "requestedAspectRatio": "4:1",
+  "generatedAspectRatio": "2.5:1",
+  "people": false,
+  "semanticContent": false,
+  "style": "abstract cobalt topographic route divider with painted motion accents",
+  "generator": "OpenAI built-in image generation",
+  "references": ["mat-atlas-pulse.png", "league-clubhouse-pulse.png", "matchday-passport-pulse.png"],
+  "promptFile": "ui-section-divider-route.prompt.txt"
+}

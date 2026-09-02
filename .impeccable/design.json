@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-02T06:24:40Z",
+  "title": "Design System: SAPAR Matchday Passport",
+  "extensions": {
+    "colorMeta": {
+      "cobalt": { "role": "primary", "displayName": "Matchday Cobalt", "canonical": "#003CCA", "tonalRamp": ["oklch(18% 0.18 262)", "oklch(28% 0.18 262)", "oklch(38% 0.18 262)", "oklch(48% 0.18 262)", "oklch(58% 0.18 262)", "oklch(68% 0.18 262)", "oklch(82% 0.18 262)", "oklch(94% 0.18 262)"] },
+      "cobalt-dark": { "role": "primary", "displayName": "Deep Cobalt", "canonical": "#082A87", "tonalRamp": ["oklch(18% 0.13 262)", "oklch(28% 0.13 262)", "oklch(38% 0.13 262)", "oklch(48% 0.13 262)", "oklch(58% 0.13 262)", "oklch(68% 0.13 262)", "oklch(82% 0.13 262)", "oklch(94% 0.13 262)"] },
+      "cobalt-soft": { "role": "primary", "displayName": "Cobalt Wash", "canonical": "#E7EDFF", "tonalRamp": ["oklch(18% 0.035 262)", "oklch(28% 0.035 262)", "oklch(38% 0.035 262)", "oklch(48% 0.035 262)", "oklch(58% 0.035 262)", "oklch(68% 0.035 262)", "oklch(82% 0.035 262)", "oklch(94% 0.035 262)"] },
+      "cream": { "role": "neutral", "displayName": "Cream Ground", "canonical": "#FDF9F3", "tonalRamp": ["oklch(18% 0.018 75)", "oklch(28% 0.018 75)", "oklch(38% 0.018 75)", "oklch(48% 0.018 75)", "oklch(58% 0.018 75)", "oklch(68% 0.018 75)", "oklch(82% 0.018 75)", "oklch(94% 0.018 75)"] },
+      "white": { "role": "neutral", "displayName": "Clean White", "canonical": "#FFFFFF", "tonalRamp": ["oklch(18% 0 0)", "oklch(28% 0 0)", "oklch(38% 0 0)", "oklch(48% 0 0)", "oklch(58% 0 0)", "oklch(68% 0 0)", "oklch(82% 0 0)", "oklch(94% 0 0)"] },
+      "verified": { "role": "secondary", "displayName": "Court Green", "canonical": "#248A57", "tonalRamp": ["oklch(18% 0.11 151)", "oklch(28% 0.11 151)", "oklch(38% 0.11 151)", "oklch(48% 0.11 151)", "oklch(58% 0.11 151)", "oklch(68% 0.11 151)", "oklch(82% 0.11 151)", "oklch(94% 0.11 151)"] },
+      "verified-soft": { "role": "secondary", "displayName": "Court Green Wash", "canonical": "#E8F6EE", "tonalRamp": ["oklch(18% 0.035 151)", "oklch(28% 0.035 151)", "oklch(38% 0.035 151)", "oklch(48% 0.035 151)", "oklch(58% 0.035 151)", "oklch(68% 0.035 151)", "oklch(82% 0.035 151)", "oklch(94% 0.035 151)"] },
+      "earned": { "role": "tertiary", "displayName": "Earned Amber", "canonical": "#F6B21A", "tonalRamp": ["oklch(18% 0.14 82)", "oklch(28% 0.14 82)", "oklch(38% 0.14 82)", "oklch(48% 0.14 82)", "oklch(58% 0.14 82)", "oklch(68% 0.14 82)", "oklch(82% 0.14 82)", "oklch(94% 0.14 82)"] },
+      "earned-soft": { "role": "tertiary", "displayName": "Earned Amber Wash", "canonical": "#FFF3CE", "tonalRamp": ["oklch(18% 0.045 82)", "oklch(28% 0.045 82)", "oklch(38% 0.045 82)", "oklch(48% 0.045 82)", "oklch(58% 0.045 82)", "oklch(68% 0.045 82)", "oklch(82% 0.045 82)", "oklch(94% 0.045 82)"] },
+      "social": { "role": "secondary", "displayName": "Social Coral", "canonical": "#F36B5F", "tonalRamp": ["oklch(18% 0.14 27)", "oklch(28% 0.14 27)", "oklch(38% 0.14 27)", "oklch(48% 0.14 27)", "oklch(58% 0.14 27)", "oklch(68% 0.14 27)", "oklch(82% 0.14 27)", "oklch(94% 0.14 27)"] },
+      "social-soft": { "role": "secondary", "displayName": "Social Coral Wash", "canonical": "#FFEBE8", "tonalRamp": ["oklch(18% 0.04 27)", "oklch(28% 0.04 27)", "oklch(38% 0.04 27)", "oklch(48% 0.04 27)", "oklch(58% 0.04 27)", "oklch(68% 0.04 27)", "oklch(82% 0.04 27)", "oklch(94% 0.04 27)"] },
+      "ink": { "role": "neutral", "displayName": "Charcoal Ink", "canonical": "#182035", "tonalRamp": ["oklch(18% 0.025 260)", "oklch(28% 0.025 260)", "oklch(38% 0.025 260)", "oklch(48% 0.025 260)", "oklch(58% 0.025 260)", "oklch(68% 0.025 260)", "oklch(82% 0.025 260)", "oklch(94% 0.025 260)"] },
+      "muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#646D7F", "tonalRamp": ["oklch(18% 0.018 260)", "oklch(28% 0.018 260)", "oklch(38% 0.018 260)", "oklch(48% 0.018 260)", "oklch(58% 0.018 260)", "oklch(68% 0.018 260)", "oklch(82% 0.018 260)", "oklch(94% 0.018 260)"] },
+      "line": { "role": "neutral", "displayName": "Warm Line", "canonical": "#DCD9D3", "tonalRamp": ["oklch(18% 0.009 75)", "oklch(28% 0.009 75)", "oklch(38% 0.009 75)", "oklch(48% 0.009 75)", "oklch(58% 0.009 75)", "oklch(68% 0.009 75)", "oklch(82% 0.009 75)", "oklch(94% 0.009 75)"] },
+      "line-strong": { "role": "neutral", "displayName": "Strong Line", "canonical": "#B9BEC8", "tonalRamp": ["oklch(18% 0.012 260)", "oklch(28% 0.012 260)", "oklch(38% 0.012 260)", "oklch(48% 0.012 260)", "oklch(58% 0.012 260)", "oklch(68% 0.012 260)", "oklch(82% 0.012 260)", "oklch(94% 0.012 260)"] },
+      "danger": { "role": "tertiary", "displayName": "Safety Red", "canonical": "#A83243", "tonalRamp": ["oklch(18% 0.13 18)", "oklch(28% 0.13 18)", "oklch(38% 0.13 18)", "oklch(48% 0.13 18)", "oklch(58% 0.13 18)", "oklch(68% 0.13 18)", "oklch(82% 0.13 18)", "oklch(94% 0.13 18)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Route Display", "purpose": "Fluid route introductions and high-energy hero statements." },
+      "identity": { "displayName": "Passport Identity", "purpose": "Tall condensed athlete names and identity-defining moments, using self-hosted Barlow Condensed 900." },
+      "title": { "displayName": "Module Title", "purpose": "Section headings and compact module titles." },
+      "body": { "displayName": "Calm Body", "purpose": "Proof explanations, consent language, and daily reading." },
+      "label": { "displayName": "Evidence Label", "purpose": "Controls, metadata, short state labels, and identity cues." }
+    },
+    "shadows": [
+      { "name": "focus-outer-ring", "value": "0 0 0 6px #082A87", "purpose": "Deep-cobalt support outside the 3px white keyboard focus outline." },
+      { "name": "primary-press-plate", "value": "0 3px 0 #082A87", "purpose": "Resting tactile offset for cobalt primary buttons." },
+      { "name": "tactile-surface", "value": "0 4px 0 #D0CBC2", "purpose": "Short neutral offset beneath bounded white modules." },
+      { "name": "passport-lift", "value": "0 5px 0 #082A87, 0 12px 28px rgba(0, 60, 202, .16)", "purpose": "Hard identity edge plus restrained ambient lift for the signature passport." },
+      { "name": "floating-dock", "value": "0 -8px 22px rgba(24, 32, 53, .08)", "purpose": "Soft separation between fixed mobile navigation and content." },
+      { "name": "sheet-lift", "value": "0 -16px 50px rgba(24, 32, 53, .22)", "purpose": "Strong upward separation for the native bottom sheet." }
+    ],
+    "motion": [
+      { "name": "control-press", "value": "transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease", "purpose": "Button hover and press feedback." },
+      { "name": "short-reveal", "value": "opacity 180ms ease, transform 180ms ease", "purpose": "Toast and compact overlay entry." },
+      { "name": "brand-entry", "value": "450ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "One-time logo settle on entry when reduced motion is not requested." },
+      { "name": "service-check", "value": "900ms linear infinite", "purpose": "Checking-state spinner only; never a decorative ambient loop." },
+      { "name": "reduced-motion", "value": "0.01ms, 1 iteration", "purpose": "Removes travel and looping while preserving immediate state changes." },
+      { "name": "low-stimulation", "value": "none", "purpose": "Removes decorative animation, transition, texture, and selected tactile shadows." }
+    ],
+    "breakpoints": [
+      { "name": "compact-phone-max", "value": "359px" },
+      { "name": "tablet", "value": "700px" },
+      { "name": "desktop-rail", "value": "1080px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cobalt tactile action for the single strongest local action in a module.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>Continue</button>",
+      "css": ".ds-btn-primary{min-height:46px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #003cca;border-radius:12px;background:#003cca;box-shadow:0 3px 0 #082a87;color:#fff;font:850 12px/1.25 \"Manrope Variable\",Inter,system-ui,sans-serif;cursor:pointer;transition:transform 150ms ease,box-shadow 150ms ease,background-color 150ms ease}.ds-btn-primary svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.ds-btn-primary:hover{transform:translateY(-2px)}.ds-btn-primary:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-btn-primary:active{transform:translateY(2px);box-shadow:none}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Warm white companion action that stays subordinate to cobalt.",
+      "html": "<button class=\"ds-btn-secondary\" type=\"button\">View proof</button>",
+      "css": ".ds-btn-secondary{min-height:46px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #b9bec8;border-radius:12px;background:#fff;box-shadow:0 2px 0 #cbc7bf;color:#182035;font:850 12px/1.25 \"Manrope Variable\",Inter,system-ui,sans-serif;cursor:pointer;transition:transform 150ms ease,box-shadow 150ms ease,background-color 150ms ease}.ds-btn-secondary:hover{transform:translateY(-2px);border-color:#003cca}.ds-btn-secondary:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-btn-secondary:active{transform:translateY(2px);box-shadow:none}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Bounded discovery field with a cobalt search cue and full-size input target.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><span class=\"ds-search-label\">Search fighters, gyms, or events</span><input type=\"search\" placeholder=\"Search fighters, gyms, or events\"></label>",
+      "css": ".ds-search{min-height:54px;padding:0 15px;display:grid;grid-template-columns:22px minmax(0,1fr);align-items:center;gap:10px;background:#fff;border:1px solid #b9bec8;border-radius:13px;color:#182035}.ds-search svg{width:20px;height:20px;fill:none;stroke:#003cca;stroke-width:2;stroke-linecap:round}.ds-search-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.ds-search input{width:100%;min-height:50px;border:0;outline:0;background:transparent;color:#182035;font:400 13px/1.45 \"Manrope Variable\",Inter,system-ui,sans-serif}.ds-search input::placeholder{color:#646d7f}.ds-search:hover{border-color:#003cca}.ds-search:focus-within{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-search:active{background:#fdf9f3}"
+    },
+    {
+      "name": "Verified Status Tag",
+      "kind": "chip",
+      "refersTo": "status-verified",
+      "description": "Evidence state used only for human-confirmed or successful outcomes.",
+      "html": "<button class=\"ds-status-verified\" type=\"button\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m5 12 4 4L19 6\"/></svg>Human confirmed</button>",
+      "css": ".ds-status-verified{min-height:28px;padding:5px 8px;display:inline-flex;align-items:center;gap:5px;border:1px solid #248a57;border-radius:8px;background:#e8f6ee;color:#17673e;font:850 11px/1.25 \"Manrope Variable\",Inter,system-ui,sans-serif;cursor:pointer;transition:transform 150ms ease,background-color 150ms ease}.ds-status-verified svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.ds-status-verified:hover{background:#d5efe0}.ds-status-verified:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-status-verified:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Filter Tabs",
+      "kind": "nav",
+      "refersTo": "bottom-navigation",
+      "description": "Compact segmented discovery control with an explicit selected state.",
+      "html": "<nav class=\"ds-filter-tabs\" aria-label=\"Discovery type\"><button type=\"button\" aria-pressed=\"true\">All</button><button type=\"button\" aria-pressed=\"false\">Fighters</button><button type=\"button\" aria-pressed=\"false\">Gyms</button></nav>",
+      "css": ".ds-filter-tabs{padding:4px;display:grid;grid-template-columns:repeat(3,minmax(88px,1fr));gap:4px;overflow:auto;background:#e9e5de;border-radius:12px}.ds-filter-tabs button{min-height:44px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:#5e6675;font:850 11px/1.25 \"Manrope Variable\",Inter,system-ui,sans-serif;text-transform:capitalize;cursor:pointer;transition:transform 150ms ease,background-color 150ms ease}.ds-filter-tabs button[aria-pressed=\"true\"]{background:#fff;box-shadow:0 2px 0 #cbc7bf;color:#082a87}.ds-filter-tabs button:hover{transform:translateY(-1px);color:#003cca}.ds-filter-tabs button:focus-visible{outline:3px solid #fff;outline-offset:1px;box-shadow:0 0 0 5px #082a87}.ds-filter-tabs button:active{transform:translateY(1px);box-shadow:none}"
+    },
+    {
+      "name": "Passport Card",
+      "kind": "card",
+      "refersTo": "passport",
+      "description": "Signature cobalt identity surface with a full-bleed alpha-matted fictional athlete, condensed live identity type, separate rating lanes, a proof action, and three deterministic earned stamps.",
+      "html": "<article class=\"ds-passport\"><header><span class=\"ds-passport-label\">Synthetic athlete passport</span><span class=\"ds-passport-state\">Human confirmed</span></header><div class=\"ds-passport-body\"><div class=\"ds-passport-portrait\" role=\"img\" aria-label=\"Illustrated fictional adult athlete portrait\"><svg viewBox=\"0 0 80 100\" aria-hidden=\"true\"><circle cx=\"40\" cy=\"33\" r=\"16\"/><path d=\"M13 94c4-25 17-38 27-38s23 13 27 38\"/></svg></div><div><small>Purple belt · Adult</small><h3>Maya Torres</h3><p>Northline Jiu-Jitsu · Denver</p></div></div><div class=\"ds-passport-ratings\"><button type=\"button\"><span>No-Gi rating</span><strong>1548</strong><small>Explain movement</small></button><button type=\"button\"><span>Gi rating</span><strong>1472</strong><small>Separate lane</small></button></div></article>",
+      "css": ".ds-passport{padding:16px;display:grid;gap:16px;overflow:hidden;background:#003cca;border:1px solid #002fa1;border-radius:16px;box-shadow:0 5px 0 #082a87,0 12px 28px rgba(0,60,202,.16);color:#fff;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-passport header{min-height:28px;display:flex;align-items:center;justify-content:space-between;gap:8px}.ds-passport-label{font-size:11px;font-weight:850;letter-spacing:.045em;text-transform:uppercase}.ds-passport-state{padding:5px 8px;border:1px solid #248a57;border-radius:8px;background:#e8f6ee;color:#17673e;font-size:11px;font-weight:850}.ds-passport-body{display:grid;grid-template-columns:116px minmax(0,1fr);align-items:end;gap:15px}.ds-passport-portrait{aspect-ratio:4/5;display:grid;place-items:center;overflow:hidden;background:#f6b21a;border:2px solid rgba(255,255,255,.82);border-radius:14px 8px 14px 8px;color:#182035}.ds-passport-portrait svg{width:78%;fill:#fdf9f3;stroke:#182035;stroke-width:2}.ds-passport small{color:#cddaff;font-size:11px}.ds-passport h3{margin:0 0 5px;font:900 clamp(42px,12.5vw,62px)/.78 \"Barlow Condensed\",\"Space Grotesk Variable\",sans-serif;letter-spacing:-.02em;transform:scaleX(.76);transform-origin:left center}.ds-passport p{margin:0;color:#dae3ff;font-size:11px}.ds-passport-ratings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ds-passport-ratings button{min-height:100px;padding:11px;display:grid;align-content:center;text-align:left;background:#fff;border:2px solid #f6b21a;border-radius:12px;color:#182035;cursor:pointer;transition:transform 150ms ease,box-shadow 150ms ease}.ds-passport-ratings button:last-child{border-color:#a7bdf8}.ds-passport-ratings span,.ds-passport-ratings small{color:#646d7f;font-size:11px}.ds-passport-ratings strong{font:770 32px/1 \"Space Grotesk Variable\",\"Arial Narrow\",sans-serif}.ds-passport-ratings button:hover{transform:translateY(-2px)}.ds-passport-ratings button:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-passport-ratings button:active{transform:translateY(2px)}"
+    },
+    {
+      "name": "Proof Thread",
+      "kind": "custom",
+      "refersTo": "surface",
+      "description": "Authority-to-rating evidence path that remains legible without motion or imagery.",
+      "html": "<button class=\"ds-proof-thread\" type=\"button\" aria-label=\"Open proof thread\"><span class=\"ds-proof-line\"></span><span class=\"ds-proof-step ds-proof-verified\"><i><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m5 12 4 4L19 6\"/></svg></i><strong>Authority</strong><small>Human confirmed</small></span><span class=\"ds-proof-step ds-proof-social\"><i>2</i><strong>Result</strong><small>Version 2</small></span><span class=\"ds-proof-step ds-proof-cobalt\"><i>3</i><strong>Correction</strong><small>Closed</small></span><span class=\"ds-proof-step ds-proof-earned\"><i>4</i><strong>Rating</strong><small>Explained</small></span></button>",
+      "css": ".ds-proof-thread{min-height:126px;padding:17px 8px 12px;position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;overflow:hidden;border:1px solid #cbbfae;border-radius:14px;background:#fdf9f3;box-shadow:0 4px 0 #c9bba5;color:#182035;cursor:pointer;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-proof-line{height:3px;position:absolute;z-index:0;top:37px;right:13%;left:13%;background:rgba(0,60,202,.28)}.ds-proof-step{min-width:0;position:relative;z-index:1;display:grid;justify-items:center;align-content:start;gap:4px;text-align:center}.ds-proof-step i{width:38px;height:38px;display:grid;place-items:center;border:3px solid #fff;border-radius:50%;color:#fff;font-size:11px;font-style:normal;font-weight:850}.ds-proof-step svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}.ds-proof-step strong{margin-top:4px;font-size:11px}.ds-proof-step small{color:#646d7f;font-size:11px;line-height:1.25}.ds-proof-verified i{background:#248a57}.ds-proof-social i{background:#f36b5f}.ds-proof-cobalt i{background:#003cca}.ds-proof-earned i{background:#f6b21a;color:#182035}.ds-proof-thread:hover{transform:translateY(-2px)}.ds-proof-thread:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-proof-thread:active{transform:translateY(2px);box-shadow:none}"
+    },
+    {
+      "name": "Earned Stamp Strip",
+      "kind": "card",
+      "refersTo": "passport",
+      "description": "Three original dimensional non-person medallions with live deterministic evidence labels inside the Fighter Passport.",
+      "html": "<section class=\"ds-earned-stamps\" aria-labelledby=\"earned-title\"><header><h3 id=\"earned-title\">Earned stamps</h3><a href=\"#rewards\">View all</a></header><div><a href=\"#rewards\"><img alt=\"\"><span><strong>Mat tested</strong><small>Verified result</small></span></a><a href=\"#rewards\"><img alt=\"\"><span><strong>Identity confirmed</strong><small>Human reviewed</small></span></a><a href=\"#rewards\"><img alt=\"\"><span><strong>Community trusted</strong><small>Gym connected</small></span></a></div></section>",
+      "css": ".ds-earned-stamps{padding:10px;display:grid;gap:8px;background:rgba(7,29,92,.78);border:1px solid rgba(255,255,255,.24);border-radius:13px 8px;color:#fff;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-earned-stamps header{min-height:44px;display:flex;align-items:center;justify-content:space-between}.ds-earned-stamps header h3{font-size:10px;letter-spacing:.11em;text-transform:uppercase}.ds-earned-stamps header a{min-height:44px;display:flex;align-items:center;color:#fff;font-size:11px;font-weight:900}.ds-earned-stamps>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.ds-earned-stamps>div>a{min-height:116px;display:grid;justify-items:center;align-content:start;color:#fff;text-align:center}.ds-earned-stamps img{width:70px;height:70px;object-fit:contain}.ds-earned-stamps span{display:grid}.ds-earned-stamps strong{font-size:9px}.ds-earned-stamps small{color:#cbd9ff;font-size:8px}"
+    },
+    {
+      "name": "Gym Community Rail",
+      "kind": "card",
+      "refersTo": "surface",
+      "description": "Scrollable illustrated gym-neighborhood cards with live identity, membership state, and direct local routes.",
+      "html": "<section class=\"ds-gym-community\" aria-labelledby=\"gym-title\"><header><h2 id=\"gym-title\">Gym community</h2><a href=\"#gyms\">See all</a></header><div><a href=\"#gym\"><img alt=\"Fictional adult gym community\"><span><strong>Northline Jiu-Jitsu</strong><small>84 members · 12 active</small></span></a></div></section>",
+      "css": ".ds-gym-community{display:grid;gap:9px;color:#182035;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-gym-community header{min-height:44px;display:flex;align-items:center;justify-content:space-between}.ds-gym-community header h2{font:780 20px/1 \"Space Grotesk Variable\",sans-serif}.ds-gym-community header a{min-height:44px;display:flex;align-items:center;color:#082a87;font-size:11px;font-weight:900}.ds-gym-community>div{display:flex;gap:12px;overflow-x:auto}.ds-gym-community>div>a{min-width:min(84vw,330px);aspect-ratio:1.52;position:relative;overflow:hidden;border:2px solid #182035;border-radius:16px 9px;box-shadow:0 5px 0 #182035;color:#fff}.ds-gym-community img{width:100%;height:100%;object-fit:cover}.ds-gym-community span{position:absolute;right:14px;bottom:13px;left:14px;display:grid;background:rgba(7,29,92,.9)}.ds-gym-community strong{font:700 17px/1 \"Space Grotesk Variable\",sans-serif}.ds-gym-community small{color:#e4eaff;font-size:10px}"
+    },
+    {
+      "name": "Mobile Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "bottom-navigation",
+      "description": "Five-slot mobile dock with a raised tactile Create control.",
+      "html": "<nav class=\"ds-bottom-nav\" aria-label=\"Primary\"><a class=\"ds-active\" href=\"#pulse\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 11 12 4l9 7v9H3z\"/></svg><span>Pulse</span></a><a href=\"#compete\"><span>Compete</span></a><button class=\"ds-create\" type=\"button\"><i><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></i><span>Create</span></button><a href=\"#discover\"><span>Discover</span></a><a href=\"#profile\"><span>Profile</span></a></nav>",
+      "css": ".ds-bottom-nav{min-height:82px;padding:7px 5px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;overflow:visible;background:#fdf9f3;border-top:1px solid #b9bec8;box-shadow:0 -8px 22px rgba(24,32,53,.08);font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-bottom-nav a,.ds-bottom-nav button{min-width:0;min-height:64px;padding:4px 1px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:transparent;color:#333c4e;font-size:11px;font-weight:900;text-decoration:none;cursor:pointer;transition:transform 150ms ease,color 150ms ease}.ds-bottom-nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.ds-bottom-nav .ds-active{color:#082a87}.ds-bottom-nav .ds-create{transform:translateY(-7px);color:#182035}.ds-create i{width:58px;height:52px;display:grid;place-items:center;background:#003cca;border:2px solid #182035;border-radius:50%;box-shadow:0 5px 0 #182035;color:#fff}.ds-bottom-nav a:hover,.ds-bottom-nav button:hover{color:#003cca;transform:translateY(-2px)}.ds-bottom-nav .ds-create:hover{transform:translateY(-9px)}.ds-bottom-nav a:focus-visible,.ds-bottom-nav button:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-bottom-nav a:active,.ds-bottom-nav button:active{transform:translateY(2px)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Matchday Passport",
+    "overview": "SAPAR feels like a portable identity object moving through a lively illustrated mat world: optimistic, tactile, evidence-aware, and unmistakably social. The experience is mobile-first and cartoon-first, with bold cobalt identity fields, warm cream reading ground, asymmetric outlined controls, and small route-map details that make training, competition, and community feel connected rather than filed into a dashboard.\n\nTrust remains visible inside the playfulness. Synthetic fixtures, proof status, corrections, rating lanes, privacy, and unconnected services are named in the interface instead of hidden behind spectacle. Hybrid human photography and stylized realism support community, training, and replay moments, but the code-native passport, proof thread, controls, and illustrated interface materials remain the primary world.",
+    "keyCharacteristics": [
+      "Cartoon-first mobile social passport with secondary hybrid human imagery.",
+      "Cobalt identity, coral community, amber evidence, green verification, cream ground, and charcoal ink.",
+      "Tactile dark outlines, asymmetric corners, compact offset shadows, and illustrated route materials.",
+      "Separate, explainable competition, belt, private journey, and social systems.",
+      "Honest synthetic, local-only, unavailable, private, and proof states.",
+      "Motion that yields completely to reduced-motion and low-stimulation preferences."
+    ],
+    "rules": [
+      { "name": "The Truth-State Rule", "body": "Green means human-confirmed or successful, amber means earned or explainable progress, coral means social warmth, and neutral gray means privacy or an unconnected state; private never masquerades as verified.", "section": "colors" },
+      { "name": "The No Dead Field Rule", "body": "Large neutral areas must use the cream ground or be intentionally sectioned with color, keylines, illustration, or layered grouping; broad gray and page-sized white fields are out of character.", "section": "colors" },
+      { "name": "The Passport Hierarchy Rule", "body": "Reserve the condensed identity stack for athlete names; use Space Grotesk for display, titles, scores, ratings, and ranks; use Manrope for actions, evidence language, privacy, and sustained reading.", "section": "typography" },
+      { "name": "The Thumb-and-Proof Rule", "body": "On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.", "section": "layout" },
+      { "name": "The Tactile Stack Rule", "body": "Use hard 3–5px offsets to make actions and identity blocks feel pressable; use blurred shadows only when a layer truly floats above another layer.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do begin phone layouts with identity, current state, primary action, and proof before secondary metrics.",
+      "Do use cartoon-first interface imagery and fictional adult characters as the dominant visual register.",
+      "Do use hybrid human photography or stylized realism secondarily for community, gym, competition, and replay context.",
+      "Do label synthetic fixtures, local-only actions, unconnected services, and human-confirmed proof in plain language.",
+      "Do keep competition rating, belt, private journey XP, and social reach visually and semantically separate.",
+      "Do honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity."
+    ],
+    "donts": [
+      "Don't return to a generic white dashboard or leave broad gray and white areas without hierarchy or purpose.",
+      "Don't use green for privacy, private data, or generic availability when no human-confirmed success exists.",
+      "Don't let photography, illustration, animation, or generated texture carry required text, proof, or control semantics.",
+      "Don't imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.",
+      "Don't use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.",
+      "Don't copy competitor trade dress, real athlete likenesses, federation marks, or unlicensed uniform branding."
+    ]
+  }
+}

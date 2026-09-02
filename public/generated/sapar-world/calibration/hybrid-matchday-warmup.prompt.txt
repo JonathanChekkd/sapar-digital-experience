@@ -1,0 +1,8 @@
+Use case: photorealistic-natural.
+Asset type: SAPAR vertical social-story image for a Matchday warm-up moment, portrait 4:5.
+Input image: Use the referenced arena image only as a fidelity, palette, and hybrid-framing reference; create entirely new fictional adults, faces, wardrobe, camera angle, and environment.
+Primary request: Show two clearly adult Brazilian Jiu-Jitsu teammates in a quiet warm-up corridor before an event: a South Asian woman in a charcoal rashguard doing a gentle shoulder mobility movement and an East Asian man in a cream gi holding a water bottle and offering an encouraging smile.
+Photography: Teammates are relaxed and focused, with natural skin texture, realistic hands, fabric weave, and candid sports-documentary lighting.
+Illustrated layer: Let the photographic corridor dissolve into original SAPAR layers at the edges: a tall cobalt #003CCA block, warm cream #FDF9F3 paper texture, one coral #F36B5F looping gesture, earned-amber #F6B21A warm light, and fine topographic linework.
+Composition: Reserve a clean cream strip at the bottom and cobalt negative space at upper-left for semantic story UI, but render no text.
+Constraints: No text, letters, numbers, logos, brand marks, event signage, scoreboards, real athlete or celebrity likeness, minors, blood, injury, aggression, unsafe movement, medals, trophies, belt-ranking implication, government seals, watermark, casino cues, neon HUD, or copied trade dress. Original fictional adults only; supportive friendship, premium editorial realism, bold but restrained illustrated interface world.

@@ -1,0 +1,11 @@
+{
+  "id": "stamp-community-trusted",
+  "createdAt": "2026-09-02T06:24:00Z",
+  "promptFile": "stamp-community-trusted.prompt.txt",
+  "sourcePng": "stamp-community-trusted.png",
+  "shippingWebp": "stamp-community-trusted.webp",
+  "dimensions": { "width": 1254, "height": 1254 },
+  "alpha": true,
+  "conversion": "ImageMagick WebP quality 88, method 6",
+  "provenance": "OpenAI built-in image generation with project-local source PNG and prompt"
+}

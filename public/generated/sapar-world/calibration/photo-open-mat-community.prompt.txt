@@ -1,0 +1,9 @@
+Use case: photorealistic-natural
+Asset type: gym community and training photograph for SAPAR Pulse
+Primary request: Create a candid, premium documentary photograph of a welcoming adult Brazilian Jiu-Jitsu open mat in a completely fictional neighborhood gym.
+Scene/backdrop: sunlit converted warehouse with warm cream walls, clean cobalt mats, amber wood cubbies, green plants, and soft coral training pads; eight diverse fictional adults rotate through light technical drilling, conversation, and stretching.
+Subject: mixed-gender adult group across varied ethnicities and athletic body types, wearing clean unbranded white, cobalt, charcoal, and green gi or no-gi training clothing; natural interaction rather than a posed team photo.
+Style/medium: photorealistic natural sports documentary photography, 35mm lens, realistic skin and fabric texture, subtle motion, layered depth, restrained editorial grade.
+Composition/framing: cinematic 16:9 landscape, eye level, open area in the upper right for live UI overlay, no single dominant athlete.
+Lighting/mood: warm afternoon daylight, sociable, skill-focused, respectful.
+Constraints: all people are fictional adults and must not resemble real athletes, celebrities, or public figures; no readable text, logo, watermark, branded or unlicensed uniform, child, blood, injury, unsafe technique, domination pose, casino cue, or copied trade dress.

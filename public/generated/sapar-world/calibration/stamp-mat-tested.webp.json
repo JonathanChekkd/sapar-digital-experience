@@ -1,0 +1,11 @@
+{
+  "id": "stamp-mat-tested",
+  "createdAt": "2026-09-02T06:23:00Z",
+  "promptFile": "stamp-mat-tested.prompt.txt",
+  "sourcePng": "stamp-mat-tested.png",
+  "shippingWebp": "stamp-mat-tested.webp",
+  "dimensions": { "width": 1254, "height": 1254 },
+  "alpha": true,
+  "conversion": "ImageMagick WebP quality 88, method 6",
+  "provenance": "OpenAI built-in image generation with project-local source PNG and prompt"
+}

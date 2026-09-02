@@ -1,0 +1,10 @@
+{
+  "id": "cartoon-grip-fight",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "cartoon-first polished 2.5D SAPAR action key art",
+  "generator": "OpenAI image generation",
+  "promptFile": "cartoon-grip-fight.prompt.txt"
+}

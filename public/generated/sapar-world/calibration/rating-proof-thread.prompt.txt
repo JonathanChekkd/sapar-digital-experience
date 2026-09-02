@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: supporting proof-and-rating analysis illustration for SAPAR's Proof Thread
+Primary request: Visualize a transparent evidence journey from a completed adult match to human confirmation, result version, and separate Gi and No-Gi rating ledgers, without rendering a user interface or fake data.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, dimensional finish, and tactile material reference; do not reproduce its UI, text, stamps, icons, or layout.
+Scene/backdrop: a warm cream field with an original physical tabletop-style evidence path: a cobalt match tile, green human-confirmation seal, amber correction/version marker, and two clearly separate final ledger plates, connected by a precise charcoal-and-cobalt route with small dimensional nodes.
+Style/medium: original stylized 3D information-object illustration, crisp isometric materials, tactile enamel and paper textures, legible through shape and separation rather than labels.
+Composition/framing: wide 3:2 landscape with the path flowing left to right, generous outer margin, no cropped objects, suitable behind or beside live explanatory HTML.
+Lighting/mood: clear studio daylight, trustworthy, calm, inspectable.
+Color palette: warm cream, cobalt identity, verified green, earned amber, charcoal, minimal coral.
+Constraints: no text, numbers, logo, watermark, charts implying a proprietary formula, arrows that merge Gi and No-Gi, casino cue, randomness, medical claim, government seal, or copied interface trade dress.

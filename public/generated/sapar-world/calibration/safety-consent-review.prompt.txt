@@ -1,0 +1,10 @@
+Use case: illustration-story
+Asset type: safety and consent illustration for SAPAR onboarding and match reporting
+Primary request: Create an original illustration of two fictional adult jiu-jitsu athletes calmly reviewing and confirming match-report consent together before submission.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, illustration finish, and adult character reference; do not reproduce its UI, text, seals, or exact athlete.
+Scene/backdrop: a quiet edge of the bright Northside gym, two diverse adults in clean training wear seated side by side, jointly looking at a neutral blank phone screen while one gestures toward a green confirmation card on a small table; their posture is equal, relaxed, and attentive.
+Style/medium: polished original stylized 3D-cartoon illustration with realistic adult proportions, expressive but restrained faces, tactile fabric and warm environmental detail.
+Composition/framing: portrait 4:3 illustration with both adults and the shared review moment fully visible; clean upper space for live HTML copy.
+Lighting/mood: soft daylight, calm agency, mutual respect, clarity.
+Color palette: warm cream, cobalt, verified green, charcoal, small coral and amber accents.
+Constraints: fictional adults only; no readable text, logo, watermark, child, coercion, authority intimidation, medical situation, injury, blood, unsafe technique, surveillance cue, casino cue, or copied trade dress.

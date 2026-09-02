@@ -1,0 +1,19 @@
+{
+  "id": "passport-maya-fullbleed",
+  "status": "generated",
+  "mediaType": "image/png",
+  "dimensions": { "width": 1122, "height": 1402 },
+  "people": true,
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "semanticContent": false,
+  "alpha": true,
+  "style": "cartoon-first premium 2.5D adult athlete cutout",
+  "generator": "OpenAI built-in image generation",
+  "references": [
+    ".impeccable/mocks/matchday-passport-pulse.png",
+    "public/generated/sapar-world/calibration/cartoon-maya-passport.webp"
+  ],
+  "promptFile": "passport-maya-fullbleed.prompt.txt",
+  "postProcessing": "Deterministic connected-background alpha extraction after the generator rendered a checkerboard into RGB; subject pixels were not redrawn."
+}

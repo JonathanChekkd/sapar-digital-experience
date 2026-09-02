@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -18,9 +17,20 @@ import { useState } from "react";
 export type StatusTone = "blue" | "green" | "amber" | "neutral" | "red";
 
 export function SaparMark({ compact = false }: { compact?: boolean }) {
+  const reduce = useReducedMotion();
+
   return (
     <span className="sapar-wordmark" aria-label="SAPAR">
-      <img src="/brand/sapar-mark.svg" alt="" width="42" height="42" />
+      <motion.img
+        src="/brand/sapar-mark.svg"
+        alt=""
+        width="42"
+        height="42"
+        initial={reduce ? false : { opacity: 0, rotate: -7, scale: 0.86 }}
+        whileInView={reduce ? undefined : { opacity: 1, rotate: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.7 }}
+        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 210, damping: 18 }}
+      />
       {!compact && <span>SAPAR</span>}
     </span>
   );
@@ -76,6 +86,7 @@ const navItems = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28 });
 
@@ -85,7 +96,7 @@ export function SiteHeader() {
         Skip to content
       </a>
       <header className="site-header">
-        <motion.div className="scroll-progress" style={{ scaleX }} />
+        <motion.div className="scroll-progress" style={{ scaleX: reduce ? 1 : scaleX }} />
         <Link href="/" className="header-logo">
           <SaparMark />
         </Link>
@@ -119,9 +130,10 @@ export function SiteHeader() {
           <motion.nav
             aria-label="Mobile"
             className="mobile-nav"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -12 }}
+            transition={reduce ? { duration: 0 } : undefined}
           >
             {navItems.map(([href, label], index) => (
               <Link href={href} key={href} onClick={() => setOpen(false)}>

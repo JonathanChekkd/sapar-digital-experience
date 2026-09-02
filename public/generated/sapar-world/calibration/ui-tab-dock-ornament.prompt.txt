@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: reusable decorative ornament behind five semantic mobile bottom-navigation controls, 3:1 wide
+Input images: Images 1–3 are approved SAPAR comps. Match their exact cream-and-ink tactile bottom-dock treatment, oversized raised center socket, cartoon-first 2.5D polish, molded sporting-club materials, and subtle paper texture only. Do not copy any icon, label, logo, device chrome, layout proportions, or people.
+Primary request: Create an original blank mobile dock plate with five empty circular sockets in one row: four quiet side sockets and one larger raised center socket. Use a warm cream body with ink gasket shadows, a restrained cobalt rim around the center socket, and tiny green/amber/coral edge reflections. Every socket must remain completely empty for live HTML buttons, icons, labels, focus rings, and pressed states.
+Subject: one tactile cream-and-ink five-socket dock substrate, decorative only.
+Style/medium: premium cartoon-first 2.5D interface illustration, molded rubber, cream paper-polymer, enamel rings, hand-painted edge highlights.
+Composition/framing: exact 3:1; front orthographic view; dock centered with generous clean margin; broad safe zones around sockets; no phone screen or device mockup; no cropped edges.
+Color palette: warm cream #FDF9F3, ink #182035, electric cobalt #003CCA, court green #248A57, amber/gold #F6B21A, coral #F36B5F. Avoid color gradients; use flat material planes, highlights, and shadows.
+Materials/textures: matte paper-polymer, molded ink rubber, subtle enamel rims, fine screenprint grain.
+Constraints: original SAPAR decorative substrate only. No people, text, letters, numbers, icons, symbols, logos, plus sign, labels, arrows, badges, government seals, real brands, League of Legends iconography, casino/slot/card/roulette imagery, watermark, active-state meaning, or copied trade dress.

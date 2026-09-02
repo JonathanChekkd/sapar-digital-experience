@@ -37,3 +37,6 @@ next-env.d.ts
 /outputs/
 /work/
 /.impeccable/review/
+/.private-research/
+/graphify-out/
+*.tsbuildinfo
