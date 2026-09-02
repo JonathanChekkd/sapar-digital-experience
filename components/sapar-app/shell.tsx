@@ -393,14 +393,14 @@ function BottomNavigation(): ReactNode {
         const current = primaryNavigationSection(pathname) === section;
         if (create) {
           return (
-            <Link key={href} href={href} className={`sa-create-control ${current ? "is-active" : ""}`} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
+            <Link key={href} href={href} data-nav-section={section} className={`sa-create-control ${current ? "is-active" : ""}`} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
               <span><Icon aria-hidden="true" /></span><small>{label}</small>
             </Link>
           );
         }
         return (
-          <Link key={href} href={href} className={current ? "is-active" : ""} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
-            <Icon aria-hidden="true" /><span>{label}</span>
+          <Link key={href} href={href} data-nav-section={section} className={current ? "is-active" : ""} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
+            <span className="sa-nav-icon"><Icon aria-hidden="true" /></span><span>{label}</span>
           </Link>
         );
       })}

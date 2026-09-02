@@ -19,6 +19,10 @@ colors:
   earned-ink: "#755200"
   earned-shadow: "#A97405"
   verified-ink: "#17673E"
+  profile: "#7040D8"
+  profile-soft: "#F1EAFF"
+  profile-ink: "#3F247F"
+  profile-shadow: "#5630A8"
   neutral-ink: "#4C5567"
   neutral-soft: "#F0F1F3"
   on-dark-muted: "#D9E2F3"
@@ -162,6 +166,7 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 - **Court Green** (`colors.verified`): Means human-confirmed, available, successful, or evidence-attached—never merely private.
 - **Social Coral** (`colors.social`): Carries community warmth, reactions, social rails, and relational emphasis.
 - **Semantic Inks** (`colors.verified-ink`, `colors.earned-ink`, `colors.social-ink`): Maintain readable text and icons on each light semantic surface instead of falling back to generic gray or unsafe white.
+- **Passport Violet** (`colors.profile`, `colors.profile-soft`, `colors.profile-ink`): Owns personal profile navigation and account identity without impersonating a proof or verification state.
 
 ### Tertiary
 
@@ -182,6 +187,8 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 **The Truth-State Rule.** Green means human-confirmed or successful, amber means earned or explainable progress, coral means social warmth, and neutral gray means privacy or an unconnected state; private never masquerades as verified.
 
 **The No Dead Field Rule.** Large neutral areas must use the cream ground or be intentionally sectioned with color, keylines, illustration, or layered grouping; broad gray and page-sized white fields are out of character.
+
+**The Route Color Rule.** Mobile wayfinding is a five-lane system: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every lane also uses label, icon, border, and selected geometry so route meaning never depends on color alone.
 
 ## Typography
 
@@ -262,7 +269,7 @@ Borders are visible and purposeful: 1px warm lines for ordinary grouping, 2px in
 
 ### Navigation
 
-Mobile uses a five-slot fixed cream dock with Pulse, Compete, Create, Discover, and Profile. Create is a raised illustrated cobalt plate with a tactile outline; active destinations use deep cobalt while inactive labels stay charcoal-neutral. At 1080px the dock becomes a dark 238px rail with 44px rows and a visibly selected surface.
+Mobile uses a five-slot fixed cream dock with persistent route lanes: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every inactive destination keeps a quiet tinted field and framed icon; the active destination gains a saturated field, dark outline, short press-plate, and explicit `aria-current` state. Create remains raised and tactile in earned amber. At 1080px the dock becomes a dark 238px rail with 44px rows and a visibly selected surface.
 
 ### Matchday Passport
 
