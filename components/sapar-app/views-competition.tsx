@@ -3,13 +3,12 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
   BarChart3,
-  CalendarDays,
   Check,
   ChevronDown,
   CirclePause,
@@ -35,6 +34,38 @@ import { usePrototypeDispatch, usePrototypeState } from "./state";
 type FormatFilter = "all" | "gi" | "no-gi";
 type EventFixture = (typeof events)[number];
 
+interface EventArtwork {
+  readonly src: string;
+  readonly alt: string;
+}
+
+interface EventTotals {
+  readonly capacity: number;
+  readonly registered: number;
+  readonly remaining: number;
+}
+
+const eventArtwork: Record<EventFixture["id"], EventArtwork> = {
+  event_sapar_open_2026: {
+    src: "/generated/sapar-world/calibration/arena-regional-championship.webp",
+    alt: "Cartoon arena scene with fictional adult grapplers, coaches, and a referee preparing for a regional championship",
+  },
+  event_sapar_summer_open_2026: {
+    src: "/generated/sapar-world/calibration/cartoon-grip-fight.webp",
+    alt: "Cartoon scene of two fictional adult athletes safely wrestling in a controlled standing grip fight",
+  },
+  event_front_range_trials_2026: {
+    src: "/generated/sapar-world/calibration/competition-arena.webp",
+    alt: "Hybrid illustration of fictional adult competitors listening to a referee inside a competition arena",
+  },
+};
+
+const filterLabels: Record<FormatFilter, string> = {
+  all: "All formats",
+  gi: "Gi",
+  "no-gi": "No-Gi",
+};
+
 const replayDurationSeconds = 300;
 
 function formatReplayTime(position: number): string {
@@ -45,35 +76,320 @@ function formatReplayTime(position: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-function formatEventDate(startsAt: string, month: "long" | "short"): string {
+function formatEventMonth(startsAt: string): string {
   return new Intl.DateTimeFormat("en-US", {
-    month,
-    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  }).format(new Date(startsAt)).toUpperCase();
+}
+
+function formatEventWeekday(startsAt: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
     timeZone: "UTC",
   }).format(new Date(startsAt));
+}
+
+function formatEventFormat(format: EventFixture["formats"][number]): string {
+  return format === "no-gi" ? "No-Gi" : "Gi";
+}
+
+function eventSupportsFilter(event: EventFixture, filter: FormatFilter): boolean {
+  return filter === "all" || event.formats.some((format) => format === filter);
+}
+
+function getEventTotals(event: EventFixture): EventTotals {
+  const totals = event.divisions.reduce(
+    (current, division) => ({
+      capacity: current.capacity + division.capacity,
+      registered: current.registered + division.registeredCount,
+    }),
+    { capacity: 0, registered: 0 },
+  );
+
+  return {
+    ...totals,
+    remaining: Math.max(0, totals.capacity - totals.registered),
+  };
+}
+
+function getEventStatus(event: EventFixture, registered: boolean): { readonly label: string; readonly tone: UiTone } {
+  if (event.status === "completed") {
+    return { label: "Result confirmed", tone: "verified" };
+  }
+  if (registered) {
+    return { label: "Preview saved", tone: "earned" };
+  }
+  if (event.status === "registration-open") {
+    return { label: "Registration open", tone: "earned" };
+  }
+  return { label: "Registration closed", tone: "neutral" };
+}
+
+function getEventHref(event: EventFixture, filter: FormatFilter): string {
+  if (event.status === "completed") {
+    return `/app/arena?event=${encodeURIComponent(event.id)}`;
+  }
+  const filterQuery = filter === "all" ? "" : `&format=${encodeURIComponent(filter)}`;
+  return `/app/compete?event=${encodeURIComponent(event.id)}${filterQuery}`;
 }
 
 function EventHero({ event }: { readonly event: EventFixture }): ReactNode {
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
+  const prefersReducedMotion = useReducedMotion();
+  const reduceMotion = Boolean(prefersReducedMotion || state.preferences.lowStimulation);
   const registered = state.registeredEventIds.includes(event.id);
-  const registrationOpen = event.status === "registration-open";
   const completed = event.status === "completed";
-  const statusLabel = completed ? "Completed event" : registrationOpen ? registered ? "Registration preview saved" : "Registration open" : "Registration closed";
+  const registrationOpen = event.status === "registration-open";
+  const totals = getEventTotals(event);
+  const status = getEventStatus(event, registered);
+  const artwork = eventArtwork[event.id];
+  const eventTitleId = `matchday-title-${event.id}`;
+
   return (
-    <section className="sa-event-hero">
-      <div className="sa-event-art">
-        <img src="/generated/sapar-world/calibration/competition-arena.webp" alt="Two fictional adult competitors listening to a referee inside an illustrated SAPAR matchday frame" width="1672" height="941" loading="eager" decoding="async" />
-        <div><SyntheticLabel compact /><span>Competition atlas · {event.formats.join(" + ")}</span><strong>{event.name}</strong><small>{event.venue.city} · {formatEventDate(event.startsAt, "long")}</small></div>
+    <section className="sa-matchday-marquee" aria-labelledby={eventTitleId}>
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          className="sa-matchday-marquee-panel"
+          key={event.id}
+          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+          transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="sa-matchday-art">
+            <img src={artwork.src} alt={artwork.alt} width="1672" height="941" loading="eager" decoding="async" />
+            <div className="sa-matchday-art-topline">
+              <SyntheticLabel compact />
+              <span><Trophy aria-hidden="true" /> Matchday circuit</span>
+            </div>
+            <p>Choose the card. Read the rules. Own the result trail.</p>
+          </div>
+
+          <div className="sa-matchday-docket">
+            <div className="sa-matchday-status-row">
+              <StatusTag tone={status.tone}>{status.label}</StatusTag>
+              <span>{event.formats.map(formatEventFormat).join(" + ")}</span>
+            </div>
+
+            <div className="sa-matchday-identity">
+              <time dateTime={event.startsAt}>
+                <span>{formatEventMonth(event.startsAt)}</span>
+                <strong>{new Date(event.startsAt).getUTCDate()}</strong>
+                <small>{formatEventWeekday(event.startsAt)}</small>
+              </time>
+              <div>
+                <p>{event.organizer}</p>
+                <h1 id={eventTitleId}>{event.name}</h1>
+                <span><MapPin aria-hidden="true" /> {event.venue.name} · {event.venue.city}, {event.venue.region}</span>
+              </div>
+            </div>
+
+            <dl className="sa-matchday-stat-rail">
+              <div><dt>Roster</dt><dd>{totals.registered}/{totals.capacity}</dd></div>
+              <div><dt>{completed ? "Card" : "Open"}</dt><dd>{completed ? "Final" : totals.remaining}</dd></div>
+              <div><dt>Divisions</dt><dd>{event.divisions.length}</dd></div>
+              <div><dt>Formats</dt><dd>{event.formats.length}</dd></div>
+            </dl>
+
+            <div className="sa-matchday-registration">
+              <div>
+                <span>{completed ? "Archived event record" : "Illustrative entry"}</span>
+                <strong>{completed ? "Human-confirmed result available" : `$${(event.registration.priceCents / 100).toFixed(0)} ${event.registration.currency}`}</strong>
+                <small>{completed ? event.authority.label : event.registration.eligibility}</small>
+              </div>
+              {completed ? (
+                <Link className="sa-matchday-action is-confirmed" href={`/app/arena?event=${encodeURIComponent(event.id)}`}>
+                  <ShieldCheck aria-hidden="true" /> View confirmed result
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className={`sa-matchday-action ${registered ? "is-preview-saved" : ""}`}
+                  disabled={registered || !registrationOpen}
+                  onClick={() => dispatch({ type: "register-event", id: event.id })}
+                >
+                  {registered ? <Check aria-hidden="true" /> : <Trophy aria-hidden="true" />}
+                  {registered ? "Preview saved" : registrationOpen ? "Save entry preview" : "Registration closed"}
+                </button>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </section>
+  );
+}
+
+function CompetitionPassport(): ReactNode {
+  const giLane = ratingLanes.find((lane) => lane.lane === "gi");
+  const noGiLane = ratingLanes.find((lane) => lane.lane === "no-gi");
+  const lanes = [giLane, noGiLane].filter((lane): lane is NonNullable<typeof lane> => Boolean(lane));
+
+  return (
+    <section className="sa-competition-passport" aria-labelledby="competition-passport-title">
+      <div className="sa-competition-passport-person">
+        <span>Fighter passport · synthetic profile</span>
+        <Avatar initials="MT" tone="cobalt" label="Synthetic athlete Maya Torres" art={profileArt.mayaTorres} />
+        <div>
+          <h2 id="competition-passport-title">Maya Torres</h2>
+          <p>Northline · Purple belt · Adult</p>
+          <strong><Sparkles aria-hidden="true" /> Vanguard III</strong>
+        </div>
       </div>
-      <div className="sa-event-details">
-        <StatusTag tone={completed ? "verified" : registrationOpen ? "cobalt" : "neutral"}>{statusLabel}</StatusTag>
-        <h2>Know the rules, authority, and fit before you step on the mat.</h2>
-        <p>{event.organizer} · Human officials · Event-director result confirmation.</p>
-        <div className="sa-event-facts"><span><CalendarDays /> {formatEventDate(event.startsAt, "short")}</span><span><MapPin /> {event.venue.city}, {event.venue.region}</span><span><Users /> {event.divisions[0].capacity} division capacity</span></div>
-        <div className="sa-event-authority"><ShieldCheck /><p><strong>{event.authority.label}</strong><span>Authority is explicit; illustrative rules are not federation approval.</span></p></div>
-        {!completed ? <p>{event.registration.eligibility} · ${(event.registration.priceCents / 100).toFixed(2)} {event.registration.currency} illustrative fee.</p> : null}
-        {completed ? <Link className="sa-button sa-button-success" href="/app/arena"><ShieldCheck /> Open verified result</Link> : <button type="button" className={`sa-button ${registered ? "sa-button-success" : "sa-button-primary"}`} disabled={registered || !registrationOpen} onClick={() => dispatch({ type: "register-event", id: event.id })}>{registered ? <Check /> : <Trophy />}{registered ? "Preview saved" : registrationOpen ? "Save registration preview" : "Registration closed"}</button>}
+      <div className="sa-competition-passport-lanes">
+        {lanes.map((lane) => (
+          <article className={lane.lane === "no-gi" ? "is-no-gi" : "is-gi"} key={lane.id}>
+            <span>{lane.label}</span>
+            <strong>{lane.value.toLocaleString("en-US")}</strong>
+            <p><em>+{lane.delta}</em> · {lane.ratedBoutCount} rated results</p>
+            <small>{lane.status === "provisional" ? "Provisional lane" : "Established lane"}</small>
+          </article>
+        ))}
+      </div>
+      <div className="sa-competition-passport-footer">
+        <p>Profile reference only—rating and tier do not confirm event eligibility.</p>
+        <Link href="/app/leaderboards">Open standings <ArrowRight aria-hidden="true" /></Link>
+      </div>
+    </section>
+  );
+}
+
+function DivisionBoard({ event }: { readonly event: EventFixture }): ReactNode {
+  const completed = event.status === "completed";
+
+  return (
+    <section className="sa-division-board" id="division-board" aria-labelledby="division-board-title">
+      <header>
+        <div>
+          <span>Selected event</span>
+          <h2 id="division-board-title">Division board</h2>
+          <p>Capacity, experience band, and format stay separate for every card.</p>
+        </div>
+        <StatusTag tone="cobalt">{event.divisions.length} {event.divisions.length === 1 ? "division" : "divisions"}</StatusTag>
+      </header>
+        <div className="sa-division-tickets" role="region" aria-label={`Scrollable division cards for ${event.name}`} tabIndex={0}>
+        {event.divisions.map((division) => {
+          const remaining = Math.max(0, division.capacity - division.registeredCount);
+          return (
+            <article key={division.id} className={division.format === "no-gi" ? "is-no-gi" : "is-gi"}>
+              <div className="sa-division-ticket-topline">
+                <span>{formatEventFormat(division.format)}</span>
+                <strong>{completed ? "Final card" : `${remaining} ${remaining === 1 ? "spot" : "spots"} open`}</strong>
+              </div>
+              <h3>{division.weightLabel}</h3>
+              <p>{division.ageClass === "adult" ? "Adult" : division.ageClass} · {division.beltRange}</p>
+              <div className="sa-division-meter">
+                <progress max={division.capacity} value={division.registeredCount} aria-label={`${division.registeredCount} of ${division.capacity} synthetic roster places filled`} />
+                <span><strong>{division.registeredCount}</strong> / {division.capacity} rostered</span>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function EventCard({ event, filter, selected }: { readonly event: EventFixture; readonly filter: FormatFilter; readonly selected: boolean }): ReactNode {
+  const totals = getEventTotals(event);
+  const completed = event.status === "completed";
+  const artwork = eventArtwork[event.id];
+
+  return (
+    <article className="sa-event-cartridge" data-event={event.id} data-selected={selected || undefined}>
+      <div className="sa-event-cartridge-art">
+        <img src={artwork.src} alt={artwork.alt} width="1672" height="941" loading="lazy" decoding="async" />
+        <time dateTime={event.startsAt}><span>{formatEventMonth(event.startsAt)}</span><strong>{new Date(event.startsAt).getUTCDate()}</strong></time>
+        <StatusTag tone={completed ? "verified" : "earned"}>{completed ? "Completed" : "Registration open"}</StatusTag>
+      </div>
+      <div className="sa-event-cartridge-body">
+        <span>{event.formats.map(formatEventFormat).join(" + ")}</span>
+        <h3>{event.name}</h3>
+        <p><MapPin aria-hidden="true" /> {event.venue.name} · {event.venue.city}</p>
+        <dl>
+          <div><dt>Roster</dt><dd>{totals.registered}/{totals.capacity}</dd></div>
+          <div><dt>{completed ? "Record" : "Open"}</dt><dd>{completed ? "Final" : totals.remaining}</dd></div>
+          <div><dt>Authority</dt><dd>{event.authority.label}</dd></div>
+        </dl>
+        <Link href={getEventHref(event, filter)} aria-label={`${completed ? "View confirmed result for" : "Review event details for"} ${event.name}`}>
+          {completed ? "View confirmed result" : selected ? "Featured above" : "Review event"}
+          <ArrowRight aria-hidden="true" />
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+function EventCircuit({
+  eventsToShow,
+  filter,
+  selectedEventId,
+  onFilterChange,
+}: {
+  readonly eventsToShow: readonly EventFixture[];
+  readonly filter: FormatFilter;
+  readonly selectedEventId: EventFixture["id"];
+  readonly onFilterChange: (nextFilter: FormatFilter) => void;
+}): ReactNode {
+  const upcomingEvents = eventsToShow.filter((event) => event.status !== "completed");
+  const completedEvents = eventsToShow.filter((event) => event.status === "completed");
+
+  return (
+    <section className="sa-event-circuit" aria-labelledby="event-circuit-title">
+      <header>
+        <div>
+          <span>Matchday circuit</span>
+          <h2 id="event-circuit-title">Choose your next card.</h2>
+          <p>Chronological synthetic fixtures with explicit destinations and authority.</p>
+        </div>
+        <Link href="/app/leaderboards"><Medal aria-hidden="true" /> Standings</Link>
+      </header>
+      <div className="sa-event-filter" role="group" aria-label="Filter competition events by format">
+        {(Object.keys(filterLabels) as FormatFilter[]).map((item) => (
+          <button type="button" key={item} aria-pressed={filter === item} onClick={() => onFilterChange(item)}>{filterLabels[item]}</button>
+        ))}
+      </div>
+      <p className="sr-only" role="status" aria-live="polite">{eventsToShow.length} synthetic {eventsToShow.length === 1 ? "event" : "events"} shown.</p>
+      {upcomingEvents.length > 0 ? (
+        <div className="sa-event-circuit-group">
+          <h3><span>Next up</span><small>{upcomingEvents.length} open</small></h3>
+          <div className="sa-event-circuit-grid">
+            {upcomingEvents.map((event) => <EventCard event={event} filter={filter} selected={event.id === selectedEventId} key={event.id} />)}
+          </div>
+        </div>
+      ) : null}
+      {completedEvents.length > 0 ? (
+        <div className="sa-event-circuit-group is-archive">
+          <h3><span>Result archive</span><small>{completedEvents.length} confirmed</small></h3>
+          <div className="sa-event-circuit-grid">
+            {completedEvents.map((event) => <EventCard event={event} filter={filter} selected={event.id === selectedEventId} key={event.id} />)}
+          </div>
+        </div>
+      ) : null}
+      {eventsToShow.length === 0 ? <div className="sa-event-circuit-empty" role="status"><Flag aria-hidden="true" /><h3>No cards in this lane.</h3><p>Choose another format to return to the current synthetic fixture catalog.</p></div> : null}
+    </section>
+  );
+}
+
+function AuthorityDock({ event }: { readonly event: EventFixture }): ReactNode {
+  const completed = event.status === "completed";
+  return (
+    <section className="sa-authority-dock" aria-labelledby="authority-dock-title">
+      <div className="sa-authority-dock-art">
+        <img src="/generated/sapar-world/calibration/hybrid-matchday-warmup.webp" alt="Hybrid illustration of fictional adult teammates preparing together before competition" width="1003" height="1568" loading="lazy" decoding="async" />
+        <span><Users aria-hidden="true" /> Human decisions</span>
+      </div>
+      <div className="sa-authority-dock-copy">
+        <StatusTag tone={completed ? "verified" : "cobalt"}>{completed ? "Result authority confirmed" : "Authority declared"}</StatusTag>
+        <h2 id="authority-dock-title">People own the call.</h2>
+        <p>{event.authority.label} is the named authority for this synthetic fixture. Assistive analysis can explain a record, but it cannot silently become scoring or federation approval.</p>
+        <div>
+          <span><ShieldCheck aria-hidden="true" /><strong>Named authority</strong><small>{event.authority.label}</small></span>
+          <span><BarChart3 aria-hidden="true" /><strong>Model boundary</strong><small>Experimental assistance only</small></span>
+        </div>
+        <Link href={completed ? `/app/arena?event=${encodeURIComponent(event.id)}` : "/app/replay"}>{completed ? "Open result proof" : "See the proof model"} <ArrowRight aria-hidden="true" /></Link>
       </div>
     </section>
   );
@@ -88,12 +404,32 @@ export function CompeteView(): ReactNode {
 }
 
 function CompeteViewContent(): ReactNode {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const [filter, setFilter] = useState<FormatFilter>("all");
   const requestedEventId = searchParams.get("event");
   const requestedEvent = requestedEventId ? events.find((event) => event.id === requestedEventId) : undefined;
-  const selectedEvent = requestedEvent ?? events.find((event) => event.status === "registration-open");
-  const visibleEvents = events.filter((event) => filter === "all" || event.formats.some((format) => format === filter));
+  const requestedFilter = searchParams.get("format");
+  const parsedFilter: FormatFilter = requestedFilter === "gi" || requestedFilter === "no-gi" ? requestedFilter : "all";
+  const filter = requestedEvent && !eventSupportsFilter(requestedEvent, parsedFilter) ? "all" : parsedFilter;
+  const visibleEvents = [...events]
+    .filter((event) => eventSupportsFilter(event, filter))
+    .sort((left, right) => new Date(left.startsAt).getTime() - new Date(right.startsAt).getTime());
+  const selectedEvent = requestedEvent ?? visibleEvents.find((event) => event.status === "registration-open") ?? visibleEvents[0];
+
+  const updateFilter = (nextFilter: FormatFilter): void => {
+    const nextParams = new URLSearchParams(searchParams.toString());
+    if (nextFilter === "all") {
+      nextParams.delete("format");
+    } else {
+      nextParams.set("format", nextFilter);
+    }
+    if (requestedEvent && !eventSupportsFilter(requestedEvent, nextFilter)) {
+      nextParams.delete("event");
+    }
+    const nextQuery = nextParams.toString();
+    router.replace(nextQuery ? `/app/compete?${nextQuery}` : "/app/compete", { scroll: false });
+  };
+
   if (requestedEventId && !requestedEvent) {
     return (
       <div className="sa-view">
@@ -106,25 +442,14 @@ function CompeteViewContent(): ReactNode {
     return <div className="sa-view"><section className="sa-surface"><h1>Competition fixtures unavailable.</h1><p>The local synthetic event catalog is empty.</p></section></div>;
   }
   return (
-    <div className="sa-view">
-      <div className="sa-view-intro"><div><h1>Compete with the whole picture.</h1><p>Events, leagues, ladders, rules, authority, eligibility, and proof.</p></div><Link className="sa-button sa-button-secondary" href="/app/leaderboards"><Medal /> Leaderboards</Link></div>
+    <div className="sa-view sa-compete-view">
       <EventHero event={selectedEvent} />
-      <section className="sa-surface">
-        <SectionHeading title="Competition calendar" detail="Every date and capacity is a synthetic demonstration fixture." />
-        <div className="sa-filter-tabs" role="group" aria-label="Competition format">
-          {(["all", "gi", "no-gi"] as const).map((item) => <button type="button" key={item} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}
-        </div>
-        <div className="sa-event-list">
-          {visibleEvents.map((event) => (
-            <Link href={event.status === "completed" ? "/app/arena" : `/app/compete?event=${encodeURIComponent(event.id)}`} aria-current={event.id === selectedEvent.id ? "page" : undefined} key={event.id}>
-              <time dateTime={event.startsAt}>{new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(new Date(event.startsAt)).toUpperCase()}<br /><strong>{new Date(event.startsAt).getUTCDate()}</strong></time>
-              <div><StatusTag tone={event.status === "completed" ? "verified" : "earned"}>{event.status}</StatusTag><h3>{event.name}</h3><p>{event.venue.name} · {event.venue.city}</p><small>{event.formats.join(" + ")} · {event.authority.label}</small></div>
-              <ArrowRight />
-            </Link>
-          ))}
-        </div>
-      </section>
-      <section className="sa-compete-guidance"><div><Flag /><h2>Clear contest states</h2><p>Eligibility, registration, bracket publication, result version, correction, dispute, and final status never collapse into one badge.</p></div><div><ShieldCheck /><h2>Human authority first</h2><p>Assistive analysis stays experimental and cannot silently become scoring authority.</p></div></section>
+      <div className="sa-compete-intelligence-grid">
+        <CompetitionPassport />
+        <DivisionBoard event={selectedEvent} />
+      </div>
+      <EventCircuit eventsToShow={visibleEvents} filter={filter} selectedEventId={selectedEvent.id} onFilterChange={updateFilter} />
+      <AuthorityDock event={selectedEvent} />
     </div>
   );
 }

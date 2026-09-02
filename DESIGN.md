@@ -69,6 +69,7 @@ rounded:
   field: "13px"
   tactile: "15px 9px 15px 9px"
   surface: "16px"
+  docket: "18px"
   sheet: "18px"
 spacing:
   xs: "4px"
@@ -130,6 +131,12 @@ components:
     typography: "{typography.label}"
     padding: "7px 5px"
     height: "82px"
+  matchday-docket:
+    backgroundColor: "{colors.cobalt}"
+    textColor: "{colors.white}"
+    typography: "{typography.body}"
+    rounded: "{rounded.docket}"
+    padding: "16px"
 ---
 
 # Design System: SAPAR Matchday Passport
@@ -145,11 +152,12 @@ Trust remains visible inside the playfulness. Synthetic fixtures, proof status, 
 **Key Characteristics:**
 
 - Cartoon-first mobile social passport with secondary hybrid human imagery.
-- Cobalt identity, coral community, amber evidence, green verification, cream ground, and charcoal ink.
+- Cobalt identity, coral community, amber evidence, green verification, violet profiles, cream ground, and charcoal ink.
 - Tactile dark outlines, asymmetric corners, compact offset shadows, and illustrated route materials.
 - Separate, explainable competition, belt, private journey, and social systems.
 - Honest synthetic, local-only, unavailable, private, and proof states.
 - Motion that yields completely to reduced-motion and low-stimulation preferences.
+- Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority.
 
 ## Colors
 
@@ -163,7 +171,7 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 ### Secondary
 
-- **Court Green** (`colors.verified`): Means human-confirmed, available, successful, or evidence-attached—never merely private.
+- **Court Green** (`colors.verified`): Means a human-confirmed result or true success. Availability, evidence presence, and locally saved previews stay amber, cobalt, or neutral; Discover's green route lane is navigation identity, not a status signal.
 - **Social Coral** (`colors.social`): Carries community warmth, reactions, social rails, and relational emphasis.
 - **Semantic Inks** (`colors.verified-ink`, `colors.earned-ink`, `colors.social-ink`): Maintain readable text and icons on each light semantic surface instead of falling back to generic gray or unsafe white.
 - **Passport Violet** (`colors.profile`, `colors.profile-soft`, `colors.profile-ink`): Owns personal profile navigation and account identity without impersonating a proof or verification state.
@@ -184,7 +192,7 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 - **Neutral State Pair** (`colors.neutral-soft`, `colors.neutral-ink`): Privacy, unavailable, and unconnected states only.
 - **On-Dark Muted** (`colors.on-dark-muted`): Secondary copy on dark identity and clubhouse fields.
 
-**The Truth-State Rule.** Green means human-confirmed or successful, amber means earned or explainable progress, coral means social warmth, and neutral gray means privacy or an unconnected state; private never masquerades as verified.
+**The Truth-State Rule.** State-semantic green means a human-confirmed result or true success; locally saved previews remain amber, coral means social warmth, and neutral gray means privacy or an unconnected state. Discover's green route lane is navigation identity, never proof.
 
 **The No Dead Field Rule.** Large neutral areas must use the cream ground or be intentionally sectioned with color, keylines, illustration, or layered grouping; broad gray and page-sized white fields are out of character.
 
@@ -212,11 +220,15 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 The system starts at a 390×844 phone viewport with one readable column, sticky 66px header, fixed five-slot thumb navigation, and content padded above the safe area. Pulse follows one invariant opening sequence: dominant Fighter Passport, immediate Proof Thread, Gym Community, then Recent Activity. Rankings, quick links, and schedule prompts follow that evidence-first sequence. The content container grows to a maximum of 1180px. At 700px, passports, results, settings, discovery, and event modules gain two-column compositions; at 1080px, the bottom dock becomes a 238px dark navigation rail and feed or arena layouts gain purposeful secondary columns. A compact adjustment below 360px preserves the same information order without shrinking tap targets below the intended control size.
 
+Compete follows the same 390/700/1080 contract. At 390px, the cartoon-first Matchday Marquee stacks above its deep-cobalt Event Docket; the amber date plate, four-cell aggregate roster/capacity rail, side-by-side Gi and No-Gi Competition Passport lanes, and horizontally snapping Division Board stay legible in one reading order. At 700px, the marquee splits into art and docket, the passport and board become companion columns, division cards resolve to two columns, event cards pair up, and the human-authority dock separates art from copy. At 1080px, the hero gives more room to the arena art and event imagery grows, while chronology, authority, and task order remain unchanged.
+
 Spacing follows a compact 4/8/12/16/20px rhythm with 28–32px reserved for major sectional separation. Identity, status, primary action, and proof precede supporting metrics. Large screens may widen or layer modules, but they do not reorder the evidence story.
 
 All actionable controls target at least 44×44px, with primary buttons at 46px, search fields at 54px, and mobile navigation actions at 60–64px. Safe-area insets are part of the navigation and sheet measurements.
 
 **The Thumb-and-Proof Rule.** On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.
+
+**The Matchday Breakpoint Rule.** The Compete sequence stays one reading order at 390px; at 700px, the marquee splits and the Division Board becomes two columns; at 1080px, art and event cards gain room without changing chronology or authority.
 
 ## Elevation & Depth
 
@@ -244,14 +256,14 @@ Borders are visible and purposeful: 1px warm lines for ordinary grouping, 2px in
 
 - **Shape:** Compact rounded rectangles (12px) with a 46px minimum height and 16px inline padding.
 - **Primary:** Solid cobalt, white label, cobalt-dark 3px press plate.
-- **Hover / Focus:** Fine pointers lift 2px; active presses down 2px and removes the shadow; keyboard focus uses a white 3px outline plus a 6px deep-cobalt outer ring.
+- **Hover / Focus:** Fine pointers lift 2px; ordinary controls press down 2px and Matchday actions press down 3px, removing the hard shadow; keyboard focus uses a white 3px outline plus a 6px deep-cobalt outer ring.
 - **Secondary:** White with a strong warm line and a 2px neutral offset; inside cobalt introductions it may become earned amber with an ink outline.
 - **Disabled:** Keeps its semantic color but lowers opacity and removes press behavior.
 
 ### Chips
 
 - **Style:** Compact 28px evidence tags with an 8px radius, 1px current-color border, 11px heavy label, and a pale semantic tint.
-- **State:** Cobalt means informational or prototype, green means verified or successful, amber means earned or research, coral means social, neutral means private or unavailable, and red means critical.
+- **State:** Cobalt means informational or prototype, green means human-confirmed or truly successful, amber means earned, research, pending, or locally preview-saved, coral means social, neutral means private or unavailable, and red means critical.
 
 ### Cards / Containers
 
@@ -270,6 +282,16 @@ Borders are visible and purposeful: 1px warm lines for ordinary grouping, 2px in
 ### Navigation
 
 Mobile uses a five-slot fixed cream dock with persistent route lanes: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every inactive destination keeps a quiet tinted field and framed icon; the active destination gains a saturated field, dark outline, short press-plate, and explicit `aria-current` state. Create remains raised and tactile in earned amber. At 1080px the dock becomes a dark 238px rail with 44px rows and a visibly selected surface.
+
+### Matchday Circuit
+
+Compete opens with a cartoon-first Matchday Marquee and a deep-cobalt Event Docket that carries an amber date plate, explicit synthetic status, venue and format, aggregate roster/capacity statistics, price or result authority, and one primary action. Below it, the Fighter Competition Passport keeps Gi and No-Gi ratings in separate lanes; the mobile Division Board is an explicitly named horizontal snap region that resolves to a two-column board at 700px; the URL-backed Event Circuit sorts fixtures chronologically and fails explicitly for unknown event IDs; and the final dock names the human authority and experimental model boundary.
+
+Event selection uses a 220–260ms handoff—implemented at 240ms—with opacity and 6px of vertical travel. Reduced-motion and low-stimulation preferences bypass both travel and duration. Required status, selection, and chronology remain readable without animation. Interactive controls are at least 44px; Matchday actions use a 4px hard press plate, lift 2px on fine pointers, and compress 3px on activation.
+
+All event names, ratings, rosters, availability, artwork, and registration behavior are explicit synthetic or local fixtures. A locally saved entry preview remains amber; green is reserved for a completed human-confirmed result or another true success. The marquee ships `arena-regional-championship.webp` as the optimized derivative; retain `arena-regional-championship.png` as its source asset, `arena-regional-championship.prompt.txt` as the generation record, and `arena-regional-championship.webp.json` as the derivative relationship. The WebP is the runtime asset, not the provenance master.
+
+**The Matchday Handoff Rule.** URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.
 
 ### Matchday Passport
 
@@ -301,11 +323,14 @@ Gym Community is a horizontally scrollable illustrated card rail immediately aft
 - **Do** label synthetic fixtures, local-only actions, unconnected services, and human-confirmed proof in plain language.
 - **Do** keep competition rating, belt, private journey XP, and social reach visually and semantically separate.
 - **Do** honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity.
+- **Do** preserve the 390/700/1080 Matchday reflow, the 44px control floor, URL-backed chronology, and the named human-authority boundary.
+- **Do** keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar.
 
 ### Don't:
 
 - **Don't** return to a generic white dashboard or leave broad gray and white areas without hierarchy or purpose.
 - **Don't** use green for privacy, private data, or generic availability when no human-confirmed success exists.
+- **Don't** style a locally saved preview as green; it is an amber local state, not registration or result confirmation.
 - **Don't** let photography, illustration, animation, or generated texture carry required text, proof, or control semantics.
 - **Don't** imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.
 - **Don't** use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.

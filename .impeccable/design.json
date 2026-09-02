@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-02T06:24:40Z",
+  "generatedAt": "2026-09-02T20:51:33Z",
   "title": "Design System: SAPAR Matchday Passport",
   "extensions": {
     "colorMeta": {
@@ -54,6 +54,7 @@
       { "name": "short-reveal", "value": "opacity 180ms ease, transform 180ms ease", "purpose": "Toast and compact overlay entry." },
       { "name": "brand-entry", "value": "450ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "One-time logo settle on entry when reduced motion is not requested." },
       { "name": "service-check", "value": "900ms linear infinite", "purpose": "Checking-state spinner only; never a decorative ambient loop." },
+      { "name": "event-handoff", "value": "240ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "URL-selected Matchday event swap using opacity and 6px vertical travel; the allowed handoff range is 220–260ms." },
       { "name": "reduced-motion", "value": "0.01ms, 1 iteration", "purpose": "Removes travel and looping while preserving immediate state changes." },
       { "name": "low-stimulation", "value": "none", "purpose": "Removes decorative animation, transition, texture, and selected tactile shadows." }
     ],
@@ -138,11 +139,19 @@
     },
     {
       "name": "Booking Mat Pass",
-      "kind": "dialog",
+      "kind": "custom",
       "refersTo": "surface",
       "description": "Hybrid session pass with semantic live facts, explicit booking states, a local-only disclosure, and a fixed mobile action region.",
       "html": "<dialog class=\"ds-booking\" open><header><span><small>Synthetic</small><h2>Booking preview</h2></span><button type=\"button\" aria-label=\"Close booking preview\">×</button></header><div class=\"ds-booking-body\"><article aria-labelledby=\"session-title\"><figure><img alt=\"Hybrid stylized fictional adult No-Gi athletes training\"><figcaption><span>8 spots open</span><h3 id=\"session-title\">No-Gi Competition Rounds</h3><p>Northline Jiu-Jitsu · Denver</p></figcaption></figure><div><time datetime=\"18:30\">MON <strong>18:30</strong></time><dl><div><dt>Duration</dt><dd>90 minutes</dd></div><div><dt>Availability</dt><dd>8 / 24</dd></div><div><dt>Gym status</dt><dd>Confirmed</dd></div></dl></div></article></div><footer><p><strong>Local preview only</strong><span>No reservation, payment, or message will be sent.</span></p><button type=\"button\">Save booking preview →</button></footer></dialog>",
       "css": ".ds-booking{width:min(100%,760px);max-height:88dvh;padding:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;border:2px solid #182035;border-radius:18px 18px 0 0;background:#fff3ce;color:#182035;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-booking>header{min-height:94px;padding:16px;display:flex;align-items:center;justify-content:space-between;background:#082a87;color:#fff}.ds-booking h2{margin:4px 0 0;font:820 clamp(31px,9vw,42px)/1 \"Space Grotesk Variable\",sans-serif}.ds-booking header button{width:48px;height:48px;border:2px solid #fff;border-radius:13px 8px;background:#fff;color:#182035}.ds-booking-body{min-height:0;padding:14px;overflow:auto}.ds-booking article{overflow:hidden;border:2px solid #182035;border-radius:16px 9px;background:#fffaf1;box-shadow:0 5px 0 #082a87}.ds-booking figure{min-height:205px;position:relative;margin:0;overflow:hidden;background:#082a87;color:#fff}.ds-booking figure img{width:100%;height:100%;position:absolute;object-fit:cover}.ds-booking figcaption{position:absolute;right:14px;bottom:14px;left:14px}.ds-booking figcaption h3{margin:6px 0 3px;font:820 30px/.98 \"Space Grotesk Variable\",sans-serif}.ds-booking article>div{padding:12px;display:grid;grid-template-columns:104px minmax(0,1fr);gap:10px}.ds-booking time{min-height:128px;padding:10px;display:grid;align-content:center;border:2px solid #182035;border-radius:15px 8px;background:#f6b21a;font-weight:900}.ds-booking time strong{font:900 36px/1 \"Space Grotesk Variable\",sans-serif}.ds-booking dl{margin:0;display:grid;gap:6px}.ds-booking dl div{padding:9px;border:1px solid #a7bdf8;border-radius:11px 6px;background:#e7edff}.ds-booking dl div:nth-child(2),.ds-booking dl div:nth-child(3){border-color:#8bc4a6;background:#e8f6ee}.ds-booking dt{color:#4c5567;font-size:11px;font-weight:850;text-transform:uppercase}.ds-booking dd{margin:3px 0 0;color:#082a87;font-weight:850}.ds-booking>footer{padding:10px 14px 14px;display:grid;gap:10px;border-top:1px solid #d8ba66;background:#fff3ce}.ds-booking footer p{margin:0;padding:10px;border:1px solid #8ca8f7;border-radius:12px 7px;background:#e7edff;color:#082a87}.ds-booking footer p span{display:block;font-size:11px}.ds-booking footer button{min-height:66px;border:2px solid #182035;border-radius:14px 8px;background:#003cca;box-shadow:0 4px 0 #082a87;color:#fff;font-weight:900}"
+    },
+    {
+      "name": "Matchday Marquee + Event Docket",
+      "kind": "custom",
+      "refersTo": "matchday-docket",
+      "description": "Representative cartoon-first arena marquee and tactile event docket for the selected synthetic fixture at the head of the larger URL-backed Matchday Circuit.",
+      "html": "<section class=\"ds-matchday\" aria-labelledby=\"ds-matchday-title\"><div class=\"ds-matchday-art\"><span>Synthetic fixture</span><strong>Matchday circuit</strong></div><div class=\"ds-matchday-docket\"><div class=\"ds-matchday-identity\"><time datetime=\"2026-10-18\"><span>OCT</span><strong>18</strong><small>Sunday</small></time><div><small>SAPAR</small><h3 id=\"ds-matchday-title\">SAPAR Open</h3><p>Mile High Fieldhouse · Denver, CO</p></div></div><dl><div><dt>Roster</dt><dd>20/32</dd></div><div><dt>Open</dt><dd>12</dd></div><div><dt>Divisions</dt><dd>2</dd></div><div><dt>Formats</dt><dd>2</dd></div></dl><button type=\"button\">Save entry preview</button></div></section>",
+      "css": ".ds-matchday{display:grid;overflow:hidden;border:2px solid #182035;border-radius:22px;background:#082a87;box-shadow:0 7px 0 #182035;color:#fff;font-family:\"Manrope Variable\",Inter,system-ui,sans-serif}.ds-matchday-art{min-height:220px;padding:14px;display:flex;align-items:flex-start;justify-content:space-between;background:radial-gradient(circle at 70% 40%,#f6b21a 0 8%,transparent 9%),linear-gradient(145deg,#174aa9,#071c55);color:#fff}.ds-matchday-art span,.ds-matchday-art strong{padding:7px 9px;border:1px solid #fff;border-radius:8px;background:#182035;font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.ds-matchday-art strong{background:#f6b21a;border-color:#182035;color:#182035}.ds-matchday-docket{margin:-22px 11px 12px;padding:16px;position:relative;display:grid;gap:14px;background:#003cca;border:2px solid #182035;border-radius:18px;box-shadow:0 5px 0 #061c5d}.ds-matchday-identity{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:13px}.ds-matchday-identity time{min-height:92px;padding:8px 5px;display:grid;place-items:center;align-content:center;border:2px solid #182035;border-radius:17px 9px;background:#f6b21a;box-shadow:0 4px 0 #8b5f00;color:#182035}.ds-matchday-identity time span,.ds-matchday-identity time small{font-size:10px;font-weight:900;text-transform:uppercase}.ds-matchday-identity time strong{font:850 35px/.9 \"Space Grotesk Variable\",sans-serif}.ds-matchday-identity h3{margin:3px 0;color:#fff;font:780 30px/.92 \"Space Grotesk Variable\",sans-serif;letter-spacing:-.05em}.ds-matchday-identity small,.ds-matchday-identity p{color:#dfe8ff;font-size:10px}.ds-matchday-docket dl{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.ds-matchday-docket dl div{min-height:60px;padding:7px 3px;display:grid;place-items:center;align-content:center;border:1px solid #182035;border-radius:9px;background:#dbe5ff;color:#082a87;text-align:center}.ds-matchday-docket dl div:nth-child(2){background:#f6b21a;color:#182035}.ds-matchday-docket dl div:nth-child(3){background:#f36b5f;color:#321714}.ds-matchday-docket dl div:nth-child(4){background:#fdf9f3;color:#182035}.ds-matchday-docket dt{font-size:9px;font-weight:900;text-transform:uppercase}.ds-matchday-docket dd{margin:0;font:850 17px/1 \"Space Grotesk Variable\",sans-serif}.ds-matchday-docket button{min-height:52px;border:2px solid #182035;border-radius:12px;background:#f6b21a;box-shadow:0 4px 0 #182035;color:#182035;font-weight:900}.ds-matchday-docket button:hover{transform:translateY(-2px)}.ds-matchday-docket button:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px #082a87}.ds-matchday-docket button:active{transform:translateY(3px);box-shadow:none}@media(min-width:700px){.ds-matchday{grid-template-columns:minmax(0,1.14fr) minmax(330px,.86fr);min-height:520px}.ds-matchday-art{min-height:520px}.ds-matchday-docket{margin:0;padding:22px 18px;align-content:center;border-width:0 0 0 2px;border-radius:0;box-shadow:none}}"
     },
     {
       "name": "Mobile Bottom Navigation",
@@ -162,15 +171,18 @@
       "Tactile dark outlines, asymmetric corners, compact offset shadows, and illustrated route materials.",
       "Separate, explainable competition, belt, private journey, and social systems.",
       "Honest synthetic, local-only, unavailable, private, and proof states.",
-      "Motion that yields completely to reduced-motion and low-stimulation preferences."
+      "Motion that yields completely to reduced-motion and low-stimulation preferences.",
+      "Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority."
     ],
     "rules": [
-      { "name": "The Truth-State Rule", "body": "Green means human-confirmed or successful, amber means earned or explainable progress, coral means social warmth, and neutral gray means privacy or an unconnected state; private never masquerades as verified.", "section": "colors" },
+      { "name": "The Truth-State Rule", "body": "State-semantic green means a human-confirmed result or true success; locally saved previews remain amber, coral means social warmth, and neutral gray means privacy or an unconnected state. Discover's green route lane is navigation identity, never proof.", "section": "colors" },
       { "name": "The No Dead Field Rule", "body": "Large neutral areas must use the cream ground or be intentionally sectioned with color, keylines, illustration, or layered grouping; broad gray and page-sized white fields are out of character.", "section": "colors" },
-      { "name": "The Route Color Rule", "body": "Mobile wayfinding uses coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile, reinforced by labels, icons, borders, and selected geometry so meaning never depends on color alone.", "section": "colors" },
+      { "name": "The Route Color Rule", "body": "Mobile wayfinding is a five-lane system: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every lane also uses label, icon, border, and selected geometry so route meaning never depends on color alone.", "section": "colors" },
       { "name": "The Passport Hierarchy Rule", "body": "Reserve the condensed identity stack for athlete names; use Space Grotesk for display, titles, scores, ratings, and ranks; use Manrope for actions, evidence language, privacy, and sustained reading.", "section": "typography" },
       { "name": "The Thumb-and-Proof Rule", "body": "On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.", "section": "layout" },
-      { "name": "The Tactile Stack Rule", "body": "Use hard 3–5px offsets to make actions and identity blocks feel pressable; use blurred shadows only when a layer truly floats above another layer.", "section": "elevation" }
+      { "name": "The Matchday Breakpoint Rule", "body": "The Compete sequence stays one reading order at 390px; at 700px, the marquee splits and the Division Board becomes two columns; at 1080px, art and event cards gain room without changing chronology or authority.", "section": "layout" },
+      { "name": "The Tactile Stack Rule", "body": "Use hard 3–5px offsets to make actions and identity blocks feel pressable; use blurred shadows only when a layer truly floats above another layer.", "section": "elevation" },
+      { "name": "The Matchday Handoff Rule", "body": "URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.", "section": "components" }
     ],
     "dos": [
       "Do begin phone layouts with identity, current state, primary action, and proof before secondary metrics.",
@@ -178,11 +190,14 @@
       "Do use hybrid human photography or stylized realism secondarily for community, gym, competition, and replay context.",
       "Do label synthetic fixtures, local-only actions, unconnected services, and human-confirmed proof in plain language.",
       "Do keep competition rating, belt, private journey XP, and social reach visually and semantically separate.",
-      "Do honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity."
+      "Do honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity.",
+      "Do preserve the 390/700/1080 Matchday reflow, the 44px control floor, URL-backed chronology, and the named human-authority boundary.",
+      "Do keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar."
     ],
     "donts": [
       "Don't return to a generic white dashboard or leave broad gray and white areas without hierarchy or purpose.",
       "Don't use green for privacy, private data, or generic availability when no human-confirmed success exists.",
+      "Don't style a locally saved preview as green; it is an amber local state, not registration or result confirmation.",
       "Don't let photography, illustration, animation, or generated texture carry required text, proof, or control semantics.",
       "Don't imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.",
       "Don't use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.",
