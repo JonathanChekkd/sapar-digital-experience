@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-02T20:51:33Z",
+  "generatedAt": "2026-09-02T21:30:59Z",
   "title": "Design System: SAPAR Matchday Passport",
   "extensions": {
     "colorMeta": {
@@ -55,6 +55,7 @@
       { "name": "brand-entry", "value": "450ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "One-time logo settle on entry when reduced motion is not requested." },
       { "name": "service-check", "value": "900ms linear infinite", "purpose": "Checking-state spinner only; never a decorative ambient loop." },
       { "name": "event-handoff", "value": "240ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "URL-selected Matchday event swap using opacity and 6px vertical travel; the allowed handoff range is 220–260ms." },
+      { "name": "standings-scope-handoff", "value": "200ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Query-backed Cohort, Season, and Squad panel swap using opacity and 6px vertical travel." },
       { "name": "reduced-motion", "value": "0.01ms, 1 iteration", "purpose": "Removes travel and looping while preserving immediate state changes." },
       { "name": "low-stimulation", "value": "none", "purpose": "Removes decorative animation, transition, texture, and selected tactile shadows." }
     ],
@@ -172,17 +173,23 @@
       "Separate, explainable competition, belt, private journey, and social systems.",
       "Honest synthetic, local-only, unavailable, private, and proof states.",
       "Motion that yields completely to reduced-motion and low-stimulation preferences.",
-      "Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority."
+      "Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority.",
+      "Standings Circuit separates cohort rating, season points, squad points, and Vanguard tier through portrait-led ranks and an ordered ledger.",
+      "Rating Proof Route plots only the two disclosed snapshots around one eligible result and never implies undisclosed history."
     ],
     "rules": [
       { "name": "The Truth-State Rule", "body": "State-semantic green means a human-confirmed result or true success; locally saved previews remain amber, coral means social warmth, and neutral gray means privacy or an unconnected state. Discover's green route lane is navigation identity, never proof.", "section": "colors" },
       { "name": "The No Dead Field Rule", "body": "Large neutral areas must use the cream ground or be intentionally sectioned with color, keylines, illustration, or layered grouping; broad gray and page-sized white fields are out of character.", "section": "colors" },
       { "name": "The Route Color Rule", "body": "Mobile wayfinding is a five-lane system: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every lane also uses label, icon, border, and selected geometry so route meaning never depends on color alone.", "section": "colors" },
+      { "name": "The Standing Scope Rule", "body": "Cohort identity is cobalt, season identity is amber, and squad identity is coral. Green appears inside those scopes only for a confirmed outcome or a positive result delta; it never becomes the squad identity color.", "section": "colors" },
       { "name": "The Passport Hierarchy Rule", "body": "Reserve the condensed identity stack for athlete names; use Space Grotesk for display, titles, scores, ratings, and ranks; use Manrope for actions, evidence language, privacy, and sustained reading.", "section": "typography" },
       { "name": "The Thumb-and-Proof Rule", "body": "On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.", "section": "layout" },
       { "name": "The Matchday Breakpoint Rule", "body": "The Compete sequence stays one reading order at 390px; at 700px, the marquee splits and the Division Board becomes two columns; at 1080px, art and event cards gain room without changing chronology or authority.", "section": "layout" },
+      { "name": "The Standing Breakpoint Rule", "body": "Preserve the portrait shelf before the ordered ledger at every width: phone stacks the first-place portrait above ranks two and three, 700px places all three together and reveals ledger headers, and 1080px adds the rules companion without reordering the standings.", "section": "layout" },
       { "name": "The Tactile Stack Rule", "body": "Use hard 3–5px offsets to make actions and identity blocks feel pressable; use blurred shadows only when a layer truly floats above another layer.", "section": "elevation" },
-      { "name": "The Matchday Handoff Rule", "body": "URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.", "section": "components" }
+      { "name": "The Matchday Handoff Rule", "body": "URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.", "section": "components" },
+      { "name": "The Standing Handoff Rule", "body": "Query-backed scope changes use a 200ms opacity-and-6px handoff; reduced-motion mode removes travel and duration, while tab state, focus, rank, and metric remain explicit without animation.", "section": "components" },
+      { "name": "The Two-Snapshot Rule", "body": "Plot only disclosed rating states. A selected window may change context, but it never creates intermediate points, smooths a fictional trend, or implies evidence the fixture does not contain.", "section": "components" }
     ],
     "dos": [
       "Do begin phone layouts with identity, current state, primary action, and proof before secondary metrics.",
@@ -192,7 +199,9 @@
       "Do keep competition rating, belt, private journey XP, and social reach visually and semantically separate.",
       "Do honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity.",
       "Do preserve the 390/700/1080 Matchday reflow, the 44px control floor, URL-backed chronology, and the named human-authority boundary.",
-      "Do keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar."
+      "Do keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar.",
+      "Do keep cohort cobalt, season amber, and squad coral, with real tablist semantics, query-backed scope persistence, and a 200ms reduced-motion-safe handoff.",
+      "Do preserve the portrait-led top-three shelf, the ordered remainder ledger, and the factual two-snapshot rating route at phone, 700px, and 1080px widths."
     ],
     "donts": [
       "Don't return to a generic white dashboard or leave broad gray and white areas without hierarchy or purpose.",
@@ -200,6 +209,8 @@
       "Don't style a locally saved preview as green; it is an amber local state, not registration or result confirmation.",
       "Don't let photography, illustration, animation, or generated texture carry required text, proof, or control semantics.",
       "Don't imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.",
+      "Don't use verified green as the squad identity or let tint, portrait art, or motion become the only standing-state cue.",
+      "Don't interpolate a smooth history, add undisclosed rating samples, or make a window label look like evidence the synthetic fixture does not contain.",
       "Don't use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.",
       "Don't copy competitor trade dress, real athlete likenesses, federation marks, or unlicensed uniform branding."
     ]

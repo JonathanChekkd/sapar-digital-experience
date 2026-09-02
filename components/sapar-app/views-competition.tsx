@@ -25,10 +25,10 @@ import {
   Trophy,
   Users,
 } from "lucide-react";
-import { Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useMemo, useState, type KeyboardEvent, type ReactNode } from "react";
 import { events, ratingLanes, results } from "@/lib/sapar-prototype";
 import { Avatar, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
-import { profileArt, type AvatarArt } from "./profile-art";
+import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
 
 type FormatFilter = "all" | "gi" | "no-gi";
@@ -562,6 +562,20 @@ export function ReplayView(): ReactNode {
 type RatingLaneKey = "gi" | "no-gi";
 type RatingWindow = "30d" | "90d" | "season";
 
+const ratingWindowLabels: Readonly<Record<RatingWindow, string>> = {
+  "30d": "30 days",
+  "90d": "90 days",
+  season: "Season to date",
+};
+
+function formatRatingDate(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(value));
+}
+
 export function RatingsView(): ReactNode {
   const dispatch = usePrototypeDispatch();
   const reduce = useReducedMotion();
@@ -572,6 +586,9 @@ export function RatingsView(): ReactNode {
   const ratingStart = lane.value - lane.delta;
   const ratingDirection = lane.delta > 0 ? "rose" : lane.delta < 0 ? "fell" : "remained level";
   const sourceResult = lane.causedByResultId ? results.find((item) => item.id === lane.causedByResultId) : null;
+  const ratingChangeDate = formatRatingDate(lane.lastChangedAt);
+  const selectedWindowLabel = ratingWindowLabels[window];
+  const changeAuthority = sourceResult ? "Event authority confirmed" : "Verified result snapshot";
   const factorRows = useMemo(() => laneKey === "no-gi" ? [
     { title: "Opponent context", detail: "Lena entered 21 points above Maya." },
     { title: "Provisional sample", detail: "Twelve eligible results allow more movement." },
@@ -600,11 +617,45 @@ export function RatingsView(): ReactNode {
           <button type="button" className="sa-text-button" aria-expanded={formulaOpen} onClick={() => setFormulaOpen((value) => !value)}>How the demo model is presented <ChevronDown /></button>
           <AnimatePresence initial={!reduce}>{formulaOpen ? <motion.p className="sa-formula-note" initial={reduce ? false : { opacity: 0, height: 0 }} animate={reduce ? undefined : { opacity: 1, height: "auto" }} exit={reduce ? undefined : { opacity: 0, height: 0 }} transition={reduce ? { duration: 0 } : undefined}>SAPAR Rating 0.8 is a presentation fixture, not a finalized formula. Disputed results remain ineligible, and Gi and No-Gi lanes never mix.</motion.p> : null}</AnimatePresence>
         </section>
-        <section className="sa-surface">
-          <SectionHeading title="Rating history" detail={`${window} · direct text equivalent below`} action={<select aria-label="Rating history window" value={window} onChange={(event) => setWindow(event.currentTarget.value as RatingWindow)}><option value="30d">30 days</option><option value="90d">90 days</option><option value="season">Season</option></select>} />
-          <div className="sa-rating-chart" role="img" aria-label={`${lane.label} ${ratingDirection} from ${ratingStart.toLocaleString()} to ${lane.value.toLocaleString()} after the latest eligible result`}><svg viewBox="0 0 500 180"><path d="M8 152 C80 145 102 118 154 124 S248 144 302 94 S390 86 492 28" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" /><circle cx="492" cy="28" r="10" fill="var(--sa-verified)" /></svg></div>
-          <ol className="sa-history-list"><li><span>Aug 30</span><p><strong>{lane.value.toLocaleString()}</strong><small>Verified result · {lane.delta > 0 ? "+" : ""}{lane.delta}</small></p></li><li><span>Aug 10</span><p><strong>{(lane.value - lane.delta).toLocaleString()}</strong><small>Pre-result snapshot</small></p></li></ol>
-          <Link href="/app/leaderboards" className="sa-button sa-button-secondary"><BarChart3 /> Open cohort leaderboard</Link>
+        <section className="sa-surface sa-rating-history-surface">
+          <header className="sa-rating-history-heading">
+            <div>
+              <h2>Rating history</h2>
+              <p>Only the two disclosed snapshots in this synthetic fixture are plotted.</p>
+            </div>
+            <label className="sa-rating-window-control">
+              <span>History window</span>
+              <select aria-label="Rating history window" value={window} onChange={(event) => setWindow(event.currentTarget.value as RatingWindow)}>
+                <option value="30d">30 days</option>
+                <option value="90d">90 days</option>
+                <option value="season">Season to date</option>
+              </select>
+            </label>
+          </header>
+          <figure className="sa-rating-route-figure">
+            <div className="sa-rating-route-summary">
+              <p><span>{lane.label}</span><strong>{ratingStart.toLocaleString()} <ArrowRight aria-hidden="true" /> {lane.value.toLocaleString()}</strong></p>
+              <em>{lane.delta > 0 ? "+" : ""}{lane.delta}</em>
+            </div>
+            <div className="sa-rating-chart" role="img" aria-describedby="rating-history-caption" aria-label={`${lane.label} ${ratingDirection} from ${ratingStart.toLocaleString()} to ${lane.value.toLocaleString()} after one disclosed eligible result`}>
+              <svg viewBox="0 0 1000 260" aria-hidden="true" focusable="false">
+                <path className="sa-rating-route-shadow" d="M118 184 L416 184 L500 94 L584 184 L882 184" />
+                <path className="sa-rating-route-line" d="M118 184 L416 184 L500 94 L584 184 L882 184" />
+                <circle className="sa-rating-route-start" cx="118" cy="184" r="18" />
+                <circle className="sa-rating-route-proof" cx="500" cy="94" r="22" />
+                <circle className="sa-rating-route-current" cx="882" cy="184" r="18" />
+              </svg>
+              <div className="sa-rating-route-plate is-start"><span>Previous</span><strong>{ratingStart.toLocaleString()}</strong><small>Before result</small></div>
+              <div className="sa-rating-route-plate is-proof"><ShieldCheck aria-hidden="true" /><span>{changeAuthority}</span><strong>{lane.delta > 0 ? "+" : ""}{lane.delta}</strong></div>
+              <div className="sa-rating-route-plate is-current"><span>Current</span><strong>{lane.value.toLocaleString()}</strong><small>{ratingChangeDate}</small></div>
+            </div>
+            <figcaption id="rating-history-caption" aria-live="polite">{selectedWindowLabel}: two disclosed snapshots. No additional eligible changes are present in this synthetic window.</figcaption>
+          </figure>
+          <ol className="sa-history-list" aria-label={`${lane.label} disclosed history`}>
+            <li><time dateTime={lane.lastChangedAt}>{ratingChangeDate}</time><p><strong>{lane.value.toLocaleString()}</strong><small>{changeAuthority} · {lane.delta > 0 ? "+" : ""}{lane.delta}</small></p><StatusTag tone="verified">Current</StatusTag></li>
+            <li><span>Before</span><p><strong>{ratingStart.toLocaleString()}</strong><small>Pre-result snapshot</small></p><StatusTag tone="cobalt">Baseline</StatusTag></li>
+          </ol>
+          <Link href="/app/leaderboards" className="sa-button sa-button-secondary sa-rating-board-link"><BarChart3 /> Open cohort standings</Link>
         </section>
       </div>
     </div>
@@ -632,6 +683,36 @@ interface LeaderboardFixture {
   readonly metricLabel: string;
   readonly changeLabel: string;
   readonly rows: readonly LeaderboardRow[];
+}
+
+const leaderboardScopeOrder = ["cohort", "season", "squad"] as const satisfies readonly LeaderboardScope[];
+
+const leaderboardScopeMeta: Readonly<Record<LeaderboardScope, { readonly label: string; readonly purpose: string; readonly resultSource: string }>> = {
+  cohort: { label: "Cohort", purpose: "No-Gi rating", resultSource: "Eligible results" },
+  season: { label: "Season", purpose: "Event points", resultSource: "Scored events" },
+  squad: { label: "Squad", purpose: "Team points", resultSource: "Team rounds" },
+};
+
+const squadArt = {
+  northlineBlue: communityArt.northline,
+  forgeCedar: communityArt.eastbank,
+  mesaCircle: {
+    src: "/generated/sapar-world/calibration/competition-arena.webp",
+    kind: "entity",
+    objectPosition: "50% 44%",
+  },
+  harborAtlas: {
+    src: "/generated/sapar-world/calibration/hybrid-matchday-warmup.webp",
+    kind: "entity",
+    objectPosition: "50% 36%",
+  },
+  unionMatworks: communityArt.saparOpen,
+} as const satisfies Record<string, AvatarArt>;
+
+function LeaderboardScopeIcon({ scope }: { readonly scope: LeaderboardScope }): ReactNode {
+  if (scope === "season") return <Trophy aria-hidden="true" />;
+  if (scope === "squad") return <Users aria-hidden="true" />;
+  return <BarChart3 aria-hidden="true" />;
 }
 
 const leaderboardFixtures: Readonly<Record<LeaderboardScope, LeaderboardFixture>> = {
@@ -667,24 +748,158 @@ const leaderboardFixtures: Readonly<Record<LeaderboardScope, LeaderboardFixture>
     metricLabel: "Squad points",
     changeLabel: "Points from latest team round",
     rows: [
-      { rank: 1, name: "Northline Blue", metric: 286, delta: 24, context: "8 eligible team results", initials: "NB", avatarLabel: "Synthetic squad Northline Blue", isCurrent: true, tone: "cobalt" },
-      { rank: 2, name: "Forge Cedar", metric: 261, delta: 18, context: "8 eligible team results", initials: "FC", avatarLabel: "Synthetic squad Forge Cedar", isCurrent: false, tone: "verified" },
-      { rank: 3, name: "Mesa Circle", metric: 244, delta: 31, context: "7 eligible team results", initials: "MC", avatarLabel: "Synthetic squad Mesa Circle", isCurrent: false, tone: "earned" },
-      { rank: 4, name: "Harbor Atlas", metric: 226, delta: -6, context: "8 eligible team results", initials: "HA", avatarLabel: "Synthetic squad Harbor Atlas", isCurrent: false, tone: "social" },
-      { rank: 5, name: "Union Matworks", metric: 210, delta: 12, context: "7 eligible team results", initials: "UM", avatarLabel: "Synthetic squad Union Matworks", isCurrent: false, tone: "neutral" },
+      { rank: 1, name: "Northline Blue", metric: 286, delta: 24, context: "8 eligible team results", initials: "NB", avatarLabel: "Synthetic squad Northline Blue", isCurrent: true, tone: "cobalt", art: squadArt.northlineBlue },
+      { rank: 2, name: "Forge Cedar", metric: 261, delta: 18, context: "8 eligible team results", initials: "FC", avatarLabel: "Synthetic squad Forge Cedar", isCurrent: false, tone: "social", art: squadArt.forgeCedar },
+      { rank: 3, name: "Mesa Circle", metric: 244, delta: 31, context: "7 eligible team results", initials: "MC", avatarLabel: "Synthetic squad Mesa Circle", isCurrent: false, tone: "earned", art: squadArt.mesaCircle },
+      { rank: 4, name: "Harbor Atlas", metric: 226, delta: -6, context: "8 eligible team results", initials: "HA", avatarLabel: "Synthetic squad Harbor Atlas", isCurrent: false, tone: "social", art: squadArt.harborAtlas },
+      { rank: 5, name: "Union Matworks", metric: 210, delta: 12, context: "7 eligible team results", initials: "UM", avatarLabel: "Synthetic squad Union Matworks", isCurrent: false, tone: "cobalt", art: squadArt.unionMatworks },
     ],
   },
 };
 
 export function LeaderboardsView(): ReactNode {
-  const [scope, setScope] = useState<LeaderboardScope>("cohort");
-  const fixture = leaderboardFixtures[scope];
   return (
-    <div className="sa-view">
-      <div className="sa-view-intro"><div><h1>Standings with context.</h1><p>Competitive rating, season points, and squad standing remain distinct.</p></div><StatusTag tone="cobalt">Synthetic cohort</StatusTag></div>
-      <div className={`sa-filter-tabs sa-leaderboard-tabs is-${scope}`} data-scope={scope} role="group" aria-label="Leaderboard scope">{(["cohort", "season", "squad"] as const).map((item) => <button type="button" data-scope={item} aria-pressed={scope === item} onClick={() => setScope(item)} key={item}>{item}</button>)}</div>
-      <section className={`sa-surface sa-leaderboard-surface is-${scope}`}><SectionHeading title={fixture.title} detail={`${fixture.detail} · Illustrative, human-confirmed fixtures only`} /><p className="sa-search-note sa-leaderboard-metric"><strong>{fixture.metricLabel}</strong> · {fixture.changeLabel}</p><div className={`sa-leaderboard is-${scope}`}>{fixture.rows.map((row) => <div className={row.isCurrent ? "is-you" : ""} data-rank={row.rank} key={`${scope}-${row.name}`}><b>{row.rank}</b><Avatar initials={row.initials} tone={row.tone ?? (row.isCurrent ? "cobalt" : "social")} label={row.avatarLabel} art={row.art} /><p><strong>{row.name}{row.isCurrent ? <span>{scope === "squad" ? "Your squad" : "You"}</span> : null}</strong><small>{row.context}</small></p><span aria-label={`${fixture.metricLabel}: ${row.metric.toLocaleString()}`}>{row.metric.toLocaleString()}</span><em aria-label={`${fixture.changeLabel}: ${row.delta >= 0 ? "plus " : "minus "}${Math.abs(row.delta)}`} className={row.delta >= 0 ? "is-positive" : "is-negative"}>{row.delta >= 0 ? "+" : ""}{row.delta}</em></div>)}</div></section>
-      <div className="sa-honesty-note"><Info /><p><strong>Popularity is not performance</strong><span>Followers, purchases, XP, gym size, and badges cannot change a competitive rating or cohort position.</span></p></div>
+    <Suspense fallback={<div className="sa-view"><section className="sa-surface"><p>Loading synthetic standings…</p></section></div>}>
+      <LeaderboardsViewContent />
+    </Suspense>
+  );
+}
+
+function LeaderboardsViewContent(): ReactNode {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const reduce = useReducedMotion();
+  const requestedScope = searchParams.get("scope");
+  const scope: LeaderboardScope = requestedScope === "season" || requestedScope === "squad" ? requestedScope : "cohort";
+  const fixture = leaderboardFixtures[scope];
+  const scopeMeta = leaderboardScopeMeta[scope];
+  const currentRow = fixture.rows.find((row) => row.isCurrent);
+  const scopeTone: UiTone = scope === "season" ? "earned" : scope === "squad" ? "social" : "cobalt";
+
+  const updateScope = (nextScope: LeaderboardScope): void => {
+    const nextParams = new URLSearchParams(searchParams.toString());
+    if (nextScope === "cohort") nextParams.delete("scope");
+    else nextParams.set("scope", nextScope);
+    const nextQuery = nextParams.toString();
+    router.replace(nextQuery ? `/app/leaderboards?${nextQuery}` : "/app/leaderboards", { scroll: false });
+  };
+
+  const focusScope = (nextScope: LeaderboardScope): void => {
+    updateScope(nextScope);
+    window.requestAnimationFrame(() => document.getElementById(`leaderboard-tab-${nextScope}`)?.focus());
+  };
+
+  const handleScopeKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number): void => {
+    let nextIndex: number | null = null;
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % leaderboardScopeOrder.length;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + leaderboardScopeOrder.length) % leaderboardScopeOrder.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = leaderboardScopeOrder.length - 1;
+    if (nextIndex === null) return;
+    event.preventDefault();
+    focusScope(leaderboardScopeOrder[nextIndex]);
+  };
+
+  if (!currentRow) {
+    return <div className="sa-view"><section className="sa-surface"><h1>Standings unavailable.</h1><p>The selected synthetic fixture does not contain a current athlete or squad.</p></section></div>;
+  }
+
+  return (
+    <div className="sa-view sa-standings-view">
+      <section className="sa-view-intro sa-standings-intro">
+        <div className="sa-standings-intro-copy"><h1>Standings with context.</h1><p>Competitive rating, season points, and squad points stay in their own lanes.</p></div>
+        <div className="sa-standings-intro-position">
+          <Avatar initials={currentRow.initials} tone={currentRow.tone ?? "cobalt"} label={currentRow.avatarLabel} art={currentRow.art} />
+          <p><span>Your {scopeMeta.label.toLowerCase()}</span><strong>#{currentRow.rank}</strong></p>
+          <p><span>{fixture.metricLabel}</span><strong>{currentRow.metric.toLocaleString()}</strong><em>{currentRow.delta >= 0 ? "+" : ""}{currentRow.delta}</em></p>
+        </div>
+        <StatusTag tone={scopeTone}>Synthetic {scopeMeta.label.toLowerCase()}</StatusTag>
+      </section>
+
+      <div className="sa-standings-switcher" role="tablist" aria-label="Standings scope">
+        {leaderboardScopeOrder.map((item, index) => {
+          const meta = leaderboardScopeMeta[item];
+          return (
+            <button
+              type="button"
+              id={`leaderboard-tab-${item}`}
+              className={`is-${item}`}
+              role="tab"
+              aria-selected={scope === item}
+              aria-controls="leaderboard-panel"
+              tabIndex={scope === item ? 0 : -1}
+              onClick={() => updateScope(item)}
+              onKeyDown={(event) => handleScopeKeyDown(event, index)}
+              key={item}
+            >
+              <span><LeaderboardScopeIcon scope={item} /></span>
+              <strong>{meta.label}</strong>
+              <small>{meta.purpose}</small>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="sa-standings-layout">
+        <AnimatePresence initial={false} mode="wait">
+          <motion.section
+            id="leaderboard-panel"
+            className={`sa-standings-panel is-${scope}`}
+            role="tabpanel"
+            aria-labelledby={`leaderboard-tab-${scope}`}
+            tabIndex={0}
+            key={scope}
+            initial={reduce ? false : { opacity: 0.78, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0.72, y: -4 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <header className="sa-standings-board-head">
+              <div><span><LeaderboardScopeIcon scope={scope} /> {scopeMeta.resultSource}</span><h2>{fixture.title}</h2><p>{fixture.detail}</p></div>
+              <aside><span>Measured as</span><strong>{fixture.metricLabel}</strong><small>{fixture.changeLabel}</small></aside>
+            </header>
+            <div className="sa-standings-truth"><SyntheticLabel compact /><span>Illustrative, human-confirmed fixtures only</span></div>
+
+            <ol className="sa-podium" aria-label={`Top three ${scopeMeta.label.toLowerCase()} standings`}>
+              {fixture.rows.slice(0, 3).map((row) => (
+                <li className={`${row.isCurrent ? "is-you" : ""} is-rank-${row.rank}`} value={row.rank} key={`${scope}-podium-${row.name}`}>
+                  <b aria-hidden="true">{row.rank}</b>
+                  <div className="sa-podium-portrait">
+                    <Avatar initials={row.initials} tone={row.tone ?? (row.isCurrent ? "cobalt" : row.rank === 1 ? "earned" : "social")} label={row.avatarLabel} art={row.art} />
+                    {row.isCurrent && scope === "cohort" ? <img src="/generated/sapar-world/calibration/ui-rank-emblem-vanguard.webp" width="1254" height="1254" alt="" aria-hidden="true" /> : null}
+                  </div>
+                  <p><strong>{row.name}</strong><small>{row.context}</small>{row.isCurrent ? <span>{scope === "squad" ? "Your squad" : "You"}</span> : null}</p>
+                  <div className="sa-podium-score"><strong aria-label={`${fixture.metricLabel}: ${row.metric.toLocaleString()}`}>{row.metric.toLocaleString()}</strong><em aria-label={`${fixture.changeLabel}: ${row.delta >= 0 ? "plus " : "minus "}${Math.abs(row.delta)}`} className={row.delta >= 0 ? "is-positive" : "is-negative"}>{row.delta >= 0 ? "+" : ""}{row.delta}</em></div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="sa-standings-ledger-head"><span>Rank</span><span>Athlete or squad</span><span>{fixture.metricLabel}</span><span>Change</span></div>
+            <ol className="sa-standings-ledger" start={4} aria-label={`Remaining ${scopeMeta.label.toLowerCase()} standings`}>
+              {fixture.rows.slice(3).map((row) => (
+                <li className={row.isCurrent ? "is-you" : ""} value={row.rank} key={`${scope}-ledger-${row.name}`}>
+                  <b aria-hidden="true">{row.rank}</b>
+                  <Avatar initials={row.initials} tone={row.tone ?? (row.isCurrent ? "cobalt" : "social")} label={row.avatarLabel} art={row.art} />
+                  <p><strong>{row.name}{row.isCurrent ? <span>{scope === "squad" ? "Your squad" : "You"}</span> : null}</strong><small>{row.context}</small></p>
+                  <strong aria-label={`${fixture.metricLabel}: ${row.metric.toLocaleString()}`}>{row.metric.toLocaleString()}</strong>
+                  <em aria-label={`${fixture.changeLabel}: ${row.delta >= 0 ? "plus " : "minus "}${Math.abs(row.delta)}`} className={row.delta >= 0 ? "is-positive" : "is-negative"}>{row.delta >= 0 ? "+" : ""}{row.delta}</em>
+                </li>
+              ))}
+            </ol>
+          </motion.section>
+        </AnimatePresence>
+
+        <section className="sa-ranking-rules" aria-labelledby="ranking-rules-title">
+          <header><Info aria-hidden="true" /><div><h2 id="ranking-rules-title">Four lanes. One clear record.</h2><p>Each standing answers a different question.</p></div></header>
+          <ol>
+            <li className="is-cohort"><BarChart3 aria-hidden="true" /><p><strong>No-Gi rating</strong><small>Eligible results move this lane.</small></p></li>
+            <li className="is-season"><Trophy aria-hidden="true" /><p><strong>Season points</strong><small>Scored events move this lane.</small></p></li>
+            <li className="is-squad"><Users aria-hidden="true" /><p><strong>Squad points</strong><small>Team rounds move this lane.</small></p></li>
+            <li className="is-tier"><Medal aria-hidden="true" /><p><strong>Vanguard tier</strong><small>Shown separately and unchanged here.</small></p></li>
+          </ol>
+          <p><strong>Popularity is not performance.</strong> Followers, purchases, XP, gym size, and badges never move these standings.</p>
+        </section>
+      </div>
     </div>
   );
 }

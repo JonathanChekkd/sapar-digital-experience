@@ -158,6 +158,8 @@ Trust remains visible inside the playfulness. Synthetic fixtures, proof status, 
 - Honest synthetic, local-only, unavailable, private, and proof states.
 - Motion that yields completely to reduced-motion and low-stimulation preferences.
 - Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority.
+- Standings Circuit separates cohort rating, season points, squad points, and Vanguard tier through portrait-led ranks and an ordered ledger.
+- Rating Proof Route plots only the two disclosed snapshots around one eligible result and never implies undisclosed history.
 
 ## Colors
 
@@ -198,6 +200,8 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 **The Route Color Rule.** Mobile wayfinding is a five-lane system: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every lane also uses label, icon, border, and selected geometry so route meaning never depends on color alone.
 
+**The Standing Scope Rule.** Cohort identity is cobalt, season identity is amber, and squad identity is coral. Green appears inside those scopes only for a confirmed outcome or a positive result delta; it never becomes the squad identity color.
+
 ## Typography
 
 **Display Font:** Space Grotesk Variable (with Arial Narrow and sans-serif fallback)
@@ -222,6 +226,8 @@ The system starts at a 390×844 phone viewport with one readable column, sticky 
 
 Compete follows the same 390/700/1080 contract. At 390px, the cartoon-first Matchday Marquee stacks above its deep-cobalt Event Docket; the amber date plate, four-cell aggregate roster/capacity rail, side-by-side Gi and No-Gi Competition Passport lanes, and horizontally snapping Division Board stay legible in one reading order. At 700px, the marquee splits into art and docket, the passport and board become companion columns, division cards resolve to two columns, event cards pair up, and the human-authority dock separates art from copy. At 1080px, the hero gives more room to the arena art and event imagery grows, while chronology, authority, and task order remain unchanged.
 
+Standings and rating proof follow the same breakpoints without changing their factual order. On phones, the three standing scopes remain one 66px tab row, first place spans the portrait shelf above second and third, ranks four onward continue in an ordered ledger, and the rating route stays a single readable previous–proof–current module. At 700px, the scope tabs grow to 76px, all three podium positions share one row, ledger column labels appear, and the two disclosed rating snapshots sit side by side. At 1080px, the standings board gains a 330px sticky rules companion while the ordered ranking and rating proof sequence remain unchanged.
+
 Spacing follows a compact 4/8/12/16/20px rhythm with 28–32px reserved for major sectional separation. Identity, status, primary action, and proof precede supporting metrics. Large screens may widen or layer modules, but they do not reorder the evidence story.
 
 All actionable controls target at least 44×44px, with primary buttons at 46px, search fields at 54px, and mobile navigation actions at 60–64px. Safe-area insets are part of the navigation and sheet measurements.
@@ -229,6 +235,8 @@ All actionable controls target at least 44×44px, with primary buttons at 46px, 
 **The Thumb-and-Proof Rule.** On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.
 
 **The Matchday Breakpoint Rule.** The Compete sequence stays one reading order at 390px; at 700px, the marquee splits and the Division Board becomes two columns; at 1080px, art and event cards gain room without changing chronology or authority.
+
+**The Standing Breakpoint Rule.** Preserve the portrait shelf before the ordered ledger at every width: phone stacks the first-place portrait above ranks two and three, 700px places all three together and reveals ledger headers, and 1080px adds the rules companion without reordering the standings.
 
 ## Elevation & Depth
 
@@ -293,6 +301,24 @@ All event names, ratings, rosters, availability, artwork, and registration behav
 
 **The Matchday Handoff Rule.** URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.
 
+### Standings Circuit
+
+Standings use a real three-tab scope selector rather than decorative segmented buttons. Cohort, Season, and Squad are `tab` controls inside a named `tablist`, expose `aria-selected` and `aria-controls`, use roving tab focus, and support Left, Right, Home, and End keys. The selected scope is stored in the `scope` query parameter—cohort remains the clean default URL—so refreshes and shared links preserve the visible ranking lane.
+
+Each tab resolves to one focusable `tabpanel` with a scope-colored board head, explicit measurement source, and truthful synthetic-fixture strip. Cohort is cobalt, season is amber, and squad is coral; confirmed positive deltas may remain green inside any scope, but green never names the squad lane. The top three form a portrait-led ordered shelf with first place carrying extra scale, while ranks four onward continue in a semantic ordered ledger. Current-athlete and current-squad labels supplement color and outline, tabular numerals keep metrics aligned, and the rules companion explains that rating, season points, squad points, and Vanguard tier are separate records.
+
+Scope changes use a 200ms opacity-and-6px handoff with the same exponential ease-out as Matchday. Reduced-motion preference removes both travel and duration. The selected tab, focus ring, text labels, rank numbers, and current-record markers remain complete in higher-contrast and forced-color modes; no standing depends on tint, portrait, or motion alone.
+
+**The Standing Handoff Rule.** Query-backed scope changes use a 200ms opacity-and-6px handoff; reduced-motion mode removes travel and duration, while tab state, focus, rank, and metric remain explicit without animation.
+
+### Rating Proof Route
+
+Rating history is a factual previous–proof–current route, not a fabricated trend line. The route plots exactly two disclosed snapshots from the selected rating lane: the pre-result baseline and the current rating after one eligible result. Its center proof plate names the result authority and exact delta, the accessible image label describes the same movement, and the ordered history list repeats both snapshots in text. The history-window selector changes the disclosed context label only; it never interpolates extra points or implies hidden eligible changes.
+
+The route uses a deep-cobalt field, cream path, distinct baseline/proof/current nodes, tabular rating values, and a green proof plate only when the source outcome is confirmed. White strokes, ink-bordered plates, explicit labels, and the global white-plus-deep-cobalt focus treatment preserve contrast without relying on hue. Synthetic model and snapshot boundaries remain adjacent to the visualization, and the action leads to cohort standings without claiming federation authority.
+
+**The Two-Snapshot Rule.** Plot only disclosed rating states. A selected window may change context, but it never creates intermediate points, smooths a fictional trend, or implies evidence the fixture does not contain.
+
 ### Matchday Passport
 
 The signature identity card is a cobalt asymmetric surface with a full-bleed alpha-matted fictional adult athlete, tall condensed live identity type, explicit synthetic/verification labels, separate white Gi and No-Gi rating lanes, a keyboard-operable record action, and three dimensional earned stamps. The athlete and stamp art establish material depth; names, labels, states, ratings, deltas, and proof controls remain code-native and readable without imagery.
@@ -325,6 +351,8 @@ Gym Community is a horizontally scrollable illustrated card rail immediately aft
 - **Do** honor reduced-motion, low-stimulation, higher-contrast, and forced-color modes without removing state clarity.
 - **Do** preserve the 390/700/1080 Matchday reflow, the 44px control floor, URL-backed chronology, and the named human-authority boundary.
 - **Do** keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar.
+- **Do** keep cohort cobalt, season amber, and squad coral, with real tablist semantics, query-backed scope persistence, and a 200ms reduced-motion-safe handoff.
+- **Do** preserve the portrait-led top-three shelf, the ordered remainder ledger, and the factual two-snapshot rating route at phone, 700px, and 1080px widths.
 
 ### Don't:
 
@@ -333,5 +361,7 @@ Gym Community is a horizontally scrollable illustrated card rail immediately aft
 - **Don't** style a locally saved preview as green; it is an amber local state, not registration or result confirmation.
 - **Don't** let photography, illustration, animation, or generated texture carry required text, proof, or control semantics.
 - **Don't** imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.
+- **Don't** use verified green as the squad identity or let tint, portrait art, or motion become the only standing-state cue.
+- **Don't** interpolate a smooth history, add undisclosed rating samples, or make a window label look like evidence the synthetic fixture does not contain.
 - **Don't** use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.
 - **Don't** copy competitor trade dress, real athlete likenesses, federation marks, or unlicensed uniform branding.
