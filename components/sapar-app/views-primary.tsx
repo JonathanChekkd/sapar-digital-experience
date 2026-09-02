@@ -27,7 +27,7 @@ import {
   Users,
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
-import { athlete, achievements, events, gyms, posts, ratingLanes, results } from "@/lib/sapar-prototype";
+import { athlete, achievements, events, gyms, posts, proofThreads, ratingLanes, results, type ProofStepKind } from "@/lib/sapar-prototype";
 import { Avatar, SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
@@ -44,29 +44,62 @@ function RatingLane({ lane }: { readonly lane: (typeof ratingLanes)[number] }): 
 }
 
 function ProofJourney(): ReactNode {
-  const dispatch = usePrototypeDispatch();
-  const reduce = useReducedMotion();
+  const thread = proofThreads[0];
+  const result = results[0];
+  const ratingImpact = result.ratingImpact[0];
+  const milestoneStatus = (kinds: readonly ProofStepKind[]): "complete" | "active" | "pending" => {
+    const statuses: ("complete" | "active" | "pending")[] = kinds.map((kind) => thread.steps.find((step) => step.kind === kind)?.status ?? "pending");
+    if (statuses.every((status) => status === "complete")) return "complete";
+    return statuses.some((status) => status === "active") ? "active" : "pending";
+  };
   const steps = [
-    { label: "Train", detail: "Gym-confirmed", tone: "verified" },
-    { label: "Compete", detail: "Event authority", tone: "social" },
-    { label: "Result", detail: "Version 1", tone: "cobalt" },
-    { label: "Why +22", detail: "Explained", tone: "earned" },
+    {
+      label: "Authority",
+      detail: result.authority.label,
+      tone: "verified",
+      status: milestoneStatus(["event-authority"]),
+      icon: <Building2 aria-hidden="true" />,
+    },
+    {
+      label: "Result",
+      detail: `Version ${result.currentVersion}`,
+      tone: "social",
+      status: milestoneStatus(["result-version"]),
+      icon: <Trophy aria-hidden="true" />,
+    },
+    {
+      label: "Corrections",
+      detail: result.correctionStatus === "window-closed" ? "Window closed" : result.correctionStatus === "window-open" ? "Window open" : "Under review",
+      tone: "cobalt",
+      status: milestoneStatus(["correction-window"]),
+      icon: <ShieldCheck aria-hidden="true" />,
+    },
+    {
+      label: "Why",
+      detail: "Explained",
+      tone: "earned",
+      status: milestoneStatus(["rating-event", "rating-explanation"]),
+      impact: `${ratingImpact.delta > 0 ? "+" : ""}${ratingImpact.delta}`,
+      icon: <ArrowRight aria-hidden="true" />,
+    },
   ] as const;
   return (
-    <button
-      type="button"
-      className="sa-proof-journey"
-      onClick={() => dispatch({ type: "open-sheet", sheet: "proof", proofId: results[0].id })}
-      aria-label="Open the complete proof thread for the verified result and rating change"
-    >
-      <motion.span className="sa-proof-line" initial={reduce ? false : { scaleX: 0.2 }} animate={{ scaleX: 1 }} transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true" />
-      {steps.map((step, index) => (
-        <span className={`sa-proof-step sa-proof-${step.tone}`} key={step.label}>
-          <i>{index < 3 ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}</i>
-          <strong>{step.label}</strong><small>{step.detail}</small>
-        </span>
-      ))}
-    </button>
+    <div className="sa-proof-journey">
+      <ol aria-label={thread.summary}>
+        {steps.map((step, index) => (
+          <li className={`sa-proof-step sa-proof-${step.tone}`} data-status={step.status} key={step.label}>
+            <span className="sa-proof-node">
+              <span aria-hidden="true">{index + 1}</span>
+              {step.icon}
+            </span>
+            <span className="sa-proof-step-copy">
+              <strong>{step.label}{"impact" in step ? <em aria-label={`${step.impact} rating points`}>{step.impact}</em> : null}</strong>
+              <small>{step.detail}</small>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
 
@@ -283,8 +316,11 @@ export function PulseView(): ReactNode {
       <PassportHero />
       <section className="sa-home-proof" aria-labelledby="sa-home-proof-title">
         <div className="sa-home-section-heading">
-          <div><ShieldCheck aria-hidden="true" /><h2 id="sa-home-proof-title">Proof thread</h2></div>
-          <button type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "proof", proofId: results[0].id })}>Full record <ChevronRight aria-hidden="true" /></button>
+          <div>
+            <span className="sa-proof-heading-mark"><ShieldCheck aria-hidden="true" /></span>
+            <span className="sa-proof-heading-copy"><h2 id="sa-home-proof-title">Proof thread</h2><small>Event authority to explained rating</small></span>
+          </div>
+          <button className="sa-proof-record-action" type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "proof", proofId: results[0].id })}><span>Full record</span><ChevronRight aria-hidden="true" /></button>
         </div>
         <ProofJourney />
       </section>

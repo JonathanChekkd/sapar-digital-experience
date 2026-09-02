@@ -281,7 +281,7 @@ Three original non-person medallions sit inside the passport on a deep-cobalt ev
 
 ### Proof Thread
 
-The Proof Thread is a four-step authority-to-rating path rendered on a cream illustrated ribbon. Each step has a semantic node, short label, and supporting state; activating a result opens the detailed proof sheet. Reduced-motion and low-stimulation modes expose the same evidence without animation or decorative route textures.
+The Proof Thread is a four-milestone authority-to-rating docket built entirely from live interface geometry: Authority, Result, Corrections, and the explained rating outcome. On phones, the ordered evidence follows a readable two-row route with numbered, non-color-dependent nodes; from 700px onward it becomes one horizontal path beside a deep-cobalt label pane, and text-zoom-equivalent narrow widths reflow into a single vertical trail. The preview derives its authority, version, correction state, and rating movement from the same deterministic fixture as the five-event detail record. One explicit 48px Full Record action opens the native proof dialog, while the semantic ordered list remains descriptive rather than pretending each node is independently actionable. The component stays complete and legible without animation, raster alignment, or decorative route textures.
 
 ### Gym Community
 
