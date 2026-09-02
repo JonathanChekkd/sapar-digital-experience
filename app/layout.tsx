@@ -4,6 +4,7 @@ import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/manrope";
 import "./globals.css";
 import "./sapar-app.css";
+import "./sapar-gamification.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://saparsport.com"),

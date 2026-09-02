@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   ArrowRight,
   Bell,
@@ -34,6 +34,7 @@ import {
   gyms,
   initialPreferences,
   notifications,
+  prototypeProgress,
   quests,
   type AchievementFixture,
   type GymSessionFixture,
@@ -42,6 +43,7 @@ import {
 } from "@/lib/sapar-prototype";
 import { SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
 import { usePrototypeDispatch, usePrototypeState, type Connectivity } from "./state";
+import { useLowMotion } from "./use-low-motion";
 
 type GymFixtureItem = (typeof gyms)[number];
 
@@ -109,7 +111,7 @@ export function GymsView(): ReactNode {
 
 function AchievementCard({ achievement }: { readonly achievement: AchievementFixture }): ReactNode {
   const dispatch = usePrototypeDispatch();
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
   const progress = achievement.progress.target > 0
     ? Math.min(100, Math.max(0, Math.round((achievement.progress.current / achievement.progress.target) * 100)))
     : 0;
@@ -133,10 +135,11 @@ function AchievementCard({ achievement }: { readonly achievement: AchievementFix
 }
 
 export function RewardsView(): ReactNode {
+  const progress = Math.round((prototypeProgress.privateJourneyXp / prototypeProgress.privateJourneyXpTarget) * 100);
   return (
     <div className="sa-view">
       <div className="sa-view-intro"><div><h1>Celebrate what was earned.</h1><p>Deterministic criteria. No random drops, streak loss, fake scarcity, or pay-to-win status.</p></div><StatusTag tone="verified"><ShieldCheck /> Evidence attached</StatusTag></div>
-      <section className="sa-level-banner"><div><span>Private journey level</span><strong>18</strong></div><div><p><strong>4,220 XP</strong><span>4,500 to level 19</span></p><div><i style={{ width: "74%" }} /></div><small>XP recognizes participation. It cannot determine belt, rating, or eligibility.</small></div><Gift /></section>
+      <section className="sa-level-banner"><div><span>Private journey level</span><strong>{prototypeProgress.privateJourneyLevel}</strong></div><div><p><strong>{prototypeProgress.privateJourneyXp.toLocaleString()} XP</strong><span>{prototypeProgress.privateJourneyXpTarget.toLocaleString()} to level {prototypeProgress.privateJourneyLevel + 1}</span></p><div><i style={{ width: `${progress}%` }} /></div><small>XP recognizes participation. It cannot determine belt, rating, or eligibility.</small></div><Gift /></section>
       <section><SectionHeading title="Milestone cabinet" detail="Activate a card to read its exact evidence requirement." /><div className="sa-achievement-grid">{achievements.map((achievement) => <AchievementCard achievement={achievement} key={achievement.id} />)}</div></section>
       <div className="sa-view-footer-action"><Link className="sa-button sa-button-primary" href="/app/quests">Open active quests <ArrowRight /></Link></div>
     </div>

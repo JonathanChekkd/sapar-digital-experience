@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   ArrowRight,
   Bookmark,
@@ -14,7 +14,6 @@ import {
   Compass,
   Flag,
   Heart,
-  Hexagon,
   MapPin,
   MessageCircle,
   MoreHorizontal,
@@ -27,10 +26,12 @@ import {
   Users,
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
-import { athlete, achievements, events, gyms, posts, proofThreads, ratingLanes, results, type ProofStepKind } from "@/lib/sapar-prototype";
+import { athlete, achievements, events, gyms, posts, proofThreads, prototypeProgress, ratingLanes, results, type ProofStepKind } from "@/lib/sapar-prototype";
 import { Avatar, SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
+import { SeasonLobby } from "./season-lobby";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
+import { useLowMotion } from "./use-low-motion";
 
 function RatingLane({ lane }: { readonly lane: (typeof ratingLanes)[number] }): ReactNode {
   return (
@@ -87,7 +88,7 @@ function ProofJourney(): ReactNode {
     <div className="sa-proof-journey">
       <ol aria-label={thread.summary}>
         {steps.map((step, index) => (
-          <li className={`sa-proof-step sa-proof-${step.tone}`} data-status={step.status} key={step.label}>
+          <li className={`sa-proof-step sa-proof-${step.tone}`} data-status={step.status} aria-current={step.status === "active" ? "step" : undefined} key={step.label}>
             <span className="sa-proof-node">
               <span aria-hidden="true">{index + 1}</span>
               {step.icon}
@@ -95,6 +96,7 @@ function ProofJourney(): ReactNode {
             <span className="sa-proof-step-copy">
               <strong>{step.label}{"impact" in step ? <em aria-label={`${step.impact} rating points`}>{step.impact}</em> : null}</strong>
               <small>{step.detail}</small>
+              <span className="sa-proof-step-status">{step.status === "complete" ? "Complete" : step.status === "active" ? "Current step" : "Pending"}</span>
             </span>
           </li>
         ))}
@@ -142,7 +144,7 @@ function EarnedStampStrip(): ReactNode {
 
 function PassportHero({ headingLevel = "h1" }: { readonly headingLevel?: "h1" | "h2" }): ReactNode {
   const dispatch = usePrototypeDispatch();
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
   const Heading = headingLevel;
   return (
     <section className="sa-passport" aria-labelledby="sa-passport-name">
@@ -183,27 +185,6 @@ function PassportHero({ headingLevel = "h1" }: { readonly headingLevel?: "h1" | 
         </div>
       </div>
       <EarnedStampStrip />
-    </section>
-  );
-}
-
-function CompetitiveTier(): ReactNode {
-  return (
-    <section className="sa-rank-tier" aria-labelledby="sa-rank-tier-title">
-      <div className="sa-rank-emblem" aria-hidden="true"><Hexagon /><span>V</span></div>
-      <div className="sa-rank-copy">
-        <div className="sa-rank-title-row">
-          <h2 id="sa-rank-tier-title">Vanguard III</h2>
-          <span>Illustrative tier</span>
-        </div>
-        <p><strong>#3</strong> Denver adult purple No-Gi cohort</p>
-      </div>
-      <div className="sa-rank-progress">
-        <span><strong>68</strong> / 100 rank points</span>
-        <progress max="100" value="68" aria-label="Vanguard III competitive rank progress: 68 of 100 rank points">68 percent</progress>
-        <small>Derived only from the synthetic No-Gi rating. Belt, XP, followers, and purchases cannot move it.</small>
-      </div>
-      <Link href="/app/leaderboards">Open standings <ArrowRight aria-hidden="true" /></Link>
     </section>
   );
 }
@@ -313,7 +294,8 @@ export function PulseView(): ReactNode {
   const session = gyms[0].schedule[0];
   return (
     <div className="sa-view sa-pulse-view">
-      <PassportHero />
+      <SeasonLobby />
+      <PassportHero headingLevel="h2" />
       <section className="sa-home-proof" aria-labelledby="sa-home-proof-title">
         <div className="sa-home-section-heading">
           <div>
@@ -344,7 +326,6 @@ export function PulseView(): ReactNode {
         <div><span>Open mat tonight</span><strong>{session.startsAtLocal}</strong><small>{gyms[0].name} · {session.spotsRemaining} synthetic spots</small></div>
         <button type="button" className="sa-tactile-arrow" onClick={() => dispatch({ type: "open-sheet", sheet: "booking", gymSessionId: session.id })} aria-label="Open local booking preview"><ArrowRight /></button>
       </section>
-      <CompetitiveTier />
       <aside className="sa-side-stack">
         <SectionHeading title="Next proving ground" detail="Rules and authority before registration" />
         <Link className="sa-event-teaser" href="/app/compete"><span><Trophy /></span><p><strong>{events[0].name}</strong><small>October 18 · Denver · Adult</small></p><ArrowRight /></Link>
@@ -368,7 +349,7 @@ export function ProfileView(): ReactNode {
       <section className="sa-profile-metrics" aria-label="Synthetic athlete summary">
         <div data-system="record"><span>Verified record</span><strong>6–2</strong><small>No-Gi · synthetic</small></div>
         <div data-system="identity"><span>Belt</span><strong>{athlete.belt.rank}</strong><small>{athlete.belt.source}</small></div>
-        <div data-system="journey"><span>Private journey</span><strong>18</strong><small>4,220 XP</small></div>
+        <div data-system="journey"><span>Private journey</span><strong>{prototypeProgress.privateJourneyLevel}</strong><small>{prototypeProgress.privateJourneyXp.toLocaleString()} XP</small></div>
         <div data-system="community"><span>Community</span><strong>{athlete.followerCount}</strong><small>followers</small></div>
       </section>
       <div className="sa-two-column">

@@ -376,6 +376,16 @@ export const athlete = {
   },
 } as const satisfies AthleteFixture;
 
+export const prototypeProgress = {
+  competitiveTier: "Vanguard III",
+  cohortRank: 3,
+  rankPoints: 68,
+  rankPointTarget: 100,
+  privateJourneyLevel: 18,
+  privateJourneyXp: 4220,
+  privateJourneyXpTarget: 4500,
+} as const;
+
 export const ratingLanes = [
   {
     id: "rating_maya_gi",

@@ -1,0 +1,825 @@
+/* Season Command Lobby: shared progress discovery, home lobby, and proof motion. */
+
+.sa-season-hud {
+  margin: 12px 14px 0;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  position: relative;
+  overflow: hidden;
+  background: var(--sa-ink);
+  border: 2px solid var(--sa-cobalt-dark);
+  border-radius: 16px 10px 16px 10px;
+  box-shadow: 0 5px 0 var(--sa-cobalt-dark), 0 14px 28px rgba(7, 29, 92, .18);
+}
+
+.sa-season-hud::before {
+  content: "";
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  right: -88px;
+  bottom: -112px;
+  border: 1px solid rgba(79, 132, 255, .28);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(79, 132, 255, .08), 0 0 0 44px rgba(246, 178, 26, .06);
+  pointer-events: none;
+}
+
+.sa-season-hud-title {
+  min-height: 52px;
+  padding: 7px 9px;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  position: relative;
+  z-index: 1;
+  color: var(--sa-white);
+}
+
+.sa-season-hud-title > svg {
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+  flex: 0 0 auto;
+  background: var(--sa-earned);
+  border: 1px solid #ffd66f;
+  border-radius: 9px 5px 9px 5px;
+  color: var(--sa-ink);
+}
+
+.sa-season-hud-title span,
+.sa-season-hud > a span {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.sa-season-hud-title strong {
+  font-family: var(--sa-display);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.sa-season-hud-title small {
+  color: #becbde;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sa-season-hud > a {
+  min-width: 0;
+  min-height: 62px;
+  padding: 9px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 14px;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+  z-index: 1;
+  background: #f9f6ef;
+  border: 1px solid #d9d4c9;
+  border-radius: 11px 7px 11px 7px;
+  color: var(--sa-ink);
+  box-shadow: 0 3px 0 #9ba5b8, 0 8px 14px rgba(7, 29, 92, .13);
+  transition: transform 150ms cubic-bezier(.16, 1, .3, 1), box-shadow 150ms cubic-bezier(.16, 1, .3, 1), background-color 150ms ease;
+}
+
+.sa-season-hud > a > svg:first-child {
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+  border-radius: 8px 5px 8px 5px;
+}
+
+.sa-season-hud > a > svg:last-child {
+  width: 14px;
+  height: 14px;
+}
+
+.sa-season-hud > a small {
+  color: #59657a;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sa-season-hud > a strong {
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sa-season-hud > a[data-tone="rank"] > svg:first-child { background: #fff0b5; color: #795100; }
+.sa-season-hud > a[data-tone="rating"] > svg:first-child { background: #dce6ff; color: var(--sa-cobalt-dark); }
+.sa-season-hud > a[data-tone="quest"] > svg:first-child { background: #d8f1e4; color: #17643e; }
+.sa-season-hud > a[data-tone="journey"] > svg:first-child { background: #eadfff; color: #5c2f93; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sa-season-hud > a:hover {
+    background: var(--sa-white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 #9ba5b8, 0 12px 18px rgba(7, 29, 92, .16);
+  }
+}
+
+.sa-season-hud > a:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #9ba5b8, 0 4px 8px rgba(7, 29, 92, .12);
+}
+
+.sa-season-lobby {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--sa-cobalt-dark);
+  background-image: url("/generated/sapar-world/calibration/ui-mobile-atlas-background.webp");
+  background-repeat: no-repeat;
+  background-position: center 18%;
+  background-size: 145% auto;
+  border: 2px solid var(--sa-ink);
+  border-radius: 22px 12px 22px 12px;
+  box-shadow: 0 7px 0 #071d5c, 0 22px 38px rgba(7, 29, 92, .24);
+  color: var(--sa-white);
+}
+
+.sa-season-lobby::after {
+  content: "";
+  width: 190px;
+  height: 190px;
+  position: absolute;
+  right: -78px;
+  top: 42px;
+  border: 1px solid rgba(255, 214, 111, .32);
+  border-radius: 50%;
+  box-shadow: 0 0 0 26px rgba(246, 178, 26, .07), 0 0 0 54px rgba(79, 132, 255, .08);
+  pointer-events: none;
+}
+
+.sa-season-lobby-header {
+  padding: 10px 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.sa-season-lobby-header h1 {
+  margin: 0;
+  color: var(--sa-white);
+  font-family: "Barlow Condensed", var(--sa-display);
+  font-size: clamp(34px, 10vw, 54px);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: .9;
+  text-transform: uppercase;
+}
+
+.sa-season-lobby-header p {
+  max-width: 56ch;
+  margin: 9px 0 0;
+  color: #dbe4f6;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.sa-season-lobby-header > span {
+  min-height: 38px;
+  padding: 7px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 9px 5px 9px 5px;
+  background: rgba(7, 29, 92, .72);
+  color: #f7f9ff;
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.sa-season-lobby-header > span svg { width: 16px; color: #61dfa1; }
+
+.sa-season-lobby-grid {
+  display: grid;
+  grid-template-areas:
+    "rank"
+    "fighter"
+    "objectives";
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.sa-season-fighter-stage {
+  grid-area: fighter;
+  min-height: 310px;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  background: #0a42c8;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 17px 9px 17px 9px;
+  box-shadow: inset 0 0 0 1px rgba(7, 29, 92, .28), 0 8px 22px rgba(7, 29, 92, .24);
+}
+
+.sa-season-fighter-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/generated/sapar-world/calibration/arena-regional-championship.webp");
+  background-position: center;
+  background-size: cover;
+  opacity: .22;
+}
+
+.sa-season-fighter {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center 25%;
+  filter: saturate(1.08) contrast(1.02);
+}
+
+.sa-season-fighter-name {
+  min-height: 58px;
+  padding: 10px 82px 10px 12px;
+  position: absolute;
+  z-index: 3;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  display: grid;
+  align-content: center;
+  background: rgba(7, 29, 92, .9);
+  border: 1px solid rgba(255, 255, 255, .38);
+  border-radius: 11px 7px 11px 7px;
+  color: var(--sa-white);
+}
+
+.sa-season-fighter-name strong {
+  font-family: var(--sa-display);
+  font-size: 21px;
+  line-height: 1;
+}
+
+.sa-season-fighter-name small {
+  margin-top: 3px;
+  color: #cdd9f5;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.sa-season-rank-crest {
+  width: 76px;
+  height: 76px;
+  padding: 4px;
+  position: absolute;
+  z-index: 4;
+  right: 13px;
+  bottom: 13px;
+  display: grid;
+  place-items: center;
+  background: #fffaf1;
+  border: 2px solid var(--sa-ink);
+  border-radius: 18px 9px 18px 9px;
+  box-shadow: 0 5px 0 #071d5c, 0 10px 20px rgba(7, 29, 92, .25);
+}
+
+.sa-season-rank-crest img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sa-season-rank-card {
+  grid-area: rank;
+  padding: 16px;
+  display: grid;
+  align-content: center;
+  position: relative;
+  background: #fff4c9;
+  border: 2px solid var(--sa-ink);
+  border-radius: 17px 9px 17px 9px;
+  box-shadow: 0 6px 0 #8a5d00, 0 16px 26px rgba(7, 29, 92, .16);
+  color: var(--sa-ink);
+}
+
+.sa-season-rank-card > span {
+  color: #695100;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .01em;
+}
+
+.sa-season-rank-card h3 {
+  margin: 5px 0 8px;
+  color: #10358e;
+  font-family: "Barlow Condensed", var(--sa-display);
+  font-size: clamp(42px, 13vw, 68px);
+  font-weight: 900;
+  letter-spacing: -.02em;
+  line-height: .86;
+  text-transform: uppercase;
+}
+
+.sa-season-rank-card > p {
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.sa-season-rank-card > p strong {
+  font-family: var(--sa-display);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.sa-season-rank-card > p span {
+  max-width: 26ch;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.sa-season-progress-copy {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.sa-season-progress-copy strong {
+  color: #795100;
+  font-family: var(--sa-display);
+  font-size: 24px;
+}
+
+.sa-season-progress-copy span {
+  color: #695100;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sa-season-progress-track {
+  height: 15px;
+  margin: 5px 0 9px;
+  overflow: hidden;
+  background: #d5c78e;
+  border: 2px solid var(--sa-ink);
+  border-radius: 5px;
+  box-shadow: inset 0 2px 0 rgba(7, 29, 92, .14);
+}
+
+.sa-season-progress-track i {
+  width: var(--sa-progress);
+  height: 100%;
+  display: block;
+  transform-origin: left center;
+  background: var(--sa-earned);
+  border-right: 2px solid var(--sa-ink);
+}
+
+.sa-season-rank-card > small {
+  color: #554d39;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.sa-season-rank-card > a {
+  min-height: 46px;
+  margin-top: 13px;
+  padding: 9px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: var(--sa-cobalt);
+  border: 2px solid var(--sa-ink);
+  border-radius: 11px 7px 11px 7px;
+  color: var(--sa-white);
+  box-shadow: 0 4px 0 var(--sa-cobalt-dark), 0 9px 16px rgba(7, 29, 92, .18);
+  font-size: 12px;
+  font-weight: 900;
+  transition: transform 150ms cubic-bezier(.16, 1, .3, 1), box-shadow 150ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.sa-season-rank-card > a svg { width: 16px; }
+
+.sa-season-rank-card > a:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--sa-cobalt-dark), 0 5px 10px rgba(7, 29, 92, .16);
+}
+
+.sa-season-objectives {
+  grid-area: objectives;
+  display: grid;
+  gap: 8px;
+}
+
+.sa-season-objectives > a {
+  min-height: 78px;
+  padding: 11px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 9px;
+  background: #f9f6ef;
+  border: 1px solid #d6d1c6;
+  border-radius: 13px 7px 13px 7px;
+  color: var(--sa-ink);
+  box-shadow: 0 4px 0 #9ba5b8, 0 10px 18px rgba(7, 29, 92, .14);
+  transition: transform 150ms cubic-bezier(.16, 1, .3, 1), box-shadow 150ms cubic-bezier(.16, 1, .3, 1), background-color 150ms ease;
+}
+
+.sa-season-objectives > a > svg:first-child {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  border-radius: 10px 6px 10px 6px;
+}
+
+.sa-season-objectives > a[data-objective="rating"] > svg:first-child { background: #dce6ff; color: var(--sa-cobalt-dark); }
+.sa-season-objectives > a[data-objective="quest"] > svg:first-child { background: #d8f1e4; color: #17643e; }
+.sa-season-objectives > a[data-objective="journey"] > svg:first-child { background: #eadfff; color: #5c2f93; }
+
+.sa-season-objectives > a > span {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.sa-season-objectives small {
+  color: #657086;
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.sa-season-objectives strong {
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sa-season-objectives strong em {
+  color: #177246;
+  font-size: 11px;
+  font-style: normal;
+}
+
+.sa-season-objectives span > span {
+  overflow: hidden;
+  color: #59657a;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sa-season-objectives > a > svg:last-child { width: 17px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .sa-season-objectives > a:hover {
+    background: var(--sa-white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #9ba5b8, 0 14px 22px rgba(7, 29, 92, .17);
+  }
+}
+
+.sa-season-objectives > a:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #9ba5b8, 0 5px 10px rgba(7, 29, 92, .12);
+}
+
+.sa-season-boundary {
+  margin-top: 12px;
+  padding: 9px;
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  background: rgba(7, 29, 92, .88);
+  border: 1px solid rgba(255, 255, 255, .26);
+  border-radius: 11px 7px 11px 7px;
+}
+
+.sa-season-boundary span {
+  min-width: 0;
+  flex: 1 1 120px;
+  min-height: 34px;
+  padding: 6px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 8px 5px 8px 5px;
+  color: #dbe4f6;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sa-season-boundary svg { width: 14px; }
+
+/* Proof route: vertical icon lane on phones, horizontal node rail on wide screens. */
+.sa-proof-journey {
+  min-height: 0;
+  padding: 18px 14px;
+}
+
+.sa-proof-journey::before {
+  width: 5px;
+  height: auto;
+  top: 42px;
+  right: auto;
+  bottom: 42px;
+  left: 37px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--sa-cobalt);
+  box-shadow: 3px 0 0 rgba(8, 42, 135, .14);
+  transform-origin: center top;
+}
+
+.sa-proof-journey ol {
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(72px, auto));
+  gap: 12px;
+}
+
+.sa-proof-step,
+.sa-proof-step:nth-child(3),
+.sa-proof-step:nth-child(4) {
+  grid-column: 1;
+  grid-row: auto;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  justify-items: start;
+  gap: 13px;
+  position: relative;
+  text-align: left;
+}
+
+.sa-proof-node {
+  z-index: 2;
+}
+
+.sa-proof-step-copy {
+  width: 100%;
+  min-height: 54px;
+  padding: 7px 10px;
+  align-content: center;
+  justify-items: start;
+  position: relative;
+  z-index: 2;
+  background: #fffaf1;
+  border: 1px solid #ddd7ca;
+  border-radius: 10px 6px 10px 6px;
+  box-shadow: 0 3px 0 #c8c1b5, 0 7px 12px rgba(7, 29, 92, .08);
+  text-align: left;
+}
+
+.sa-proof-step-copy strong {
+  font-size: 15px;
+}
+
+.sa-proof-step-copy small {
+  font-size: 10px;
+}
+
+.sa-proof-step-status {
+  min-height: 20px;
+  margin-top: 3px;
+  padding: 3px 6px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px 4px 6px 4px;
+  background: #ece9e2;
+  color: #59657a;
+  font-size: 8px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.sa-proof-step[data-status="complete"] .sa-proof-step-status { background: #d8f1e4; color: #17643e; }
+.sa-proof-step[data-status="active"] .sa-proof-step-status { background: #dce6ff; color: var(--sa-cobalt-dark); }
+
+.sa-app summary:focus-visible {
+  outline: 3px solid var(--sa-focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@keyframes sa-season-fighter-enter {
+  from { opacity: .82; transform: translateX(-14px) scale(1.02); filter: saturate(.8) blur(3px); }
+  to { opacity: 1; transform: translateX(0) scale(1); filter: saturate(1.08) blur(0); }
+}
+
+@keyframes sa-season-crest-enter {
+  from { opacity: .7; transform: translateY(12px) rotate(-7deg) scale(.82); box-shadow: 0 2px 0 #071d5c, 0 5px 10px rgba(7, 29, 92, .14); }
+  to { opacity: 1; transform: translateY(0) rotate(0) scale(1); box-shadow: 0 5px 0 #071d5c, 0 10px 20px rgba(7, 29, 92, .25); }
+}
+
+@keyframes sa-progress-enter {
+  from { transform: scaleX(.08); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes sa-proof-route-enter {
+  from { transform: scaleY(0); opacity: .45; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes sa-proof-node-enter {
+  from { opacity: .72; transform: translateY(5px) scale(.9); filter: blur(1px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sa-season-fighter { animation: sa-season-fighter-enter 620ms cubic-bezier(.16, 1, .3, 1) both; }
+  .sa-season-rank-crest { animation: sa-season-crest-enter 560ms 90ms cubic-bezier(.16, 1, .3, 1) both; }
+  .sa-season-progress-track i { animation: sa-progress-enter 520ms 150ms cubic-bezier(.16, 1, .3, 1) both; }
+  .sa-proof-journey::before { animation: sa-proof-route-enter 500ms cubic-bezier(.16, 1, .3, 1) both; }
+  .sa-proof-step { animation: sa-proof-node-enter 260ms cubic-bezier(.16, 1, .3, 1) both; }
+  .sa-proof-step:nth-child(2) { animation-delay: 70ms; }
+  .sa-proof-step:nth-child(3) { animation-delay: 140ms; }
+  .sa-proof-step:nth-child(4) { animation-delay: 210ms; }
+}
+
+.sa-app.is-low-stimulation :where(.sa-season-fighter, .sa-season-rank-crest, .sa-season-progress-track i, .sa-proof-journey::before, .sa-proof-step) {
+  animation: none;
+  filter: none;
+  transform: none;
+}
+
+@media (min-width: 760px) {
+  .sa-season-lobby { padding: 18px; }
+
+  .sa-season-lobby-grid {
+    grid-template-columns: minmax(260px, .9fr) minmax(260px, 1.1fr);
+    grid-template-areas:
+      "fighter rank"
+      "fighter objectives";
+    align-items: stretch;
+  }
+
+  .sa-season-fighter-stage { min-height: 510px; grid-area: fighter; }
+  .sa-season-rank-card { grid-area: rank; }
+  .sa-season-objectives { grid-area: objectives; }
+
+  .sa-season-rank-crest {
+    width: 96px;
+    height: 96px;
+  }
+
+  .sa-season-fighter-name { min-height: 72px; padding-right: 108px; }
+
+  .sa-proof-journey { min-height: 184px; padding: 28px 18px 18px; }
+
+  .sa-proof-journey::before {
+    width: auto;
+    height: 5px;
+    top: 51px;
+    right: 12.5%;
+    bottom: auto;
+    left: 12.5%;
+    box-shadow: 0 3px 0 rgba(8, 42, 135, .14);
+    transform-origin: left center;
+  }
+
+  .sa-proof-journey ol {
+    min-height: 134px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .sa-proof-step,
+  .sa-proof-step:nth-child(3),
+  .sa-proof-step:nth-child(4) {
+    grid-column: auto;
+    grid-row: auto;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    justify-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .sa-proof-step-copy {
+    width: 100%;
+    min-height: 70px;
+    padding: 8px 6px;
+    justify-items: center;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  @keyframes sa-proof-route-enter-wide {
+    from { transform: scaleX(0); opacity: .45; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  .sa-proof-journey::before { animation-name: sa-proof-route-enter-wide; }
+}
+
+@media (min-width: 860px) {
+  .sa-season-hud {
+    margin: 14px 28px 0;
+    grid-template-columns: minmax(190px, .9fr) repeat(4, minmax(120px, 1fr));
+    align-items: stretch;
+  }
+
+  .sa-season-hud-title {
+    min-height: 66px;
+    grid-column: auto;
+  }
+
+  .sa-season-hud > a { min-height: 66px; }
+}
+
+@media (min-width: 1280px) {
+  .sa-season-hud {
+    margin-inline: 34px;
+    grid-template-columns: minmax(210px, .9fr) repeat(4, minmax(138px, 1fr));
+  }
+}
+
+@media (min-width: 1360px) {
+  .sa-season-lobby-grid {
+    grid-template-columns: minmax(300px, .8fr) minmax(360px, 1fr) minmax(300px, 1fr);
+    grid-template-areas: "fighter rank objectives";
+  }
+
+  .sa-season-fighter-stage { min-height: 520px; }
+  .sa-season-rank-card { padding: 22px; }
+  .sa-season-rank-card h3 { font-size: 60px; }
+  .sa-season-objectives { align-content: stretch; }
+  .sa-season-objectives > a { min-height: 0; }
+}
+
+@media (max-width: 359px) {
+  .sa-season-hud { margin-inline: 10px; padding: 6px; gap: 6px; }
+  .sa-season-hud > a { grid-template-columns: 25px minmax(0, 1fr) 12px; padding: 7px; }
+  .sa-season-hud > a > svg:first-child { width: 25px; height: 25px; padding: 4px; }
+  .sa-season-fighter-stage { min-height: 280px; }
+  .sa-season-rank-card h3 { font-size: 40px; }
+  .sa-season-objectives strong { font-size: 12px; }
+}
+
+@media (max-width: 459px) {
+  .sa-season-lobby-header { align-items: stretch; flex-direction: column; }
+  .sa-season-lobby-header > span { align-self: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sa-season-hud > a,
+  .sa-season-rank-card > a,
+  .sa-season-objectives > a {
+    transition-duration: 1ms;
+  }
+
+  .sa-season-fighter,
+  .sa-season-rank-crest,
+  .sa-season-progress-track i,
+  .sa-proof-journey::before,
+  .sa-proof-step {
+    animation: none;
+    filter: none;
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .sa-season-hud,
+  .sa-season-lobby,
+  .sa-season-hud > a,
+  .sa-season-rank-card,
+  .sa-season-objectives > a,
+  .sa-proof-step-copy {
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+
+  .sa-proof-journey::before,
+  .sa-season-progress-track i {
+    background: CanvasText;
+  }
+}

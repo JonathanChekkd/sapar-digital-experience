@@ -1,6 +1,6 @@
 ---
 name: SAPAR Matchday Passport
-description: A cartoon-first mobile social passport for adult Jiu-Jitsu identity, community, competition, and proof.
+description: A cartoon-first mobile social passport with a season command layer for adult Jiu-Jitsu identity, community, competition, and proof.
 colors:
   cobalt: "#003CCA"
   cobalt-dark: "#082A87"
@@ -137,6 +137,24 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.docket}"
     padding: "16px"
+  season-hud:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "16px 10px 16px 10px"
+    padding: "8px"
+  season-rank-card:
+    backgroundColor: "#FFF4C9"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "17px 9px 17px 9px"
+    padding: "16px"
+  proof-route:
+    backgroundColor: "#FFFAF1"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "10px 6px 10px 6px"
+    padding: "18px 14px"
 ---
 
 # Design System: SAPAR Matchday Passport
@@ -149,6 +167,10 @@ SAPAR feels like a portable identity object moving through a lively illustrated 
 
 Trust remains visible inside the playfulness. Synthetic fixtures, proof status, corrections, rating lanes, privacy, and unconnected services are named in the interface instead of hidden behind spectacle. Hybrid human photography and stylized realism support community, training, and replay moments, but the code-native passport, proof thread, controls, and illustrated interface materials remain the primary world.
 
+Season Command Lobby extends this Matchday Passport world rather than replacing it. Its compact HUD brings standings, rating, quests, and the private journey into one discovery layer while preserving them as separate records; its illustrated/hybrid athlete stage, amber competitive-tier plate, and node-rail proof route reuse the established cobalt-and-ink combat language without turning the rest of the product into a game lobby.
+
+The normative color and type primitives remain on `.sa-app` in `app/sapar-app.css`. Season HUD, lobby, and proof-route mechanics live in `app/sapar-gamification.css`, loaded after the base stylesheet; keep that extension scoped to these shared progress surfaces instead of exporting its page composition to unrelated routes.
+
 **Key Characteristics:**
 
 - Cartoon-first mobile social passport with secondary hybrid human imagery.
@@ -160,6 +182,9 @@ Trust remains visible inside the playfulness. Synthetic fixtures, proof status, 
 - Matchday Circuit carries a selected synthetic event from marquee and docket through rating lanes, division cards, chronology, and human authority.
 - Standings Circuit separates cohort rating, season points, squad points, and Vanguard tier through portrait-led ranks and an ordered ledger.
 - Rating Proof Route plots only the two disclosed snapshots around one eligible result and never implies undisclosed history.
+- Season Command provides compact, separated entry points to standings, rating, evidence-based quests, and the private journey.
+- Season progress is deterministic and evidence-led: competitive tier is tied only to eligible results, quests summarize completed steps, and fixture-backed XP and achievements belong only to the private journey.
+- Proof connectors occupy an icon/node rail and never cross text, becoming vertical on narrow screens and horizontal on wider screens.
 
 ## Colors
 
@@ -180,7 +205,7 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 ### Tertiary
 
-- **Earned Amber** (`colors.earned`): Marks deterministic progress, explanation, matchday attention, and tactile Create controls.
+- **Earned Amber** (`colors.earned`): Marks deterministic progress, competitive-tier plates, explanation, matchday attention, and tactile Create controls.
 - **Safety Red** (`colors.danger`): Appears only for destructive, disputed, blocked, or critical conditions.
 
 ### Neutral
@@ -222,21 +247,25 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 ## Layout
 
-The system starts at a 390×844 phone viewport with one readable column, sticky 66px header, fixed five-slot thumb navigation, and content padded above the safe area. Pulse follows one invariant opening sequence: dominant Fighter Passport, immediate Proof Thread, Gym Community, then Recent Activity. Rankings, quick links, and schedule prompts follow that evidence-first sequence. The content container grows to a maximum of 1180px. At 700px, passports, results, settings, discovery, and event modules gain two-column compositions; at 1080px, the bottom dock becomes a 238px dark navigation rail and feed or arena layouts gain purposeful secondary columns. A compact adjustment below 360px preserves the same information order without shrinking tap targets below the intended control size.
+The system starts at a 390×844 phone viewport with one readable column, sticky 66px header, fixed five-slot thumb navigation, and content padded above the safe area. Pulse follows one invariant opening sequence: Season Command Lobby, dominant Fighter Passport, immediate Proof Thread, Gym Community, then Recent Activity. Rankings, quick links, and schedule prompts follow that evidence-first sequence. The content container grows to a maximum of 1180px. At 700px, passports, results, settings, discovery, and event modules gain two-column compositions; at 1080px, the bottom dock becomes a 238px dark navigation rail and feed or arena layouts gain purposeful secondary columns. A compact adjustment below 360px preserves the same information order without shrinking tap targets below the intended control size.
 
 Compete follows the same 390/700/1080 contract. At 390px, the cartoon-first Matchday Marquee stacks above its deep-cobalt Event Docket; the amber date plate, four-cell aggregate roster/capacity rail, side-by-side Gi and No-Gi Competition Passport lanes, and horizontally snapping Division Board stay legible in one reading order. At 700px, the marquee splits into art and docket, the passport and board become companion columns, division cards resolve to two columns, event cards pair up, and the human-authority dock separates art from copy. At 1080px, the hero gives more room to the arena art and event imagery grows, while chronology, authority, and task order remain unchanged.
 
 Standings and rating proof follow the same breakpoints without changing their factual order. On phones, the three standing scopes remain one 66px tab row, first place spans the portrait shelf above second and third, ranks four onward continue in an ordered ledger, and the rating route stays a single readable previous–proof–current module. At 700px, the scope tabs grow to 76px, all three podium positions share one row, ledger column labels appear, and the two disclosed rating snapshots sit side by side. At 1080px, the standings board gains a 330px sticky rules companion while the ordered ranking and rating proof sequence remain unchanged.
 
+Season Command uses additional breakpoints that belong only to the shared HUD, the Pulse lobby, and the proof connector. The HUD is a 2×2 action grid through 859px and becomes one five-column row at 860px and above, with a spacing-only width refinement at 1280px. The lobby is one column below 760px, two columns from 760px, and three columns from 1360px. The proof connector is a vertical icon/node rail on narrow screens and becomes a horizontal node rail at 760px. These thresholds do not replace or globally redefine the established 390/700/1080 contracts on other surfaces.
+
 Spacing follows a compact 4/8/12/16/20px rhythm with 28–32px reserved for major sectional separation. Identity, status, primary action, and proof precede supporting metrics. Large screens may widen or layer modules, but they do not reorder the evidence story.
 
-All actionable controls target at least 44×44px, with primary buttons at 46px, search fields at 54px, and mobile navigation actions at 60–64px. Safe-area insets are part of the navigation and sheet measurements.
+Mobile controls retain an effective 44×44px target floor, with primary buttons at 46px, search fields at 54px, and mobile navigation actions at 60–64px. Safe-area insets are part of the navigation and sheet measurements.
 
 **The Thumb-and-Proof Rule.** On mobile, keep identity, state, action, and proof in that order, and keep every meaningful action operable with a 44px minimum target.
 
 **The Matchday Breakpoint Rule.** The Compete sequence stays one reading order at 390px; at 700px, the marquee splits and the Division Board becomes two columns; at 1080px, art and event cards gain room without changing chronology or authority.
 
 **The Standing Breakpoint Rule.** Preserve the portrait shelf before the ordered ledger at every width: phone stacks the first-place portrait above ranks two and three, 700px places all three together and reveals ledger headers, and 1080px adds the rules companion without reordering the standings.
+
+**The Season Scope Breakpoint Rule.** Keep the Season HUD 2×2 through 859px and five-column from 860px; keep the Season Lobby one column below 760px, two columns from 760px, and three columns from 1360px. Apply these thresholds only to Season Command and its proof route.
 
 ## Elevation & Depth
 
@@ -291,6 +320,20 @@ Borders are visible and purposeful: 1px warm lines for ordinary grouping, 2px in
 
 Mobile uses a five-slot fixed cream dock with persistent route lanes: coral Pulse, cobalt Compete, amber Create, green Discover, and violet Profile. Every inactive destination keeps a quiet tinted field and framed icon; the active destination gains a saturated field, dark outline, short press-plate, and explicit `aria-current` state. Create remains raised and tactile in earned amber. At 1080px the dock becomes a dark 238px rail with 44px rows and a visibly selected surface.
 
+### Season Command HUD
+
+The shared Season HUD is a compact dark-ink discovery rail with four direct destinations: standings, No-Gi rating, the active quest, and the private journey. Each destination keeps its own icon well, label, current value, accessible route name, and full-link target; adjacency is for scanning, not for combining the underlying systems. Its four actions form a 2×2 grid through 859px, then join the title in one five-column row at 860px and above.
+
+**The Season System Separation Rule.** Standing, competitive rating, quest completion, and private journey progress may appear together for orientation, but they remain separate records with separate routes, labels, evidence, and update rules.
+
+### Season Command Lobby
+
+The lobby is an illustrated/hybrid athlete stage inside the original cobalt-and-ink combat world. A fictional adult athlete, rank crest, amber competitive-tier plate, and direct standings action establish the competitive state; objective cards then expose the eligible-result rating lane, an evidence-based quest completion count, and fixture-backed private XP and achievement counts. These are deterministic display contracts backed by static prototype fixtures, not evidence of a live award engine. Only eligible synthetic No-Gi results may move the competitive tier. Belt, XP, followers, purchases, and social reach cannot move it, and private XP never impersonates rating or rank.
+
+Season ambient and entry choreography is one-shot per mount: the athlete settles once over 620ms, the crest arrives once over 560ms after a 90ms delay, rank progress reveals once over 520ms after a 150ms delay, the proof path draws once over 500ms, and proof nodes arrive once over 260ms with a 70ms stagger. There are no ambient Season loops; repeatable hover and press transforms remain direct-manipulation feedback. Both OS reduced-motion and the in-app low-stimulation preference remove path travel, progress drawing, filters, and entry animation; state, labels, and final values remain present without motion.
+
+**The One-Shot Season Motion Rule.** Introduce athlete, crest, progress, or proof sequence once per mount; reserve repeatable motion for direct hover and press feedback. Never loop ambient lobby decoration, and always honor both OS reduced-motion and the in-app low-stimulation preference.
+
 ### Matchday Circuit
 
 Compete opens with a cartoon-first Matchday Marquee and a deep-cobalt Event Docket that carries an amber date plate, explicit synthetic status, venue and format, aggregate roster/capacity statistics, price or result authority, and one primary action. Below it, the Fighter Competition Passport keeps Gi and No-Gi ratings in separate lanes; the mobile Division Board is an explicitly named horizontal snap region that resolves to a two-column board at 700px; the URL-backed Event Circuit sorts fixtures chronologically and fails explicitly for unknown event IDs; and the final dock names the human authority and experimental model boundary.
@@ -329,7 +372,9 @@ Three original non-person medallions sit inside the passport on a deep-cobalt ev
 
 ### Proof Thread
 
-The Proof Thread is a four-milestone authority-to-rating docket built entirely from live interface geometry: Authority, Result, Corrections, and the explained rating outcome. On phones, the ordered evidence follows a readable two-row route with numbered, non-color-dependent nodes; from 700px onward it becomes one horizontal path beside a deep-cobalt label pane, and text-zoom-equivalent narrow widths reflow into a single vertical trail. The preview derives its authority, version, correction state, and rating movement from the same deterministic fixture as the five-event detail record. One explicit 48px Full Record action opens the native proof dialog, while the semantic ordered list remains descriptive rather than pretending each node is independently actionable. The component stays complete and legible without animation, raster alignment, or decorative route textures.
+The Proof Thread is a four-milestone authority-to-rating docket built entirely from live interface geometry: Authority, Result, Corrections, and the explained rating outcome. On narrow screens, a full-height vertical connector occupies the 48px icon/node rail while each copy card sits in a separate adjacent column. From 760px, the connector becomes one horizontal rail aligned through the four nodes, with copy placed below each node. The line never enters a text card, and numbered, labeled, non-color-dependent nodes preserve the order without the connector. The preview derives its authority, version, correction state, and rating movement from the same deterministic fixture as the five-event detail record. One explicit 48px Full Record action opens the native proof dialog, while the semantic ordered list remains descriptive rather than pretending each node is independently actionable. The component stays complete and legible without animation, raster alignment, or decorative route textures.
+
+**The Node Rail Rule.** A proof connector belongs only in the icon/node rail: vertical beside copy on narrow screens and horizontal through nodes at 760px and above. It must never cross, underline, or sit behind text.
 
 ### Booking Mat Pass
 
@@ -353,6 +398,10 @@ Gym Community is a horizontally scrollable illustrated card rail immediately aft
 - **Do** keep each optimized shipping WebP linked to its retained source asset, prompt record, and derivative sidecar.
 - **Do** keep cohort cobalt, season amber, and squad coral, with real tablist semantics, query-backed scope persistence, and a 200ms reduced-motion-safe handoff.
 - **Do** preserve the portrait-led top-three shelf, the ordered remainder ledger, and the factual two-snapshot rating route at phone, 700px, and 1080px widths.
+- **Do** keep the Season HUD's standings, rating, quest, and private-journey entries explicit, directly navigable, and semantically separate.
+- **Do** keep Season quests evidence-based and present private XP, achievements, and tier progress as deterministic fixture-backed displays without implying a live award engine.
+- **Do** keep the proof connector inside its icon/node rail, vertical below 760px and horizontal from 760px, with no text crossing.
+- **Do** keep Season-specific 760/860/1360 reflow scoped to the HUD, lobby, and proof route while retaining the 44px mobile target floor.
 
 ### Don't:
 
@@ -363,5 +412,6 @@ Gym Community is a horizontally scrollable illustrated card rail immediately aft
 - **Don't** imply that synthetic ratings, events, profiles, availability, API boundaries, or autonomous scoring are production facts.
 - **Don't** use verified green as the squad identity or let tint, portrait art, or motion become the only standing-state cue.
 - **Don't** interpolate a smooth history, add undisclosed rating samples, or make a window label look like evidence the synthetic fixture does not contain.
-- **Don't** use casino cues, random drops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.
+- **Don't** use loot boxes, random drops, casino loops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.
+- **Don't** let belt, private XP, achievements, followers, purchases, or social reach move competitive rating or tier.
 - **Don't** copy competitor trade dress, real athlete likenesses, federation marks, or unlicensed uniform branding.

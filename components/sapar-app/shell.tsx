@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   Bell,
   ChartNoAxesCombined,
@@ -28,7 +28,9 @@ import { useEffect, useState, type ReactNode } from "react";
 import { notifications } from "@/lib/sapar-prototype";
 import { GlobalSheet, SyntheticLabel, ToastRegion } from "./primitives";
 import { profileArt } from "./profile-art";
+import { SeasonHud } from "./season-lobby";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
+import { useLowMotion } from "./use-low-motion";
 
 export type AppView =
   | "pulse"
@@ -77,6 +79,7 @@ const primaryLinks = [
 ] as const;
 
 const secondaryLinks = [
+  { href: "/app/leaderboards", label: "Standings", icon: Trophy },
   { href: "/app/ratings", label: "Rating lanes", icon: ChartNoAxesCombined },
   { href: "/app/gyms", label: "Gyms & sessions", icon: Dumbbell },
   { href: "/app/rewards", label: "Achievements", icon: Gift },
@@ -88,7 +91,7 @@ const secondaryLinks = [
 function isCurrent(pathname: string, href: string): boolean {
   if (href === "/app") return pathname === href || pathname === "/app/notifications";
   if (href === "/app/compete") {
-    return ["/app/compete", "/app/competitions", "/app/arena", "/app/replay", "/app/leaderboards"].some(
+    return ["/app/compete", "/app/competitions", "/app/arena", "/app/replay"].some(
       (route) => pathname === route || pathname.startsWith(`${route}/`),
     );
   }
@@ -296,7 +299,7 @@ function PrototypeServiceStatus(): ReactNode {
 }
 
 function Brand(): ReactNode {
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
   return (
     <motion.span
       className="sa-brand"
@@ -409,7 +412,7 @@ function BottomNavigation(): ReactNode {
 }
 
 function AppFooter({ view }: { readonly view: AppView }): ReactNode {
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
 
   return (
     <motion.footer
@@ -436,6 +439,7 @@ function AppFrame({ children, view }: { readonly children: ReactNode; readonly v
       <div className="sa-stage">
         <div className="sa-prototype-strip"><SyntheticLabel /><span className="sa-prototype-copy">Interactive concept · no official result, rating, booking, or payment</span><PrototypeServiceStatus /></div>
         <AppHeader />
+        <SeasonHud />
         <main id="sapar-app-content" className="sa-content" tabIndex={-1}>{children}</main>
         <AppFooter view={view} />
       </div>

@@ -3970,6 +3970,11 @@
 }
 
 .sa-passport-copy > span {
+  width: max-content;
+  max-width: 100%;
+  padding: 2px 5px;
+  background: rgba(7, 29, 92, .52);
+  border-radius: 6px;
   color: #f3f6ff;
   font-size: 11px;
   font-weight: 700;
@@ -4386,7 +4391,7 @@
   .sa-header { padding-inline: 8px; gap: 5px; }
   .sa-header-actions { gap: 3px; }
   .sa-icon-button,
-  .sa-header-avatar { width: 42px; }
+  .sa-header-avatar { width: 44px; }
   .sa-scope { padding-inline: 2px; }
   .sa-content { padding-inline: 10px; }
   .sa-view-intro { min-height: 136px; padding: 14px; }

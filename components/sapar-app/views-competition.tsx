@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -30,6 +30,7 @@ import { events, ratingLanes, results } from "@/lib/sapar-prototype";
 import { Avatar, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
+import { useLowMotion } from "./use-low-motion";
 
 type FormatFilter = "all" | "gi" | "no-gi";
 type EventFixture = (typeof events)[number];
@@ -137,8 +138,7 @@ function getEventHref(event: EventFixture, filter: FormatFilter): string {
 function EventHero({ event }: { readonly event: EventFixture }): ReactNode {
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
-  const prefersReducedMotion = useReducedMotion();
-  const reduceMotion = Boolean(prefersReducedMotion || state.preferences.lowStimulation);
+  const reduceMotion = useLowMotion();
   const registered = state.registeredEventIds.includes(event.id);
   const completed = event.status === "completed";
   const registrationOpen = event.status === "registration-open";
@@ -490,13 +490,12 @@ export function ArenaView(): ReactNode {
 }
 
 export function ReplayView(): ReactNode {
-  const reduce = useReducedMotion();
-  const state = usePrototypeState();
+  const reduce = useLowMotion();
   const dispatch = usePrototypeDispatch();
   const [playing, setPlaying] = useState(false);
   const [position, setPosition] = useState(78);
   const result = results[0];
-  const lowMotion = Boolean(reduce) || state.preferences.lowStimulation;
+  const lowMotion = reduce;
 
   useEffect(() => {
     if (!playing) return;
@@ -536,7 +535,7 @@ export function ReplayView(): ReactNode {
     <div className="sa-view sa-result-view">
       <section className="sa-result-stage">
         <img className="sa-result-replay-art" src="/generated/sapar-world/calibration/hybrid-training-replay.webp" alt="Fictional hybrid illustration of two adult grapplers demonstrating a guard exchange on a blue mat" width="1672" height="941" loading="eager" decoding="async" />
-        <motion.div className="sa-result-field" initial={reduce ? false : { clipPath: "inset(0 100% 0 0)" }} animate={{ clipPath: "inset(0 0% 0 0)" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true" />
+        <motion.div className="sa-result-field" initial={lowMotion ? false : { clipPath: "inset(0 100% 0 0)" }} animate={{ clipPath: "inset(0 0% 0 0)" }} transition={{ duration: lowMotion ? 0 : 0.75, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true" />
         <div className="sa-result-stage-copy"><SyntheticLabel compact /><span>Illustrative result reconstruction</span><h1>Result reconstruction.</h1><p>Human-confirmed outcome · fictional scene · no uploaded bout video is being analyzed</p></div>
         <div className="sa-result-versus"><div><Avatar initials="MT" tone="cobalt" label="Maya Torres" art={profileArt.mayaTorres} /><strong>Maya<br />Torres</strong><small>Northline</small></div><span><StatusTag tone="verified">Verified</StatusTag><strong>{result.versions[0].score.display}</strong><small>Points · Final</small></span><div><Avatar initials="LP" tone="social" label="Lena Park" art={profileArt.lenaPark} /><strong>Lena<br />Park</strong><small>Forge</small></div></div>
       </section>
@@ -578,7 +577,7 @@ function formatRatingDate(value: string): string {
 
 export function RatingsView(): ReactNode {
   const dispatch = usePrototypeDispatch();
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
   const [laneKey, setLaneKey] = useState<RatingLaneKey>("no-gi");
   const [window, setWindow] = useState<RatingWindow>("90d");
   const [formulaOpen, setFormulaOpen] = useState(false);
@@ -768,7 +767,7 @@ export function LeaderboardsView(): ReactNode {
 function LeaderboardsViewContent(): ReactNode {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const reduce = useReducedMotion();
+  const reduce = useLowMotion();
   const requestedScope = searchParams.get("scope");
   const scope: LeaderboardScope = requestedScope === "season" || requestedScope === "squad" ? requestedScope : "cohort";
   const fixture = leaderboardFixtures[scope];
