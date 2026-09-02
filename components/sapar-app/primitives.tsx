@@ -19,7 +19,15 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { athlete, events, gyms, posts, proofThreads } from "@/lib/sapar-prototype";
+import {
+  athlete,
+  events,
+  gyms,
+  posts,
+  proofThreads,
+  type GymFixture,
+  type GymSessionFixture,
+} from "@/lib/sapar-prototype";
 import { communityArt, profileArtByFixtureId, type AvatarArt } from "./profile-art";
 import {
   usePrototypeDispatch,
@@ -347,27 +355,117 @@ function RegistrationSheet(): ReactNode {
 function BookingSheet(): ReactNode {
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
-  const selectedBooking = gyms
-    .flatMap((gym) => gym.schedule.map((session) => ({ gym, session })))
-    .find(({ session }) => session.id === state.selectedGymSessionId);
-  const { gym, session } = selectedBooking ?? {
-    gym: gyms[0],
-    session: gyms[0].schedule[0],
-  };
-  const booked = state.bookedSessionIds.includes(session.id);
-  return (
-    <div className="sa-sheet-body">
-      <div className="sa-summary-stack">
-        <p><span>Gym</span><strong>{gym.name}</strong></p>
-        <p><span>Session</span><strong>{session.title}</strong></p>
-        <p><span>When</span><strong>{session.dayOfWeek} · {session.startsAtLocal}</strong></p>
-        <p><span>Availability</span><strong>{session.spotsRemaining} synthetic spots</strong></p>
+  const sessionTitleId = useId();
+  const disclosureId = useId();
+  const bookingOptions: readonly { readonly gym: GymFixture; readonly session: GymSessionFixture }[] = gyms
+    .flatMap((gym) => gym.schedule.map((session) => ({ gym, session })));
+  const selectedBooking = bookingOptions.find(({ session }) => session.id === state.selectedGymSessionId);
+  if (!selectedBooking) {
+    return (
+      <div className="sa-sheet-body sa-booking-preview">
+        <div className="sa-booking-unavailable" role="status">
+          <CalendarDays aria-hidden="true" />
+          <h3>Session unavailable</h3>
+          <p>Close this preview and choose a current session from the gym schedule.</p>
+        </div>
       </div>
-      <p className="sa-search-note">This saves a local preview only. No reservation or payment is made.</p>
-      <button className="sa-button sa-button-primary" type="button" disabled={booked} onClick={() => dispatch({ type: "book-session", id: session.id })}>
-        {booked ? <Check aria-hidden="true" /> : <CalendarDays aria-hidden="true" />}
-        {booked ? "Preview already saved" : "Save booking preview"}
-      </button>
+    );
+  }
+  const { gym, session } = selectedBooking;
+  const booked = state.bookedSessionIds.includes(session.id);
+  const formatLabel = session.format === "no-gi" ? "No-Gi" : session.format === "gi" ? "Gi" : "Mixed";
+  const levelLabel = session.level === "all-levels" ? "All levels" : session.level === "beginner" ? "Beginner" : "Advanced";
+  const availabilityLabel = session.bookingState === "available"
+    ? `${session.spotsRemaining} spots open`
+    : session.bookingState === "waitlist"
+      ? "Waitlist"
+      : "Session full";
+  const availabilityDetail = session.bookingState === "available"
+    ? "synthetic spots open"
+    : session.bookingState === "waitlist"
+      ? "waitlist only"
+      : "no spots open";
+  const actionLabel = booked
+    ? "Preview already saved"
+    : session.bookingState === "waitlist"
+      ? "Save waitlist preview"
+      : session.bookingState === "full"
+        ? "Session full"
+        : "Save booking preview";
+  const actionHint = booked
+    ? "Stored in this open prototype session"
+    : session.bookingState === "full"
+      ? "Choose another session from the schedule"
+      : "Saves only to this open prototype";
+  const bookingVisual = session.format === "no-gi"
+    ? {
+        src: "/generated/sapar-world/calibration/hybrid-training-replay.webp",
+        alt: "Hybrid stylized view of fictional adult No-Gi athletes training on a blue mat",
+        width: 1672,
+        height: 941,
+      }
+    : {
+        src: "/generated/sapar-world/calibration/community-open-mat.webp",
+        alt: "Hybrid stylized view of fictional adult Brazilian Jiu-Jitsu teammates at a community open mat",
+        width: 1448,
+        height: 1086,
+      };
+  return (
+    <div className="sa-sheet-body sa-booking-preview">
+      <div className="sa-booking-scroll">
+        <section className="sa-booking-pass" aria-labelledby={sessionTitleId}>
+          <div className="sa-booking-visual">
+            <img
+              src={bookingVisual.src}
+              alt={bookingVisual.alt}
+              width={bookingVisual.width}
+              height={bookingVisual.height}
+              loading="eager"
+              decoding="async"
+            />
+            <div className="sa-booking-flags">
+              <StatusTag tone={session.bookingState === "available" ? "verified" : session.bookingState === "waitlist" ? "earned" : "neutral"}>{availabilityLabel}</StatusTag>
+              <span>{formatLabel} · {levelLabel}</span>
+            </div>
+            <div className="sa-booking-session-copy">
+              <span><MapPin aria-hidden="true" /> {gym.name}</span>
+              <h3 id={sessionTitleId}>{session.title}</h3>
+              <p>{gym.location.city}, {gym.location.region} · {gym.location.distanceMiles} mi</p>
+              <p className="sa-booking-session-meta">{session.dayOfWeek} · {session.startsAtLocal} · {session.durationMinutes} min</p>
+            </div>
+          </div>
+          <div className="sa-booking-pass-details">
+            <time className="sa-booking-time-block" dateTime={session.startsAtLocal}>
+              <CalendarDays aria-hidden="true" />
+              <span>{session.dayOfWeek.slice(0, 3)}</span>
+              <strong>{session.startsAtLocal}</strong>
+              <small>{session.dayOfWeek}</small>
+            </time>
+            <dl className="sa-booking-facts">
+              <div className="is-info"><dt>Duration</dt><dd><strong>{session.durationMinutes}</strong><span>minutes</span></dd></div>
+              <div className={`is-${session.bookingState}`}><dt>Availability</dt><dd><strong>{session.spotsRemaining}/{session.capacity}</strong><span>{availabilityDetail}</span></dd></div>
+              <div className={gym.verification === "gym-confirmed" ? "is-confirmed" : "is-listed"}><dt>Gym &amp; access</dt><dd><strong>{gym.verification === "gym-confirmed" ? "Confirmed" : "Listed"}</strong><span>{gym.accessibility.stepFreeEntry ? "Step-free entry" : "Contact about access"}</span></dd></div>
+            </dl>
+          </div>
+        </section>
+      </div>
+      <div className="sa-booking-commit">
+        <div className="sa-booking-disclosure" id={disclosureId}>
+          <LockKeyhole aria-hidden="true" />
+          <p><strong>Local preview only</strong><span>No reservation, payment, or message will be sent.</span></p>
+        </div>
+        <button
+          className={`sa-booking-action ${booked ? "is-saved" : ""}`}
+          type="button"
+          disabled={booked || session.bookingState === "full"}
+          aria-describedby={disclosureId}
+          onClick={() => dispatch({ type: "book-session", id: session.id, bookingState: session.bookingState === "waitlist" ? "waitlist" : "available" })}
+        >
+          <span>{booked ? <Check aria-hidden="true" /> : <CalendarDays aria-hidden="true" />}</span>
+          <span><strong>{actionLabel}</strong><small>{actionHint}</small></span>
+          {!booked && session.bookingState !== "full" ? <ArrowRight aria-hidden="true" /> : null}
+        </button>
+      </div>
     </div>
   );
 }
@@ -530,13 +628,20 @@ export function GlobalSheet(): ReactNode {
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (sheet && !dialog.open) {
-      dialog.showModal();
-      window.requestAnimationFrame(() => {
-        const autofocusTarget = dialog.querySelector<HTMLElement>("[data-sheet-autofocus]");
-        const fallbackTarget = dialog.querySelector<HTMLElement>("input, button, a[href], select, textarea");
-        (autofocusTarget ?? fallbackTarget)?.focus();
-      });
+    if (sheet) {
+      const previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = "hidden";
+      if (!dialog.open) {
+        dialog.showModal();
+        window.requestAnimationFrame(() => {
+          const autofocusTarget = dialog.querySelector<HTMLElement>("[data-sheet-autofocus]");
+          const fallbackTarget = dialog.querySelector<HTMLElement>("input, button, a[href], select, textarea");
+          (autofocusTarget ?? fallbackTarget)?.focus();
+        });
+      }
+      return () => {
+        document.documentElement.style.overflow = previousOverflow;
+      };
     }
     if (!sheet && dialog.open) dialog.close();
   }, [sheet]);
@@ -545,16 +650,17 @@ export function GlobalSheet(): ReactNode {
     <dialog
       ref={dialogRef}
       className="sa-dialog"
+      data-sheet={sheet ?? undefined}
       aria-modal="true"
       aria-labelledby={titleId}
       onCancel={(event) => { event.preventDefault(); dispatch({ type: "close-sheet" }); }}
       onClose={() => { if (state.activeSheet) dispatch({ type: "close-sheet" }); }}
     >
       {sheet ? (
-        <div className="sa-sheet">
+        <div className="sa-sheet" data-sheet={sheet}>
           <header>
             <div><SyntheticLabel compact /><h2 id={titleId}>{sheetTitle(sheet)}</h2></div>
-            <button type="button" className="sa-icon-button" onClick={() => dispatch({ type: "close-sheet" })} aria-label="Close panel"><X aria-hidden="true" /></button>
+            <button type="button" className="sa-icon-button" onClick={() => dispatch({ type: "close-sheet" })} aria-label={`Close ${sheetTitle(sheet)}`}><X aria-hidden="true" /></button>
           </header>
           <SheetContents sheet={sheet} />
         </div>

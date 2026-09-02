@@ -342,7 +342,7 @@ export function PulseView(): ReactNode {
       <section className="sa-next-session">
         <div className="sa-next-icon"><CalendarDays /></div>
         <div><span>Open mat tonight</span><strong>{session.startsAtLocal}</strong><small>{gyms[0].name} · {session.spotsRemaining} synthetic spots</small></div>
-        <button type="button" className="sa-tactile-arrow" onClick={() => dispatch({ type: "open-sheet", sheet: "booking" })} aria-label="Open local booking preview"><ArrowRight /></button>
+        <button type="button" className="sa-tactile-arrow" onClick={() => dispatch({ type: "open-sheet", sheet: "booking", gymSessionId: session.id })} aria-label="Open local booking preview"><ArrowRight /></button>
       </section>
       <CompetitiveTier />
       <aside className="sa-side-stack">

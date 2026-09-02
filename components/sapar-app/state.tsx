@@ -63,7 +63,7 @@ export type PrototypeAction =
   | { readonly type: "toggle-save"; readonly id: string }
   | { readonly type: "toggle-follow"; readonly id: string }
   | { readonly type: "register-event"; readonly id: string }
-  | { readonly type: "book-session"; readonly id: string }
+  | { readonly type: "book-session"; readonly id: string; readonly bookingState: "available" | "waitlist" }
   | { readonly type: "read-notification"; readonly id: string }
   | { readonly type: "block-athlete"; readonly id: string }
   | { readonly type: "save-session-draft"; readonly kind: PrototypeDraftKind }
@@ -138,7 +138,9 @@ function reducer(state: PrototypeState, action: PrototypeAction): PrototypeState
         activeSheet: null,
         selectedProofId: null,
         selectedGymSessionId: null,
-        toast: "Booking preview saved for this open prototype session. No reservation or payment was made.",
+        toast: action.bookingState === "waitlist"
+          ? "Waitlist preview saved for this open prototype session. No request or payment was submitted."
+          : "Booking preview saved for this open prototype session. No reservation or payment was made.",
       };
     case "read-notification":
       return { ...state, readNotificationIds: addId(state.readNotificationIds, action.id) };
