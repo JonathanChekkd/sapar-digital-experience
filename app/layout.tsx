@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/manrope";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://saparsport.com"),
+  title: {
+    default: "SAPAR — Train. Connect. Compete.",
+    template: "%s · SAPAR",
+  },
+  description:
+    "SAPAR is a mobile-first platform connecting Jiu-Jitsu practitioners, gyms, sessions, events, and progress in one community.",
+  icons: {
+    icon: "/brand/sapar-mark.svg",
+    apple: "/brand/sapar-mark.svg",
+  },
+  openGraph: {
+    title: "SAPAR — Train. Connect. Compete.",
+    description:
+      "One connected Jiu-Jitsu platform for fighters, gyms, events, and progress.",
+    siteName: "SAPAR",
+    type: "website",
+    images: [
+      {
+        url: "/generated/sapar-event-key-art.png",
+        width: 1672,
+        height: 941,
+        alt: "SAPAR Jiu-Jitsu event concept",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SAPAR — Train. Connect. Compete.",
+    description:
+      "One connected Jiu-Jitsu platform for fighters, gyms, events, and progress.",
+    images: ["/generated/sapar-event-key-art.png"],
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
