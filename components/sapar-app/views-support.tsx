@@ -108,8 +108,9 @@ function AchievementCard({ achievement }: { readonly achievement: AchievementFix
     <motion.button type="button" className="sa-achievement-card" whileHover={reduce ? undefined : { y: -3 }} onClick={() => dispatch({ type: "toast", message: `${achievement.title}: ${achievement.description}` })}>
       <span className={`sa-achievement-medal is-${achievement.category}`}>{achievement.category === "trust" ? <ShieldCheck /> : achievement.category === "training" ? <Sparkles /> : achievement.category === "competition" ? <Trophy /> : <Users />}</span>
       <StatusTag tone={achievement.state === "earned" ? "verified" : "earned"}>{achievement.state}</StatusTag>
-      <strong>{achievement.title}</strong><span>{achievement.description}</span>
+      <strong className="sa-achievement-title">{achievement.title}</strong><span className="sa-achievement-description">{achievement.description}</span>
       <span
+        className="sa-achievement-progress"
         role="progressbar"
         aria-label={`${achievement.title} progress`}
         aria-valuemin={0}
@@ -117,7 +118,7 @@ function AchievementCard({ achievement }: { readonly achievement: AchievementFix
         aria-valuenow={progress}
         aria-valuetext={`${achievement.progress.current} of ${achievement.progress.target} ${achievement.progress.unit}`}
       ><i style={{ width: `${progress}%` }} /></span>
-      <small>{achievement.progress.current} / {achievement.progress.target} {achievement.progress.unit} · {achievement.reward.xp} XP</small>
+      <small className="sa-achievement-meta">{achievement.progress.current} / {achievement.progress.target} {achievement.progress.unit} · {achievement.reward.xp} XP</small>
     </motion.button>
   );
 }
@@ -134,11 +135,10 @@ export function RewardsView(): ReactNode {
 }
 
 export function QuestsView(): ReactNode {
-  const dispatch = usePrototypeDispatch();
   return (
     <div className="sa-view">
       <div className="sa-view-intro"><div><h1>Progress with a finish line.</h1><p>Every quest names the action, evidence, reward, and expiration before you start.</p></div><StatusTag tone="earned">Deterministic</StatusTag></div>
-      <div className="sa-quest-list">{quests.map((quest: QuestFixture) => { const completed = quest.steps.filter((step) => step.completed).length; return <article key={quest.id}><header><span><Flag /></span><div><StatusTag tone={quest.state === "completed" ? "verified" : "cobalt"}>{quest.state}</StatusTag><h2>{quest.title}</h2><p>{quest.description}</p></div></header><ol>{quest.steps.map((step) => <li key={step.label} className={step.completed ? "is-complete" : ""}><span>{step.completed ? <Check /> : null}</span>{step.label}</li>)}</ol><footer><span>{completed} / {quest.steps.length} steps</span><strong>+{quest.reward.xp} private XP</strong><button type="button" onClick={() => dispatch({ type: "toast", message: `Quest detail opened locally: ${quest.title}` })}>View evidence <ArrowRight /></button></footer></article>; })}</div>
+      <div className="sa-quest-list">{quests.map((quest: QuestFixture) => { const completed = quest.steps.filter((step) => step.completed).length; return <article key={quest.id}><header><span><Flag /></span><div><StatusTag tone={quest.state === "completed" ? "verified" : "cobalt"}>{quest.state}</StatusTag><h2>{quest.title}</h2><p>{quest.description}</p></div></header><ol>{quest.steps.map((step) => <li key={step.label} className={step.completed ? "is-complete" : ""}><span>{step.completed ? <Check /> : null}</span>{step.label}</li>)}</ol><footer><span>{completed} / {quest.steps.length} steps</span><strong>+{quest.reward.xp} private XP</strong><details className="sa-quest-evidence"><summary>View evidence <ArrowRight /></summary><p>{completed} completed local fixture step{completed === 1 ? "" : "s"} of {quest.steps.length}. Only the checklist above can unlock this deterministic reward.</p></details></footer></article>; })}</div>
       <div className="sa-honesty-note"><LockKeyhole /><p><strong>No streak punishment</strong><span>Missing a quest never removes earned progress, changes competitive rating, or exposes inactivity publicly.</span></p></div>
     </div>
   );

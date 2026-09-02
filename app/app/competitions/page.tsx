@@ -1,2 +1,6 @@
-import { AppExperience } from "@/components/app-experience";
-export default function CompetitionPage() { return <AppExperience view="competitions" />; }
+import { redirect } from "next/navigation";
+import type { ReactElement } from "react";
+
+export default function CompetitionPage(): ReactElement {
+  redirect("/app/compete");
+}

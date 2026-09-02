@@ -11,6 +11,7 @@ import {
   Copy,
   Flag,
   LockKeyhole,
+  MapPin,
   Search,
   ShieldCheck,
   Sparkles,
@@ -158,6 +159,7 @@ function matchesSearch(values: readonly string[], query: string): boolean {
 
 function SearchSheet(): ReactNode {
   const [query, setQuery] = useState("");
+  const dispatch = usePrototypeDispatch();
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const filteredAthletes = searchableAthletes.filter((item) =>
     matchesSearch([item.name, item.handle, item.detail], normalizedQuery),
@@ -184,6 +186,7 @@ function SearchSheet(): ReactNode {
         <span className="sr-only">Search synthetic athletes, gyms, and events</span>
         <input
           autoFocus
+          data-sheet-autofocus
           type="search"
           placeholder="Athletes, gyms, or events"
           value={query}
@@ -194,21 +197,21 @@ function SearchSheet(): ReactNode {
       {resultCount > 0 ? (
         <div className="sa-search-groups" aria-label={`${resultCount} synthetic fixture results`}>
           {filteredAthletes.map((item) => (
-            <Link href={item.href} key={item.id}>
+            <Link href={item.href} key={item.id} onClick={() => dispatch({ type: "close-sheet" })}>
               <Avatar initials={item.initials} label={`Synthetic athlete ${item.name}`} />
               <span><strong>{item.name}</strong><small>{item.detail}</small></span>
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
           {filteredGyms.map((gym) => (
-            <Link href="/app/gyms" key={gym.id}>
+            <Link href={`/app/gyms?gym=${encodeURIComponent(gym.id)}`} key={gym.id} onClick={() => dispatch({ type: "close-sheet" })}>
               <Avatar initials={gym.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone="verified" label={`Synthetic gym ${gym.name}`} />
               <span><strong>{gym.name}</strong><small>Gym · {gym.location.city} · {gym.location.distanceMiles} miles</small></span>
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
           {filteredEvents.map((event) => (
-            <Link href="/app/compete" key={event.id}>
+            <Link href={`/app/compete?event=${encodeURIComponent(event.id)}`} key={event.id} onClick={() => dispatch({ type: "close-sheet" })}>
               <Avatar initials={event.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone="earned" label={`Synthetic event ${event.name}`} />
               <span><strong>{event.name}</strong><small>Event · {event.venue.city} · {event.status}</small></span>
               <ArrowRight aria-hidden="true" />
@@ -356,9 +359,46 @@ function ReportSheet(): ReactNode {
   );
 }
 
+function ScopeSheet(): ReactNode {
+  const dispatch = usePrototypeDispatch();
+  return (
+    <div className="sa-sheet-body">
+      <div className="sa-honesty-note">
+        <MapPin aria-hidden="true" />
+        <p>
+          <strong>Denver, CO · city-level only</strong>
+          <span>This prototype never requests precise location or background GPS access.</span>
+        </p>
+      </div>
+      <p className="sa-sheet-intro">Your mat scope controls which synthetic gyms, athletes, and events appear nearby.</p>
+      <div className="sa-create-options">
+        <button
+          type="button"
+          onClick={() => {
+            dispatch({ type: "close-sheet" });
+            dispatch({ type: "toast", message: "Denver, CO remains your local prototype scope." });
+          }}
+        >
+          <span><MapPin aria-hidden="true" /></span>
+          <strong>Use Denver mat scope</strong>
+          <small>Keep the current city-level synthetic fixture set.</small>
+          <Check aria-hidden="true" />
+        </button>
+        <Link href="/app/discover" onClick={() => dispatch({ type: "close-sheet" })}>
+          <span><Search aria-hidden="true" /></span>
+          <strong>Browse the mat map</strong>
+          <small>Explore gyms and events inside the current scope.</small>
+          <ArrowRight aria-hidden="true" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function sheetTitle(sheet: Exclude<ReturnType<typeof usePrototypeState>["activeSheet"], null>): string {
   const titles = {
     create: "Create on SAPAR",
+    scope: "Mat scope",
     search: "Search your mat network",
     proof: "Proof Thread",
     registration: "Registration preview",
@@ -372,6 +412,7 @@ function sheetTitle(sheet: Exclude<ReturnType<typeof usePrototypeState>["activeS
 function SheetContents({ sheet }: { readonly sheet: Exclude<ReturnType<typeof usePrototypeState>["activeSheet"], null> }): ReactNode {
   switch (sheet) {
     case "create": return <CreateSheet />;
+    case "scope": return <ScopeSheet />;
     case "search": return <SearchSheet />;
     case "proof": return <ProofSheet />;
     case "registration": return <RegistrationSheet />;
@@ -391,7 +432,14 @@ export function GlobalSheet(): ReactNode {
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (sheet && !dialog.open) dialog.showModal();
+    if (sheet && !dialog.open) {
+      dialog.showModal();
+      window.requestAnimationFrame(() => {
+        const autofocusTarget = dialog.querySelector<HTMLElement>("[data-sheet-autofocus]");
+        const fallbackTarget = dialog.querySelector<HTMLElement>("input, button, a[href], select, textarea");
+        (autofocusTarget ?? fallbackTarget)?.focus();
+      });
+    }
     if (!sheet && dialog.open) dialog.close();
   }, [sheet]);
 
@@ -399,6 +447,7 @@ export function GlobalSheet(): ReactNode {
     <dialog
       ref={dialogRef}
       className="sa-dialog"
+      aria-modal="true"
       aria-labelledby={titleId}
       onCancel={(event) => { event.preventDefault(); dispatch({ type: "close-sheet" }); }}
       onClose={() => { if (state.activeSheet) dispatch({ type: "close-sheet" }); }}

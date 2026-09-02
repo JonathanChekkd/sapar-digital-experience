@@ -189,29 +189,22 @@ function CommunityBeacons(): ReactNode {
 }
 
 function GymCommunity(): ReactNode {
-  const cards = [
+  const media = [
     {
-      name: gyms[0].name,
-      detail: "84 members · 12 active",
-      href: `/app/gyms?gym=${encodeURIComponent(gyms[0].id)}`,
       src: "/generated/sapar-world/calibration/community-open-mat.webp",
       alt: "Cartoon-first group of fictional adult grapplers gathered after an open mat",
     },
     {
-      name: "Summit BJJ",
-      detail: "56 members · 7 active",
-      href: "/app/gyms?gym=gym_summit_bjj",
       src: "/generated/sapar-world/calibration/hybrid-team-after-training.webp",
       alt: "Hybrid illustrated group of fictional adult teammates after training",
     },
-    {
-      name: "Flow State Club",
-      detail: "41 members · 5 active",
-      href: "/app/gyms?gym=gym_flow_state",
-      src: "/generated/sapar-world/calibration/northside-gym.webp",
-      alt: "Colorful illustrated Jiu-Jitsu academy interior prepared for community training",
-    },
   ] as const;
+  const cards = gyms.map((gym, index) => ({
+    name: gym.name,
+    detail: `${gym.memberCount} members · ${gym.schedule.length} sessions`,
+    href: `/app/gyms?gym=${encodeURIComponent(gym.id)}`,
+    ...media[index % media.length],
+  }));
   return (
     <section className="sa-gym-community" aria-labelledby="sa-gym-community-title">
       <div className="sa-home-section-heading">
@@ -234,6 +227,7 @@ function GymCommunity(): ReactNode {
 function FeedPost(): ReactNode {
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const post = posts[0];
   const liked = state.likedPostIds.includes(post.id);
   const likeCount = post.reactions.support + (liked ? 1 : 0);
@@ -257,11 +251,25 @@ function FeedPost(): ReactNode {
       <p>{post.body}</p>
       <div className="sa-feed-actions">
         <button type="button" aria-label={`${liked ? "Unlike" : "Like"} ${post.author.displayName}'s post · ${likeCount} likes`} aria-pressed={liked} className={liked ? "is-active" : ""} onClick={() => dispatch({ type: "toggle-like", id: post.id })}><Heart fill={liked ? "currentColor" : "none"} /><span>{likeCount}</span></button>
-        <button type="button" aria-label={`Open ${post.commentCount} comments on ${post.author.displayName}'s post`} onClick={() => dispatch({ type: "toast", message: "Comments are shown as a local read-only preview." })}><MessageCircle /><span>{post.commentCount}</span></button>
+        <button
+          type="button"
+          aria-label={`${commentsOpen ? "Close" : "Open"} ${post.commentCount} comments on ${post.author.displayName}'s post`}
+          aria-expanded={commentsOpen}
+          aria-controls="sa-comments-preview"
+          className={commentsOpen ? "is-active" : ""}
+          onClick={() => setCommentsOpen((open) => !open)}
+        ><MessageCircle /><span>{post.commentCount}</span></button>
         <button type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "share" })} aria-label="Share synthetic post preview"><Share2 /></button>
         <button type="button" aria-pressed={saved} className={saved ? "is-active" : ""} onClick={() => dispatch({ type: "toggle-save", id: post.id })} aria-label={saved ? "Remove saved post" : "Save post"}><Bookmark fill={saved ? "currentColor" : "none"} /></button>
         <button type="button" aria-pressed={following} className="sa-follow-button" onClick={() => dispatch({ type: "toggle-follow", id: post.author.id })}>{following ? <Check /> : <UserPlus />}{following ? "Following" : "Follow"}</button>
       </div>
+      {commentsOpen ? (
+        <div className="sa-comments-preview" id="sa-comments-preview">
+          <div><Avatar initials="OS" tone="earned" label="Synthetic profile Omar Singh" /><p><strong>Omar Singh</strong><span>Those transition rounds looked sharp. Saving this sequence for Thursday.</span></p></div>
+          <div><Avatar initials="JR" tone="cobalt" label="Synthetic profile Jules Reed" /><p><strong>Jules Reed</strong><span>Great room energy. Thanks for keeping the pace welcoming.</span></p></div>
+          <small>2 of {post.commentCount} synthetic comments shown · read-only local preview</small>
+        </div>
+      ) : null}
     </article>
   );
 }
@@ -317,6 +325,7 @@ export function ProfileView(): ReactNode {
       <PassportHero />
       <div className="sa-profile-actions">
         <Link className="sa-button sa-button-primary" href="/app/settings">Edit visibility</Link>
+        <Link className="sa-button sa-button-secondary" href="/app/onboarding">Review onboarding</Link>
         <button className="sa-button sa-button-secondary" type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "share" })}><Share2 /> Share preview</button>
       </div>
       <section className="sa-profile-metrics" aria-label="Synthetic athlete summary">

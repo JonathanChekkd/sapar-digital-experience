@@ -14,6 +14,7 @@ import type { GymSessionId } from "@/lib/sapar-prototype";
 
 export type SheetKind =
   | "create"
+  | "scope"
   | "search"
   | "proof"
   | "registration"

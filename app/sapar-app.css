@@ -303,6 +303,11 @@
   font-weight: 900;
 }
 
+.sa-header-actions :is(.sa-icon-button, .sa-header-avatar)[aria-current="page"] {
+  border-color: var(--sa-earned);
+  box-shadow: 0 0 0 3px var(--sa-earned-soft), 0 3px 0 var(--sa-ink);
+}
+
 .sa-notification-button {
   position: relative;
 }
@@ -1127,6 +1132,26 @@
 .sa-feed-actions button.is-active { color: #9d3c34; background: var(--sa-social-soft); }
 .sa-feed-actions .sa-follow-button { margin-left: auto; border: 1px solid var(--sa-line-strong); color: var(--sa-cobalt-dark); }
 
+.sa-comments-preview {
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+  background: #fff8f1;
+  border-top: 1px solid #efb6b0;
+}
+
+.sa-comments-preview > div {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+}
+
+.sa-comments-preview .sa-avatar { width: 36px; height: 36px; font-size: 9px; }
+.sa-comments-preview p { display: grid; gap: 3px; color: #454f62; font-size: 10px; line-height: 1.45; }
+.sa-comments-preview p strong { color: var(--sa-ink); font-size: 10px; }
+.sa-comments-preview > small { color: var(--sa-muted); font-size: 8px; }
+
 .sa-side-stack {
   padding: 18px;
   display: grid;
@@ -1569,8 +1594,10 @@
   padding: 10px;
   position: absolute;
   top: 12px;
+  right: 12px;
   left: 12px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 7px;
   background: rgba(24, 32, 53, .9);
@@ -1581,6 +1608,21 @@
 .sa-event-art .sa-synthetic {
   color: #dce5ff;
 }
+
+.sa-event-art > div > span:not(.sa-synthetic) {
+  min-width: 0;
+  color: #dce5ff;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.sa-event-art > div > strong,
+.sa-event-art > div > small {
+  grid-column: 1 / -1;
+}
+
+.sa-event-art > div > strong { font: 760 24px/1 var(--sa-display); }
+.sa-event-art > div > small { color: #c3cee2; font-size: 10px; }
 
 .sa-event-details {
   padding: 22px 18px;
@@ -2119,8 +2161,14 @@
   min-height: 210px;
   padding: 17px;
   display: grid;
-  grid-template-columns: 48px 1fr;
-  grid-template-rows: auto auto auto 1fr auto auto;
+  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-areas:
+    "medal status"
+    "medal title"
+    "description description"
+    "progress progress"
+    "meta meta";
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
   align-content: start;
   gap: 9px;
   border: 1px solid var(--sa-line);
@@ -2130,17 +2178,17 @@
   text-align: left;
 }
 
-.sa-achievement-medal { width: 48px; height: 48px; grid-row: 1 / 3; display: grid; place-items: center; background: var(--sa-earned-soft); border-radius: 14px 8px 14px 8px; color: #755200; }
+.sa-achievement-medal { width: 48px; height: 48px; grid-area: medal; display: grid; place-items: center; background: var(--sa-earned-soft); border-radius: 14px 8px 14px 8px; color: #755200; }
 .sa-achievement-medal svg { width: 23px; }
 .sa-achievement-medal.is-trust { background: var(--sa-verified-soft); color: #17673e; }
 .sa-achievement-medal.is-training { background: var(--sa-cobalt-soft); color: var(--sa-cobalt-dark); }
 .sa-achievement-medal.is-community { background: var(--sa-social-soft); color: #8b342d; }
-.sa-achievement-card > .sa-status { justify-self: end; }
-.sa-achievement-card h3 { grid-column: 1 / -1; margin-top: 10px; font: 730 19px/1 var(--sa-display); }
-.sa-achievement-card > p { grid-column: 1 / -1; color: var(--sa-muted); font-size: 10px; }
-.sa-achievement-card > div { grid-column: 1 / -1; height: 8px; overflow: hidden; align-self: end; background: #e8e5df; border-radius: 3px; }
-.sa-achievement-card > div i { height: 100%; display: block; background: var(--sa-cobalt); }
-.sa-achievement-card > small { grid-column: 1 / -1; color: var(--sa-muted); font-size: 8px; }
+.sa-achievement-card > .sa-status { grid-area: status; justify-self: end; }
+.sa-achievement-title { grid-area: title; align-self: end; font: 730 19px/1 var(--sa-display); }
+.sa-achievement-description { grid-area: description; color: var(--sa-muted); font-size: 12px; line-height: 1.5; }
+.sa-achievement-progress { grid-area: progress; height: 8px; overflow: hidden; align-self: end; background: #e8e5df; border-radius: 3px; }
+.sa-achievement-progress i { height: 100%; display: block; background: var(--sa-cobalt); }
+.sa-achievement-meta { grid-area: meta; color: var(--sa-muted); font-size: 11px; }
 
 .sa-view-footer-action { display: flex; justify-content: flex-end; }
 
@@ -2170,7 +2218,12 @@
 .sa-quest-list footer { min-height: 70px; padding: 12px 17px; display: flex; flex-wrap: wrap; align-items: center; gap: 9px 16px; background: #f3efe8; }
 .sa-quest-list footer > span { color: var(--sa-muted); font-size: 9px; }
 .sa-quest-list footer > strong { color: #755200; font-size: 10px; }
-.sa-quest-list footer > button { min-height: 44px; margin-left: auto; display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--sa-cobalt-dark); font-size: 9px; font-weight: 850; cursor: pointer; }
+.sa-quest-evidence { flex: 1 1 100%; }
+.sa-quest-evidence summary { min-height: 44px; display: flex; align-items: center; justify-content: flex-end; gap: 6px; color: var(--sa-cobalt-dark); font-size: 9px; font-weight: 850; cursor: pointer; list-style: none; }
+.sa-quest-evidence summary::-webkit-details-marker { display: none; }
+.sa-quest-evidence summary svg { transition: transform .2s ease; }
+.sa-quest-evidence[open] summary svg { transform: rotate(90deg); }
+.sa-quest-evidence p { padding: 10px 12px; background: rgba(255, 255, 255, .76); border: 1px solid var(--sa-line); border-radius: 10px; color: var(--sa-muted); font-size: 10px; line-height: 1.5; }
 
 .sa-notification-list article {
   min-height: 112px;
@@ -2334,7 +2387,7 @@
   border: 0;
   background: transparent;
   color: #6b7280;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -2359,7 +2412,7 @@
 }
 
 .sa-create-control svg { width: 23px; height: 23px; stroke-width: 2.6; }
-.sa-create-control small { font-size: 8px; font-weight: 900; }
+.sa-create-control small { font-size: 10px; font-weight: 900; }
 
 .sa-dialog {
   width: min(100%, 660px);
@@ -2435,7 +2488,7 @@
   gap: 8px;
 }
 
-.sa-create-options > button {
+.sa-create-options > :where(button, a) {
   min-height: 78px;
   padding: 11px;
   display: grid;
@@ -2445,15 +2498,17 @@
   border: 1px solid var(--sa-line);
   border-radius: 12px;
   background: var(--sa-white);
+  color: var(--sa-ink);
   cursor: pointer;
+  text-decoration: none;
   text-align: left;
 }
 
-.sa-create-options > button > span { width: 42px; height: 42px; display: grid; place-items: center; background: var(--sa-cobalt-soft); border-radius: 11px 7px 11px 7px; color: var(--sa-cobalt); }
-.sa-create-options > button > span svg { width: 20px; }
-.sa-create-options > button > strong { align-self: end; font-size: 10px; }
-.sa-create-options > button > small { grid-column: 2; align-self: start; color: var(--sa-muted); font-size: 8px; }
-.sa-create-options > button > svg { grid-column: 3; grid-row: 1 / 3; width: 17px; color: var(--sa-cobalt); }
+.sa-create-options > :where(button, a) > span { width: 42px; height: 42px; display: grid; place-items: center; background: var(--sa-cobalt-soft); border-radius: 11px 7px 11px 7px; color: var(--sa-cobalt); }
+.sa-create-options > :where(button, a) > span svg { width: 20px; }
+.sa-create-options > :where(button, a) > strong { align-self: end; font-size: 10px; }
+.sa-create-options > :where(button, a) > small { grid-column: 2; align-self: start; color: var(--sa-muted); font-size: 8px; }
+.sa-create-options > :where(button, a) > svg { grid-column: 3; grid-row: 1 / 3; width: 17px; color: var(--sa-cobalt); }
 
 .sa-proof-list {
   padding: 0;
@@ -2532,6 +2587,12 @@
 .sa-stage > * {
   position: relative;
   z-index: 1;
+}
+
+.sa-stage > .sa-header {
+  position: sticky;
+  z-index: 90;
+  top: 0;
 }
 
 .sa-content {
@@ -2965,7 +3026,7 @@
 
 .sa-bottom-nav {
   min-height: calc(82px + env(safe-area-inset-bottom));
-  overflow: hidden;
+  overflow: visible;
   background-color: var(--sa-cream);
 }
 
@@ -3020,6 +3081,10 @@
   width: 58px;
   height: 52px;
   border-radius: 50%;
+}
+
+.sa-create-control.is-active > span {
+  box-shadow: 0 0 0 4px var(--sa-cream), 0 0 0 7px var(--sa-cobalt-dark), 0 5px 0 var(--sa-ink);
 }
 
 .sa-create-control > span svg,
@@ -3562,6 +3627,9 @@
     top: 0;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
     background: var(--sa-ink);
     border-right: 1px solid #313a4e;
     color: var(--sa-white);
@@ -3583,7 +3651,9 @@
   .sa-rail-proof strong { font-size: 9px; }
   .sa-rail-proof span { color: #98a4ba; font-size: 8px; }
   .sa-stage { grid-column: 2; }
-  .sa-header { position: relative; padding-inline: 34px; }
+  .sa-header { grid-template-columns: minmax(0, 1fr) auto; padding-inline: 34px; }
+  .sa-header > .sa-scope { grid-column: 1; }
+  .sa-header > .sa-header-actions { grid-column: 2; justify-self: end; }
   .sa-mobile-brand { display: none; }
   .sa-content { padding: 42px 42px 72px; }
   .sa-bottom-nav { display: none; }
@@ -3613,7 +3683,7 @@
   .sa-network-list button:hover,
   .sa-create-grid > button:hover,
   .sa-achievement-card:hover,
-  .sa-create-options > button:hover {
+  .sa-create-options > :where(button, a):hover {
     transform: translateY(-2px);
   }
   .sa-icon-button:hover,
@@ -3653,7 +3723,7 @@
     --sa-line-strong: #5f6673;
   }
   .sa-app :where(.sa-surface, .sa-feed-post, .sa-passport, .sa-proof-journey, .sa-button, .sa-status),
-  .sa-dialog :where(.sa-sheet, .sa-create-options > button, .sa-search-groups > a) {
+  .sa-dialog :where(.sa-sheet, .sa-create-options > button, .sa-create-options > a, .sa-search-groups > a) {
     border-width: 2px;
   }
   .sa-app :where(a, button, input, select):focus-visible,

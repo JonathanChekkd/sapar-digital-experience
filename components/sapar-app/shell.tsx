@@ -46,11 +46,31 @@ export type AppView =
   | "network"
   | "quests";
 
+const viewTitles: Readonly<Record<AppView, string>> = {
+  pulse: "Pulse",
+  profile: "Profile",
+  competitions: "Competitions",
+  compete: "Compete",
+  arena: "Arena",
+  replay: "Replay",
+  ratings: "Rating lanes",
+  gyms: "Gyms & sessions",
+  rewards: "Achievements",
+  create: "Create",
+  discover: "Discover",
+  notifications: "Notifications",
+  settings: "Settings",
+  onboarding: "Onboarding",
+  leaderboards: "Leaderboards",
+  network: "My network",
+  quests: "Quests",
+};
+
 const primaryLinks = [
-  { href: "/app", label: "Pulse", icon: Home },
-  { href: "/app/compete", label: "Compete", icon: Trophy },
-  { href: "/app/discover", label: "Discover", icon: Compass },
-  { href: "/app/profile", label: "Profile", icon: CircleUserRound },
+  { href: "/app", label: "Pulse", icon: Home, section: "pulse" },
+  { href: "/app/compete", label: "Compete", icon: Trophy, section: "compete" },
+  { href: "/app/discover", label: "Discover", icon: Compass, section: "discover" },
+  { href: "/app/profile", label: "Profile", icon: CircleUserRound, section: "profile" },
 ] as const;
 
 const secondaryLinks = [
@@ -63,9 +83,37 @@ const secondaryLinks = [
 ] as const;
 
 function isCurrent(pathname: string, href: string): boolean {
-  if (href === "/app") return pathname === href;
-  if (href === "/app/compete") return pathname.startsWith("/app/compete") || pathname.startsWith("/app/competitions") || pathname.startsWith("/app/arena") || pathname.startsWith("/app/replay");
-  return pathname.startsWith(href);
+  if (href === "/app") return pathname === href || pathname === "/app/notifications";
+  if (href === "/app/compete") {
+    return ["/app/compete", "/app/competitions", "/app/arena", "/app/replay", "/app/leaderboards"].some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`),
+    );
+  }
+  if (href === "/app/profile") {
+    return pathname === href || pathname.startsWith(`${href}/`) || pathname === "/app/onboarding";
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function ariaCurrentFor(pathname: string, href: string): "page" | "location" | undefined {
+  if (pathname === href) return "page";
+  return isCurrent(pathname, href) ? "location" : undefined;
+}
+
+type PrimaryNavigationSection = "pulse" | "compete" | "create" | "discover" | "profile";
+
+function primaryNavigationSection(pathname: string): PrimaryNavigationSection {
+  if (pathname === "/app/create" || pathname.startsWith("/app/create/")) return "create";
+  if (["/app/compete", "/app/competitions", "/app/arena", "/app/replay", "/app/ratings", "/app/leaderboards"].some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  )) return "compete";
+  if (["/app/discover", "/app/gyms"].some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  )) return "discover";
+  if (["/app/profile", "/app/network", "/app/rewards", "/app/quests", "/app/settings", "/app/onboarding"].some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  )) return "profile";
+  return "pulse";
 }
 
 type PrototypeServiceState = "checking" | "available" | "unavailable";
@@ -266,7 +314,6 @@ function Brand(): ReactNode {
 
 function DesktopRail(): ReactNode {
   const pathname = usePathname();
-  const dispatch = usePrototypeDispatch();
   return (
     <aside className="sa-rail">
       <Link href="/" className="sa-rail-brand" aria-label="SAPAR public home"><Brand /></Link>
@@ -274,16 +321,16 @@ function DesktopRail(): ReactNode {
       <nav aria-label="SAPAR prototype sections">
         <p>Core</p>
         {primaryLinks.map(({ href, label, icon: Icon }) => (
-          <Link key={href} href={href} aria-current={isCurrent(pathname, href) ? "page" : undefined} className={isCurrent(pathname, href) ? "is-active" : ""}>
+          <Link key={href} href={href} aria-current={ariaCurrentFor(pathname, href)} className={isCurrent(pathname, href) ? "is-active" : ""}>
             <Icon aria-hidden="true" /><span>{label}</span>
           </Link>
         ))}
-        <button type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "create" })}>
+        <Link href="/app/create" aria-current={pathname === "/app/create" ? "page" : undefined} className={pathname === "/app/create" ? "is-active" : ""}>
           <Plus aria-hidden="true" /><span>Create</span>
-        </button>
+        </Link>
         <p>Explore</p>
         {secondaryLinks.map(({ href, label, icon: Icon }) => (
-          <Link key={href} href={href} aria-current={isCurrent(pathname, href) ? "page" : undefined} className={isCurrent(pathname, href) ? "is-active" : ""}>
+          <Link key={href} href={href} aria-current={ariaCurrentFor(pathname, href)} className={isCurrent(pathname, href) ? "is-active" : ""}>
             <Icon aria-hidden="true" /><span>{label}</span>
           </Link>
         ))}
@@ -297,6 +344,7 @@ function DesktopRail(): ReactNode {
 }
 
 function AppHeader(): ReactNode {
+  const pathname = usePathname();
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
   const unread = notifications.filter(
@@ -305,15 +353,15 @@ function AppHeader(): ReactNode {
   return (
     <header className="sa-header">
       <Link href="/app" className="sa-mobile-brand" aria-label="SAPAR Pulse"><Brand /></Link>
-      <button type="button" className="sa-scope" onClick={() => dispatch({ type: "open-sheet", sheet: "search" })}>
+      <button type="button" className="sa-scope" onClick={() => dispatch({ type: "open-sheet", sheet: "scope" })}>
         <span>Mat scope</span><strong>Denver, CO</strong>
       </button>
       <div className="sa-header-actions">
         <button type="button" className="sa-icon-button" onClick={() => dispatch({ type: "open-sheet", sheet: "search" })} aria-label="Search synthetic athletes, gyms, and events"><Search aria-hidden="true" /></button>
-        <Link className="sa-icon-button sa-notification-button" href="/app/notifications" aria-label={`${unread} unread prototype notifications`}>
+        <Link className="sa-icon-button sa-notification-button" href="/app/notifications" aria-label={`${unread} unread prototype notifications`} aria-current={pathname === "/app/notifications" ? "page" : undefined}>
           <Bell aria-hidden="true" /><span>{unread}</span>
         </Link>
-        <Link className="sa-header-avatar" href="/app/profile" aria-label="Open Maya Torres synthetic profile">MT</Link>
+        <Link className="sa-header-avatar" href="/app/profile" aria-label="Open Maya Torres synthetic profile" aria-current={pathname === "/app/profile" ? "page" : undefined}>MT</Link>
       </div>
       {state.connectivity !== "online" ? (
         <div className="sa-connectivity" role="status"><WifiOff aria-hidden="true" />{state.connectivity === "offline" ? "Offline preview · saved local state remains available" : "Fixture service error · retry from Settings"}</div>
@@ -324,28 +372,27 @@ function AppHeader(): ReactNode {
 
 function BottomNavigation(): ReactNode {
   const pathname = usePathname();
-  const dispatch = usePrototypeDispatch();
   const items = [
     primaryLinks[0],
     primaryLinks[1],
-    { href: "/app/create", label: "Create", icon: Plus },
+    { href: "/app/create", label: "Create", icon: Plus, section: "create" },
     primaryLinks[2],
     primaryLinks[3],
   ] as const;
   return (
     <nav className="sa-bottom-nav" aria-label="Primary app navigation">
-      {items.map(({ href, label, icon: Icon }) => {
+      {items.map(({ href, label, icon: Icon, section }) => {
         const create = href === "/app/create";
+        const current = primaryNavigationSection(pathname) === section;
         if (create) {
           return (
-            <button key={href} type="button" className="sa-create-control" onClick={() => dispatch({ type: "open-sheet", sheet: "create" })}>
+            <Link key={href} href={href} className={`sa-create-control ${current ? "is-active" : ""}`} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
               <span><Icon aria-hidden="true" /></span><small>{label}</small>
-            </button>
+            </Link>
           );
         }
-        const current = isCurrent(pathname, href);
         return (
-          <Link key={href} href={href} className={current ? "is-active" : ""} aria-current={current ? "page" : undefined}>
+          <Link key={href} href={href} className={current ? "is-active" : ""} aria-current={pathname === href ? "page" : current ? "location" : undefined}>
             <Icon aria-hidden="true" /><span>{label}</span>
           </Link>
         );
@@ -374,5 +421,11 @@ function AppFrame({ children, view }: { readonly children: ReactNode; readonly v
 }
 
 export function SaparAppShell({ children, view }: { readonly children: ReactNode; readonly view: AppView }): ReactNode {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = `${viewTitles[view]} — SAPAR prototype`;
+    return () => { document.title = previousTitle; };
+  }, [view]);
+
   return <AppFrame view={view}>{children}</AppFrame>;
 }

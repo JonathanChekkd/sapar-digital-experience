@@ -172,7 +172,7 @@ export function HomeExperience() {
   const reduce = useReducedMotion();
   return (
     <PageShell>
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="home-hero section-dark">
           <div className="hero-noise" aria-hidden="true" />
           <div className="home-hero-copy">
@@ -417,7 +417,7 @@ export function AudienceExperience({ audience }: { audience: Audience }) {
   const Icon = copy.icon;
   return (
     <PageShell>
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="subpage-hero section-dark">
           <div className="subpage-grid" aria-hidden="true" />
           <div>
@@ -431,7 +431,7 @@ export function AudienceExperience({ audience }: { audience: Audience }) {
           </div>
           <div className="subpage-emblem"><Icon aria-hidden="true" /><span>01</span></div>
         </section>
-        <section className="section section-light audience-steps">
+        <section className={`section section-light audience-steps audience-steps-${audience}`}>
           <div className="audience-step-head">
             <span className="kicker">THE EXPERIENCE</span>
             <h2>One journey, four clear moments.</h2>
@@ -472,7 +472,7 @@ export function VisionExperience() {
   ] as const;
   return (
     <PageShell>
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="subpage-hero vision-hero section-dark">
           <div>
             <span className="kicker kicker-blue">RESPONSIBLE TECHNOLOGY ROADMAP</span>
@@ -518,7 +518,7 @@ export function DemoExperience() {
   ] as const;
   return (
     <PageShell>
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="demo-hero section-dark">
           <div>
             <StatusChip tone="blue">Five-minute investor tour</StatusChip>
