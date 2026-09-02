@@ -25,6 +25,13 @@ export type SheetKind =
 
 export type Connectivity = "online" | "offline" | "error";
 
+export type PrototypeDraftKind = "mat-note" | "session" | "challenge";
+
+export type PrototypeReportReason =
+  | "unsafe-conduct"
+  | "private-information"
+  | "result-integrity";
+
 export interface PrototypePreferences {
   readonly lowStimulation: boolean;
   readonly reducedSound: boolean;
@@ -41,6 +48,8 @@ export interface PrototypeState {
   readonly bookedSessionIds: readonly string[];
   readonly readNotificationIds: readonly string[];
   readonly blockedAthleteIds: readonly string[];
+  readonly sessionDraftKinds: readonly PrototypeDraftKind[];
+  readonly sessionReportReason: PrototypeReportReason | null;
   readonly preferences: PrototypePreferences;
   readonly activeSheet: SheetKind;
   readonly selectedProofId: string | null;
@@ -57,6 +66,8 @@ export type PrototypeAction =
   | { readonly type: "book-session"; readonly id: string }
   | { readonly type: "read-notification"; readonly id: string }
   | { readonly type: "block-athlete"; readonly id: string }
+  | { readonly type: "save-session-draft"; readonly kind: PrototypeDraftKind }
+  | { readonly type: "save-session-report"; readonly reason: PrototypeReportReason }
   | { readonly type: "set-preference"; readonly key: keyof PrototypePreferences; readonly value: boolean }
   | {
       readonly type: "open-sheet";
@@ -85,6 +96,8 @@ const initialState: PrototypeState = {
   bookedSessionIds: [],
   readNotificationIds: [],
   blockedAthleteIds: [],
+  sessionDraftKinds: [],
+  sessionReportReason: null,
   preferences: defaultPreferences,
   activeSheet: null,
   selectedProofId: null,
@@ -97,7 +110,7 @@ function toggleId(values: readonly string[], id: string): readonly string[] {
   return values.includes(id) ? values.filter((value) => value !== id) : [...values, id];
 }
 
-function addId(values: readonly string[], id: string): readonly string[] {
+function addId<T extends string>(values: readonly T[], id: T): readonly T[] {
   return values.includes(id) ? values : [...values, id];
 }
 
@@ -116,7 +129,7 @@ function reducer(state: PrototypeState, action: PrototypeAction): PrototypeState
         activeSheet: null,
         selectedProofId: null,
         selectedGymSessionId: null,
-        toast: "Registration preview saved locally. Nothing was submitted.",
+        toast: "Registration preview saved for this open prototype session. Nothing was submitted.",
       };
     case "book-session":
       return {
@@ -125,7 +138,7 @@ function reducer(state: PrototypeState, action: PrototypeAction): PrototypeState
         activeSheet: null,
         selectedProofId: null,
         selectedGymSessionId: null,
-        toast: "Booking preview saved locally. No reservation or payment was made.",
+        toast: "Booking preview saved for this open prototype session. No reservation or payment was made.",
       };
     case "read-notification":
       return { ...state, readNotificationIds: addId(state.readNotificationIds, action.id) };
@@ -136,7 +149,25 @@ function reducer(state: PrototypeState, action: PrototypeAction): PrototypeState
         activeSheet: null,
         selectedProofId: null,
         selectedGymSessionId: null,
-        toast: "This synthetic profile is now hidden in the local prototype.",
+        toast: "This synthetic profile is hidden for this open prototype session.",
+      };
+    case "save-session-draft":
+      return {
+        ...state,
+        sessionDraftKinds: addId(state.sessionDraftKinds, action.kind),
+        activeSheet: null,
+        selectedProofId: null,
+        selectedGymSessionId: null,
+        toast: "Draft preview saved for this open prototype session. Nothing was published.",
+      };
+    case "save-session-report":
+      return {
+        ...state,
+        sessionReportReason: action.reason,
+        activeSheet: null,
+        selectedProofId: null,
+        selectedGymSessionId: null,
+        toast: "Report preview saved for this open prototype session. Nothing was submitted.",
       };
     case "set-preference":
       return { ...state, preferences: { ...state.preferences, [action.key]: action.value } };

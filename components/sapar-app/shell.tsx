@@ -224,6 +224,7 @@ function isAvailableResponse(
 
 function PrototypeServiceStatus(): ReactNode {
   const [serviceState, setServiceState] = useState<PrototypeServiceState>("checking");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -278,12 +279,15 @@ function PrototypeServiceStatus(): ReactNode {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, []);
+  }, [attempt]);
 
   return (
-    <span className={`sa-service-status is-${serviceState}`} role="status" aria-live="polite">
-      {serviceState === "available" ? <CircleCheckBig aria-hidden="true" /> : serviceState === "unavailable" ? <TriangleAlert aria-hidden="true" /> : <LoaderCircle aria-hidden="true" />}
-      {serviceState === "available" ? "Typed fixture API ready" : serviceState === "unavailable" ? "Prototype API unavailable" : "Checking fixture API"}
+    <span className="sa-service-group">
+      <span className={`sa-service-status is-${serviceState}`} role="status" aria-live="polite">
+        {serviceState === "available" ? <CircleCheckBig aria-hidden="true" /> : serviceState === "unavailable" ? <TriangleAlert aria-hidden="true" /> : <LoaderCircle aria-hidden="true" />}
+        {serviceState === "available" ? "Interactive demo ready" : serviceState === "unavailable" ? "Demo data unavailable" : "Checking demo data"}
+      </span>
+      {serviceState === "unavailable" ? <button type="button" onClick={() => { setServiceState("checking"); setAttempt((current) => current + 1); }}>Retry</button> : null}
     </span>
   );
 }
@@ -401,6 +405,24 @@ function BottomNavigation(): ReactNode {
   );
 }
 
+function AppFooter({ view }: { readonly view: AppView }): ReactNode {
+  const reduce = useReducedMotion();
+
+  return (
+    <motion.footer
+      className="sa-app-footer"
+      initial={reduce ? false : { opacity: 0.9, y: 8, filter: "blur(2px)" }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <Link href="/" className="sa-app-footer-brand" aria-label="SAPAR public home"><Brand /></Link>
+      <p><strong>{viewTitles[view]} · interactive prototype</strong><span>Fictional fixtures. No official result, rating, booking, or payment.</span></p>
+      <nav aria-label="Prototype links"><Link href="/demo">Investor tour</Link><Link href="/app/settings">Data controls</Link></nav>
+    </motion.footer>
+  );
+}
+
 function AppFrame({ children, view }: { readonly children: ReactNode; readonly view: AppView }): ReactNode {
   const state = usePrototypeState();
 
@@ -412,6 +434,7 @@ function AppFrame({ children, view }: { readonly children: ReactNode; readonly v
         <div className="sa-prototype-strip"><SyntheticLabel /><span className="sa-prototype-copy">Interactive concept · no official result, rating, booking, or payment</span><PrototypeServiceStatus /></div>
         <AppHeader />
         <main id="sapar-app-content" className="sa-content" tabIndex={-1}>{children}</main>
+        <AppFooter view={view} />
       </div>
       <BottomNavigation />
       <GlobalSheet />

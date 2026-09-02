@@ -249,7 +249,36 @@ img { display: block; max-width: 100%; }
   .hero-chapter { display: none; }
 }
 
+.window-pill span {
+  background: #9aa5b8;
+  box-shadow: none;
+}
+
+.rating-float {
+  column-gap: 16px;
+}
+
+.rating-float span:last-child {
+  min-height: 24px;
+  padding: 4px 7px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(131, 255, 143, .42);
+  border-radius: 999px;
+  background: rgba(131, 255, 143, .1);
+}
+
+.detail-console a {
+  min-height: 44px;
+  margin-top: 22px;
+  align-items: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  *,*::before,*::after { animation: none !important; scroll-behavior: auto !important; }
+  :where(a, button, input, select, .mobile-nav, .mobile-nav-layer) {
+    transition-duration: 80ms !important;
+    transition-property: color, background-color, border-color, opacity, box-shadow !important;
+  }
 }

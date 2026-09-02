@@ -90,8 +90,17 @@ function CompeteViewContent(): ReactNode {
   const searchParams = useSearchParams();
   const [filter, setFilter] = useState<FormatFilter>("all");
   const requestedEventId = searchParams.get("event");
-  const selectedEvent = events.find((event) => event.id === requestedEventId) ?? events.find((event) => event.status === "registration-open");
+  const requestedEvent = requestedEventId ? events.find((event) => event.id === requestedEventId) : undefined;
+  const selectedEvent = requestedEvent ?? events.find((event) => event.status === "registration-open");
   const visibleEvents = events.filter((event) => filter === "all" || event.formats.some((format) => format === filter));
+  if (requestedEventId && !requestedEvent) {
+    return (
+      <div className="sa-view">
+        <div className="sa-view-intro"><div><h1>That event is not in this demo.</h1><p>The shared link points to an unknown synthetic fixture. No unrelated competition was substituted.</p></div><StatusTag tone="neutral">Not found</StatusTag></div>
+        <section className="sa-surface"><SectionHeading title="Return to the competition calendar" detail="Choose from the current fixture catalog." /><Link className="sa-button sa-button-primary" href="/app/compete">Open available events <ArrowRight /></Link></section>
+      </div>
+    );
+  }
   if (!selectedEvent) {
     return <div className="sa-view"><section className="sa-surface"><h1>Competition fixtures unavailable.</h1><p>The local synthetic event catalog is empty.</p></section></div>;
   }
@@ -199,11 +208,10 @@ export function ReplayView(): ReactNode {
 
   return (
     <div className="sa-view sa-result-view">
-      <h1 className="sr-only">Verified result replay</h1>
       <section className="sa-result-stage">
+        <img className="sa-result-replay-art" src="/generated/sapar-world/calibration/hybrid-training-replay.webp" alt="Fictional hybrid illustration of two adult grapplers demonstrating a guard exchange on a blue mat" width="1672" height="941" loading="eager" decoding="async" />
         <motion.div className="sa-result-field" initial={reduce ? false : { clipPath: "inset(0 100% 0 0)" }} animate={{ clipPath: "inset(0 0% 0 0)" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true" />
-        <SyntheticLabel compact />
-        <p>Human-confirmed result · SAPAR Summer Open</p>
+        <div className="sa-result-stage-copy"><SyntheticLabel compact /><span>Illustrative result reconstruction</span><h1>Result reconstruction.</h1><p>Human-confirmed outcome · fictional scene · no uploaded bout video is being analyzed</p></div>
         <div className="sa-result-versus"><div><Avatar initials="MT" tone="cobalt" label="Maya Torres" /><strong>Maya<br />Torres</strong><small>Northline</small></div><span><StatusTag tone="verified">Verified</StatusTag><strong>{result.versions[0].score.display}</strong><small>Points · Final</small></span><div><Avatar initials="LP" tone="social" label="Lena Park" /><strong>Lena<br />Park</strong><small>Forge</small></div></div>
       </section>
       <section className="sa-player" aria-label="Synthetic replay controls"><button type="button" aria-label={playing ? "Pause synthetic replay" : position >= 100 ? "Replay synthetic result from the beginning" : "Play synthetic replay"} onClick={togglePlayback}>{playing ? <CirclePause /> : <CirclePlay />}</button><label><span className="sr-only">Synthetic replay position</span><input type="range" min="0" max="100" value={position} aria-valuetext={`${formatReplayTime(position)} of 5:00`} onChange={(event) => updatePosition(Number(event.currentTarget.value))} /></label><span>{formatReplayTime(position)} / 5:00</span><button type="button" aria-label="Restart synthetic replay" onClick={resetPlayback}><RotateCcw /></button></section>

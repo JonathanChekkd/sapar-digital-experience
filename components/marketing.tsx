@@ -182,7 +182,7 @@ export function HomeExperience() {
               transition={reduce ? { duration: 0 } : { duration: 0.45 }}
               className="eyebrow-row"
             >
-              <StatusChip tone="green">Private beta</StatusChip>
+              <StatusChip tone="neutral">Private beta</StatusChip>
             </motion.div>
             <motion.h1
               initial={reduce ? false : { opacity: 0, y: 24 }}

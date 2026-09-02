@@ -154,6 +154,24 @@
 .sa-service-status.is-unavailable { color: #ffd17a; }
 .sa-service-status.is-checking svg { animation: sa-service-spin 900ms linear infinite; }
 
+.sa-service-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sa-service-group > button {
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid #ffd17a;
+  border-radius: 8px;
+  background: transparent;
+  color: #ffe2a5;
+  font-size: 10px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
 @keyframes sa-service-spin {
   to { transform: rotate(360deg); }
 }
@@ -1680,13 +1698,12 @@
 .sa-compete-guidance > div {
   min-height: 160px;
   padding: 18px;
-  border: 1px solid var(--sa-line);
-  border-top: 5px solid var(--sa-cobalt);
+  border: 1px solid #9eb4ef;
   border-radius: 12px;
-  background: var(--sa-white);
+  background: linear-gradient(180deg, var(--sa-cobalt-soft), var(--sa-white) 42%);
 }
 
-.sa-compete-guidance > div:nth-child(2) { border-top-color: var(--sa-verified); }
+.sa-compete-guidance > div:nth-child(2) { border-color: #9ccdaf; background: linear-gradient(180deg, var(--sa-verified-soft), var(--sa-white) 42%); }
 .sa-compete-guidance svg { width: 28px; color: var(--sa-cobalt); }
 .sa-compete-guidance h2 { margin: 28px 0 8px; font: 720 20px/1 var(--sa-display); }
 .sa-compete-guidance p { color: var(--sa-muted); font-size: 11px; line-height: 1.5; }
@@ -3675,6 +3692,293 @@
   .sa-rating-dashboard { grid-template-columns: .7fr 1.3fr; }
 }
 
+/* Final product-wide pass: route identity, legible evidence, and truthful replay. */
+.sa-app[data-view="ratings"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/rating-proof-thread.png");
+  background-position: center 42%;
+  background-size: cover;
+}
+
+.sa-app[data-view="rewards"] .sa-view-intro,
+.sa-app[data-view="quests"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/achievement-verified-medallion.png");
+  background-position: center 48%;
+  background-size: cover;
+}
+
+.sa-app[data-view="settings"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/safety-consent-review.png");
+  background-position: center 38%;
+  background-size: cover;
+}
+
+.sa-app[data-view="notifications"] .sa-view-intro,
+.sa-app[data-view="network"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/hybrid-team-after-training.webp");
+  background-position: center 48%;
+  background-size: cover;
+}
+
+.sa-app[data-view="leaderboards"] .sa-view-intro,
+.sa-app[data-view="compete"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/arena-regional-championship.png");
+  background-position: center 46%;
+  background-size: cover;
+}
+
+.sa-app[data-view="discover"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/community-open-mat.webp");
+  background-position: center 52%;
+  background-size: cover;
+}
+
+.sa-app[data-view] .sa-view-intro::before {
+  inset: 22% 0 0;
+  background: linear-gradient(180deg, rgba(7, 29, 92, 0), rgba(7, 29, 92, .9) 58%, rgba(7, 29, 92, .96));
+}
+
+.sa-passport-details {
+  gap: 10px;
+}
+
+.sa-passport-proof-action {
+  margin-top: 3px;
+}
+
+.sa-passport-details .sa-rating-lane > span,
+.sa-passport-details .sa-rating-lane > small,
+.sa-passport-proof-action small {
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.sa-result-stage {
+  min-height: 410px;
+  isolation: isolate;
+  background: var(--sa-ink);
+}
+
+.sa-result-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 13, 27, .2), rgba(7, 29, 92, .52) 52%, rgba(7, 18, 48, .96));
+  pointer-events: none;
+}
+
+.sa-result-stage > .sa-result-replay-art {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.015);
+}
+
+.sa-result-stage > .sa-result-field {
+  z-index: 1;
+}
+
+.sa-result-stage > :not(.sa-result-field, .sa-result-replay-art) {
+  z-index: 2;
+}
+
+.sa-result-stage-copy {
+  max-width: 680px;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+.sa-result-stage-copy > span:not(.sa-synthetic) {
+  color: #e1e8ff;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.sa-result-stage-copy h1 {
+  max-width: 620px;
+  font: 800 clamp(38px, 10vw, 70px)/.88 var(--sa-display);
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+
+.sa-result-stage-copy p {
+  max-width: 620px;
+  color: #edf1ff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.sa-result-versus {
+  padding: 12px;
+  background: rgba(7, 18, 48, .78);
+  border: 1px solid rgba(255, 255, 255, .36);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.sa-timeline time,
+.sa-timeline small,
+.sa-authority-strip span,
+.sa-result-versus > div > small,
+.sa-result-versus > span > small,
+.sa-player > span,
+.sa-rating-change > span,
+.sa-separate-progress small,
+.sa-history-list small,
+.sa-leaderboard p small,
+.sa-schedule-copy small,
+.sa-notification-list small,
+.sa-setting-fact span,
+.sa-connection-tester small,
+.sa-capability-grid small {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.sa-timeline strong,
+.sa-history-list strong,
+.sa-leaderboard p strong,
+.sa-schedule-copy b,
+.sa-notification-list p,
+.sa-setting-fact strong,
+.sa-connection-tester strong,
+.sa-capability-grid strong {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.sa-schedule-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.sa-schedule-copy b,
+.sa-schedule-copy small {
+  overflow-wrap: anywhere;
+}
+
+.sa-player label,
+.sa-player input[type="range"] {
+  min-height: 44px;
+}
+
+.sa-player label {
+  display: flex;
+  align-items: center;
+}
+
+.sa-player input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+.sa-app-footer {
+  width: min(calc(100% - 28px), 1096px);
+  min-height: 118px;
+  margin: 0 auto;
+  padding: 18px 18px calc(84px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px 18px;
+  background: var(--sa-ink);
+  border: 1px solid #3c4964;
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  color: var(--sa-white);
+}
+
+.sa-app-footer-brand {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sa-app-footer .sa-brand {
+  color: var(--sa-white);
+}
+
+.sa-app-footer > p {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.sa-app-footer > p strong {
+  font-size: 12px;
+}
+
+.sa-app-footer > p span {
+  max-width: 58ch;
+  color: #aeb8c9;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.sa-app-footer nav {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.sa-app-footer nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: #b8c9ff;
+  font-size: 11px;
+  font-weight: 850;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 359px) {
+  .sa-icon-button,
+  .sa-header-avatar {
+    width: 44px;
+  }
+
+  .sa-service-status {
+    font-size: 0;
+  }
+
+  .sa-service-status svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (min-width: 700px) {
+  .sa-app-footer {
+    padding: 22px 26px 26px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .sa-app-footer nav {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 1080px) {
+  .sa-app-footer {
+    margin-bottom: 28px;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .sa-button:not(:disabled):hover,
   .sa-tactile-arrow:hover,
@@ -3692,16 +3996,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sa-app,
+  .sa-dialog,
+  .sa-app *,
+  .sa-dialog * {
+    scroll-behavior: auto !important;
+  }
+
   .sa-app *,
   .sa-app *::before,
   .sa-app *::after,
   .sa-dialog *,
   .sa-dialog *::before,
   .sa-dialog *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
+    animation: none !important;
+  }
+
+  .sa-app :where(a, button, input, select),
+  .sa-dialog :where(a, button, input, select) {
+    transition-duration: 80ms !important;
+    transition-property: color, background-color, border-color, opacity, box-shadow !important;
   }
 }
 

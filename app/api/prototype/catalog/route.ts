@@ -12,6 +12,37 @@ import { saparPrototype } from "@/lib/sapar-prototype";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+interface PrototypeMethodNotAllowedResponse {
+  readonly status: "error";
+  readonly mode: "local-prototype";
+  readonly error: Readonly<{
+    code: "METHOD_NOT_ALLOWED";
+    message: "Only GET is supported for this prototype endpoint.";
+  }>;
+}
+
+function methodNotAllowed(): NextResponse<PrototypeMethodNotAllowedResponse> {
+  return NextResponse.json(
+    {
+      status: "error",
+      mode: "local-prototype",
+      error: {
+        code: "METHOD_NOT_ALLOWED",
+        message: "Only GET is supported for this prototype endpoint.",
+      },
+    },
+    {
+      status: 405,
+      headers: { ...PROTOTYPE_NO_STORE_HEADERS, Allow: "GET" },
+    },
+  );
+}
+
+export const POST = methodNotAllowed;
+export const PUT = methodNotAllowed;
+export const PATCH = methodNotAllowed;
+export const DELETE = methodNotAllowed;
+
 export function GET(): NextResponse<
   PrototypeCatalogResponse | PrototypeApiErrorResponse
 > {

@@ -84,15 +84,63 @@ const navItems = [
   ["/demo", "Investor tour"],
 ] as const;
 
+const mobileNavigationFocusKey = "sapar-mobile-navigation-focus";
+
+function focusMainAfterNavigation(destinationPath: string, attemptsRemaining = 40): void {
+  const main = document.querySelector<HTMLElement>("#main-content, #sapar-app-content, main");
+  if ((window.location.pathname === destinationPath && main) || attemptsRemaining === 0) {
+    main?.focus();
+    try {
+      window.sessionStorage.removeItem(mobileNavigationFocusKey);
+    } catch {
+      // Focus recovery does not depend on storage cleanup.
+    }
+    return;
+  }
+  window.setTimeout(() => focusMainAfterNavigation(destinationPath, attemptsRemaining - 1), 50);
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [openPath, setOpenPath] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuLayerRef = useRef<HTMLDivElement>(null);
+  const pendingNavigationPathRef = useRef<string | null>(null);
   const open = openPath === pathname;
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28 });
+
+  const closeForNavigation = (destinationPath: string): void => {
+    pendingNavigationPathRef.current = destinationPath;
+    try {
+      window.sessionStorage.setItem(mobileNavigationFocusKey, destinationPath);
+    } catch {
+      // The in-memory ref still handles same-page navigation when storage is unavailable.
+    }
+    setOpenPath(null);
+    window.setTimeout(() => focusMainAfterNavigation(destinationPath), 0);
+  };
+
+  useEffect(() => {
+    let storedDestination: string | null = null;
+    try {
+      storedDestination = window.sessionStorage.getItem(mobileNavigationFocusKey);
+    } catch {
+      storedDestination = null;
+    }
+    if (open || (pendingNavigationPathRef.current !== pathname && storedDestination !== pathname)) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>("#main-content, #sapar-app-content, main")?.focus();
+      pendingNavigationPathRef.current = null;
+      try {
+        window.sessionStorage.removeItem(mobileNavigationFocusKey);
+      } catch {
+        // The destination focus is already complete.
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [open, pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -134,7 +182,7 @@ export function SiteHeader() {
       backgroundElements.forEach((element, index) => { element.inert = previousInert[index] ?? false; });
       desktopQuery.removeEventListener("change", closeForDesktop);
       window.removeEventListener("keydown", handleMenuKeyboard);
-      if (window.matchMedia("(max-width: 820px)").matches) {
+      if (!pendingNavigationPathRef.current && window.matchMedia("(max-width: 820px)").matches) {
         window.requestAnimationFrame(() => menuButton?.focus());
       }
     };
@@ -194,13 +242,13 @@ export function SiteHeader() {
                 <button className="mobile-nav-close" type="button" aria-label="Close navigation" onClick={() => setOpenPath(null)}><X aria-hidden="true" /></button>
               </div>
               {navItems.map(([href, label], index) => (
-                <Link href={href} key={href} className={pathname === href ? "active" : ""} aria-current={pathname === href ? "page" : undefined} onClick={() => setOpenPath(null)}>
+                <Link href={href} key={href} className={pathname === href ? "active" : ""} aria-current={pathname === href ? "page" : undefined} onClick={() => closeForNavigation(href)}>
                   <span>0{index + 1}</span>
                   {label}
                   <ChevronRight aria-hidden="true" />
                 </Link>
               ))}
-              <Link className="button button-primary" href="/app" onClick={() => setOpenPath(null)}>
+              <Link className="button button-primary" href="/app" onClick={() => closeForNavigation("/app")}>
                 Open prototype <ArrowRight aria-hidden="true" />
               </Link>
             </motion.nav>

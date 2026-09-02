@@ -60,7 +60,7 @@ function GymDetail({ gym }: { readonly gym: GymFixtureItem }): ReactNode {
       <div className="sa-gym-grid">
         <section className="sa-surface">
           <SectionHeading title="Mat schedule" detail="Choose a row to update the booking preview." />
-          <div className="sa-schedule-list">{gym.schedule.map((session) => <button type="button" key={session.id} className={selected.id === session.id ? "is-active" : ""} aria-pressed={selected.id === session.id} onClick={() => setSelectedSessionId(session.id)}><span>{session.dayOfWeek.slice(0, 3)}</span><strong>{session.startsAtLocal}</strong><span><b>{session.title}</b><small>{session.level} · {session.durationMinutes} min</small></span><StatusTag tone={session.bookingState === "available" ? "verified" : "earned"}>{session.bookingState === "available" ? `${session.spotsRemaining} spots` : session.bookingState}</StatusTag><ChevronRight /></button>)}</div>
+          <div className="sa-schedule-list">{gym.schedule.map((session) => <button type="button" key={session.id} className={selected.id === session.id ? "is-active" : ""} aria-pressed={selected.id === session.id} onClick={() => setSelectedSessionId(session.id)}><span>{session.dayOfWeek.slice(0, 3)}</span><strong>{session.startsAtLocal}</strong><span className="sa-schedule-copy"><b>{session.title}</b><small>{session.level} · {session.durationMinutes} min</small></span><StatusTag tone={session.bookingState === "available" ? "verified" : "earned"}>{session.bookingState === "available" ? `${session.spotsRemaining} spots` : session.bookingState}</StatusTag><ChevronRight /></button>)}</div>
         </section>
         <aside className="sa-booking-card">
           <StatusTag tone={selected.bookingState === "available" ? "verified" : "earned"}>{selected.bookingState}</StatusTag>
@@ -80,7 +80,16 @@ function GymDetail({ gym }: { readonly gym: GymFixtureItem }): ReactNode {
 function GymRouteSelection(): ReactNode {
   const searchParams = useSearchParams();
   const requestedGymId = searchParams.get("gym");
-  const gym = gyms.find((fixture) => fixture.id === requestedGymId) ?? gyms[0];
+  const requestedGym = requestedGymId ? gyms.find((fixture) => fixture.id === requestedGymId) : undefined;
+  if (requestedGymId && !requestedGym) {
+    return (
+      <div className="sa-view sa-gym-view">
+        <div className="sa-view-intro"><div><h1>That gym is not in this demo.</h1><p>The shared link points to an unknown synthetic fixture. Choose a gym from the current catalog instead.</p></div><StatusTag tone="neutral">Not found</StatusTag></div>
+        <section className="sa-surface"><SectionHeading title="Return to the mat directory" detail="No unrelated gym was substituted for the requested record." /><Link className="sa-button sa-button-primary" href="/app/gyms">Open available gyms <ChevronRight /></Link></section>
+      </div>
+    );
+  }
+  const gym = requestedGym ?? gyms[0];
   return <GymDetail key={gym.id} gym={gym} />;
 }
 

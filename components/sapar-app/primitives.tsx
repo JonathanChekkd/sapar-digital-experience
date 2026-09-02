@@ -20,7 +20,12 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { athlete, events, gyms, posts, proofThreads } from "@/lib/sapar-prototype";
-import { usePrototypeDispatch, usePrototypeState } from "./state";
+import {
+  usePrototypeDispatch,
+  usePrototypeState,
+  type PrototypeDraftKind,
+  type PrototypeReportReason,
+} from "./state";
 
 export type UiTone = "cobalt" | "verified" | "earned" | "social" | "neutral" | "critical";
 
@@ -87,31 +92,88 @@ export function SwitchRow({
 }
 
 function CreateSheet(): ReactNode {
+  const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
   const actions = [
-    { title: "Share a mat note", detail: "A post for your chosen audience.", icon: Sparkles },
-    { title: "Host a session", detail: "Draft capacity, level, time, and consent.", icon: CalendarDays },
-    { title: "Start a challenge", detail: "Deterministic team progress with clear rules.", icon: Flag },
+    {
+      kind: "mat-note",
+      title: "Share a mat note",
+      detail: "A post for your chosen audience.",
+      review: "Review audience, training context, and consent before publishing is ever possible.",
+      icon: Sparkles,
+    },
+    {
+      kind: "session",
+      title: "Host a session",
+      detail: "Draft capacity, level, time, and consent.",
+      review: "Review capacity, level, schedule, accessibility, and consent as one session draft.",
+      icon: CalendarDays,
+    },
+    {
+      kind: "challenge",
+      title: "Start a challenge",
+      detail: "Deterministic team progress with clear rules.",
+      review: "Review the goal, rules, audience, and proof requirements before sharing a challenge.",
+      icon: Flag,
+    },
   ] as const;
+  const [selectedKind, setSelectedKind] = useState<PrototypeDraftKind | null>(null);
+  const selectedAction = actions.find(({ kind }) => kind === selectedKind);
+  const savedActions = actions.filter(({ kind }) => state.sessionDraftKinds.includes(kind));
+
+  if (selectedAction) {
+    const alreadySaved = state.sessionDraftKinds.includes(selectedAction.kind);
+    const Icon = selectedAction.icon;
+    return (
+      <div className="sa-sheet-body">
+        <div className="sa-honesty-note">
+          <Icon aria-hidden="true" />
+          <p>
+            <strong>{selectedAction.title} preview</strong>
+            <span>{selectedAction.review}</span>
+          </p>
+        </div>
+        <p className="sa-sheet-intro">This stores only a type-specific scaffold for the current open prototype session. Nothing is published or sent.</p>
+        <button
+          className="sa-button sa-button-primary"
+          type="button"
+          autoFocus
+          onClick={() => dispatch({ type: "save-session-draft", kind: selectedAction.kind })}
+        >
+          <Check aria-hidden="true" />
+          {alreadySaved ? "Keep this open-session draft" : "Save for this open session"}
+        </button>
+        <button className="sa-button sa-button-secondary" type="button" onClick={() => setSelectedKind(null)}>
+          Choose another draft type
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="sa-sheet-body">
-      <p className="sa-sheet-intro">Choose a local prototype flow. Nothing is published or sent.</p>
+      <p className="sa-sheet-intro">Choose a draft scaffold to review. Saved previews last only for this open prototype session; nothing is published or sent.</p>
+      {savedActions.length > 0 ? (
+        <div className="sa-summary-stack" role="status">
+          <p><span>Open-session drafts</span><strong>{savedActions.map(({ title }) => title).join(", ")}</strong></p>
+        </div>
+      ) : null}
       <div className="sa-create-options">
-        {actions.map(({ title, detail, icon: Icon }) => (
-          <button
-            type="button"
-            key={title}
-            onClick={() => {
-              dispatch({ type: "close-sheet" });
-              dispatch({ type: "toast", message: `${title} draft opened locally.` });
-            }}
-          >
-            <span><Icon aria-hidden="true" /></span>
-            <strong>{title}</strong>
-            <small>{detail}</small>
-            <ArrowRight aria-hidden="true" />
-          </button>
-        ))}
+        {actions.map(({ kind, title, detail, icon: Icon }) => {
+          const saved = state.sessionDraftKinds.includes(kind);
+          return (
+            <button
+              type="button"
+              key={title}
+              onClick={() => setSelectedKind(kind)}
+            >
+              <span><Icon aria-hidden="true" /></span>
+              <strong>{title}</strong>
+              <small>{saved ? "Saved for this open session · select to review." : detail}</small>
+              <ArrowRight aria-hidden="true" />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -343,18 +405,42 @@ function ShareSheet(): ReactNode {
 }
 
 function ReportSheet(): ReactNode {
+  const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
+  const reasons = [
+    { value: "unsafe-conduct", label: "Harassment or unsafe conduct", detail: "Review a concern about behavior or community safety." },
+    { value: "private-information", label: "Private or identifying information", detail: "Review a concern about consent, privacy, or personal data." },
+    { value: "result-integrity", label: "Misleading result or authority claim", detail: "Review a concern about proof, verification, or official status." },
+  ] as const satisfies readonly {
+    readonly value: PrototypeReportReason;
+    readonly label: string;
+    readonly detail: string;
+  }[];
+  const [selectedReason, setSelectedReason] = useState<PrototypeReportReason | null>(state.sessionReportReason);
   return (
     <div className="sa-sheet-body">
-      <p className="sa-sheet-intro">Safety actions affect only deterministic local fixture state.</p>
+      <p className="sa-sheet-intro">Choose a reason before saving a report preview. It lasts only for this open prototype session and is never submitted.</p>
       <div className="sa-create-options">
-        <button type="button" onClick={() => { dispatch({ type: "close-sheet" }); dispatch({ type: "toast", message: "Synthetic report draft saved locally." }); }}>
-          <span><Flag aria-hidden="true" /></span><strong>Report this post</strong><small>Choose a reason in the safe local flow.</small><ArrowRight />
-        </button>
+        {reasons.map(({ value, label, detail }) => (
+          <button type="button" key={value} aria-pressed={selectedReason === value} onClick={() => setSelectedReason(value)}>
+            <span><Flag aria-hidden="true" /></span><strong>{label}</strong><small>{detail}</small>{selectedReason === value ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
+          </button>
+        ))}
         <button type="button" onClick={() => dispatch({ type: "block-athlete", id: "athlete_nia_brooks" })}>
           <span><UserRoundX aria-hidden="true" /></span><strong>Block synthetic profile</strong><small>Hide posts and prevent future fixture interactions.</small><ArrowRight />
         </button>
       </div>
+      <button
+        className="sa-button sa-button-primary"
+        type="button"
+        disabled={!selectedReason}
+        onClick={() => {
+          if (selectedReason) dispatch({ type: "save-session-report", reason: selectedReason });
+        }}
+      >
+        <Flag aria-hidden="true" />
+        {state.sessionReportReason ? "Update report preview" : "Save report preview for this session"}
+      </button>
     </div>
   );
 }
