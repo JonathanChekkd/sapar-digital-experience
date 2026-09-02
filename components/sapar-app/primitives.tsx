@@ -18,8 +18,9 @@ import {
   UserRoundX,
   X,
 } from "lucide-react";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { athlete, events, gyms, posts, proofThreads } from "@/lib/sapar-prototype";
+import { communityArt, profileArtByFixtureId, type AvatarArt } from "./profile-art";
 import {
   usePrototypeDispatch,
   usePrototypeState,
@@ -42,10 +43,18 @@ export function StatusTag({ children, tone = "neutral" }: { readonly children: R
   return <span className={`sa-status sa-status-${tone}`}>{children}</span>;
 }
 
-export function Avatar({ initials, tone = "cobalt", label, src }: { readonly initials: string; readonly tone?: UiTone; readonly label: string; readonly src?: string }): ReactNode {
+export function Avatar({ initials, tone = "cobalt", label, art }: { readonly initials: string; readonly tone?: UiTone; readonly label: string; readonly art?: AvatarArt }): ReactNode {
+  const atlasStyle: CSSProperties | undefined = art?.atlasPosition
+    ? {
+        backgroundImage: `url("${art.src}")`,
+        backgroundPosition: art.atlasPosition,
+      }
+    : undefined;
   return (
-    <span className={`sa-avatar sa-avatar-${tone}`} role="img" aria-label={label}>
-      {src ? <img src={src} alt="" width="96" height="96" loading="lazy" decoding="async" /> : initials}
+    <span className={`sa-avatar sa-avatar-${tone} ${art ? `has-art is-${art.kind}` : "has-mark"}`} role="img" aria-label={label}>
+      {art?.atlasPosition ? <span className="sa-avatar-atlas-cell" aria-hidden="true" style={atlasStyle} /> : null}
+      {art && !art.atlasPosition ? <img src={art.src} alt="" width="96" height="96" loading="lazy" decoding="async" style={{ objectPosition: art.objectPosition }} /> : null}
+      {!art ? initials : null}
     </span>
   );
 }
@@ -186,6 +195,7 @@ interface SearchableAthlete {
   readonly initials: string;
   readonly detail: string;
   readonly href: "/app/profile" | "/app/network";
+  readonly art?: AvatarArt;
 }
 
 const postAthletes = new Map(
@@ -198,6 +208,7 @@ const postAthletes = new Map(
       initials: post.author.initials,
       detail: `Athlete · ${post.author.verification}`,
       href: "/app/network" as const,
+      art: profileArtByFixtureId[post.author.id],
     },
   ]),
 );
@@ -211,6 +222,7 @@ const searchableAthletes: readonly SearchableAthlete[] = [
     initials: athlete.initials,
     detail: `Athlete · ${athlete.belt.rank} belt · ${athlete.location.city}`,
     href: "/app/profile",
+    art: profileArtByFixtureId[athlete.id],
   },
   ...postAthletes.values(),
 ];
@@ -260,21 +272,21 @@ function SearchSheet(): ReactNode {
         <div className="sa-search-groups" aria-label={`${resultCount} synthetic fixture results`}>
           {filteredAthletes.map((item) => (
             <Link href={item.href} key={item.id} onClick={() => dispatch({ type: "close-sheet" })}>
-              <Avatar initials={item.initials} label={`Synthetic athlete ${item.name}`} />
+              <Avatar initials={item.initials} label={`Synthetic athlete ${item.name}`} art={item.art} />
               <span><strong>{item.name}</strong><small>{item.detail}</small></span>
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
           {filteredGyms.map((gym) => (
             <Link href={`/app/gyms?gym=${encodeURIComponent(gym.id)}`} key={gym.id} onClick={() => dispatch({ type: "close-sheet" })}>
-              <Avatar initials={gym.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone="verified" label={`Synthetic gym ${gym.name}`} />
+              <Avatar initials={gym.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone={gym.verification === "gym-confirmed" ? "verified" : "cobalt"} label={`Synthetic gym ${gym.name}`} art={gym.id === "gym_northline_jiu_jitsu" ? communityArt.northline : communityArt.eastbank} />
               <span><strong>{gym.name}</strong><small>Gym · {gym.location.city} · {gym.location.distanceMiles} miles</small></span>
               <ArrowRight aria-hidden="true" />
             </Link>
           ))}
           {filteredEvents.map((event) => (
             <Link href={`/app/compete?event=${encodeURIComponent(event.id)}`} key={event.id} onClick={() => dispatch({ type: "close-sheet" })}>
-              <Avatar initials={event.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone="earned" label={`Synthetic event ${event.name}`} />
+              <Avatar initials={event.name.split(" ").map((word) => word[0]).join("").slice(0, 2)} tone="earned" label={`Synthetic event ${event.name}`} art={communityArt.saparOpen} />
               <span><strong>{event.name}</strong><small>Event · {event.venue.city} · {event.status}</small></span>
               <ArrowRight aria-hidden="true" />
             </Link>

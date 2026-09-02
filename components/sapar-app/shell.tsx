@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
@@ -25,6 +27,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { notifications } from "@/lib/sapar-prototype";
 import { GlobalSheet, SyntheticLabel, ToastRegion } from "./primitives";
+import { profileArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
 
 export type AppView =
@@ -365,7 +368,7 @@ function AppHeader(): ReactNode {
         <Link className="sa-icon-button sa-notification-button" href="/app/notifications" aria-label={`${unread} unread prototype notifications`} aria-current={pathname === "/app/notifications" ? "page" : undefined}>
           <Bell aria-hidden="true" /><span>{unread}</span>
         </Link>
-        <Link className="sa-header-avatar" href="/app/profile" aria-label="Open Maya Torres synthetic profile" aria-current={pathname === "/app/profile" ? "page" : undefined}>MT</Link>
+        <Link className="sa-header-avatar" href="/app/profile" aria-label="Open Maya Torres synthetic profile" aria-current={pathname === "/app/profile" ? "page" : undefined}><img src={profileArt.mayaTorres.src} alt="" width="96" height="96" style={{ objectPosition: profileArt.mayaTorres.objectPosition }} /></Link>
       </div>
       {state.connectivity !== "online" ? (
         <div className="sa-connectivity" role="status"><WifiOff aria-hidden="true" />{state.connectivity === "offline" ? "Offline preview · saved local state remains available" : "Fixture service error · retry from Settings"}</div>

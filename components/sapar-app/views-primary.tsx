@@ -29,6 +29,7 @@ import {
 import { useMemo, useState, type ReactNode } from "react";
 import { athlete, achievements, events, gyms, posts, ratingLanes, results } from "@/lib/sapar-prototype";
 import { Avatar, SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
+import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
 
 function RatingLane({ lane }: { readonly lane: (typeof ratingLanes)[number] }): ReactNode {
@@ -176,14 +177,14 @@ function CompetitiveTier(): ReactNode {
 
 function CommunityBeacons(): ReactNode {
   const beacons = [
-    { href: "/app/network", initials: "NB", label: "Nia's open mat", tone: "social" as const },
-    { href: "/app/compete", initials: "SO", label: "SAPAR Open", tone: "earned" as const },
-    { href: "/app/gyms", initials: "NJ", label: "Northline", tone: "verified" as const },
-    { href: "/app/quests", initials: "Q3", label: "Weekly quest", tone: "cobalt" as const },
+    { href: "/app/network", initials: "NB", label: "Nia's open mat", tone: "social" as const, art: profileArt.niaBrooks },
+    { href: "/app/compete", initials: "SO", label: "SAPAR Open", tone: "earned" as const, art: communityArt.saparOpen },
+    { href: "/app/gyms", initials: "NJ", label: "Northline", tone: "verified" as const, art: communityArt.northline },
+    { href: "/app/quests", initials: "Q3", label: "Weekly quest", tone: "cobalt" as const, art: communityArt.weeklyQuest },
   ];
   return (
     <nav className="sa-beacons" aria-label="Community shortcuts">
-      {beacons.map((beacon) => <Link href={beacon.href} key={beacon.href}><Avatar initials={beacon.initials} tone={beacon.tone} label={beacon.label} /><span>{beacon.label}</span></Link>)}
+      {beacons.map((beacon) => <Link href={beacon.href} data-tone={beacon.tone} key={beacon.href}><Avatar initials={beacon.initials} tone={beacon.tone} label={beacon.label} art={beacon.art} /><span>{beacon.label}</span></Link>)}
     </nav>
   );
 }
@@ -240,7 +241,7 @@ function FeedPost(): ReactNode {
   return (
     <article className="sa-feed-post">
       <header>
-        <Avatar initials={post.author.initials} tone="social" label={`Synthetic profile ${post.author.displayName}`} src="/generated/sapar-world/calibration/cartoon-nia-avatar.webp" />
+        <Avatar initials={post.author.initials} tone="social" label={`Synthetic profile ${post.author.displayName}`} art={profileArt.niaBrooks} />
         <p><strong>{post.author.displayName}</strong><small>{post.author.handle} · Northline · 18m</small></p>
         <button type="button" className="sa-icon-button" onClick={() => dispatch({ type: "open-sheet", sheet: "report" })} aria-label="Open post and profile safety controls"><MoreHorizontal /></button>
       </header>
@@ -265,8 +266,8 @@ function FeedPost(): ReactNode {
       </div>
       {commentsOpen ? (
         <div className="sa-comments-preview" id="sa-comments-preview">
-          <div><Avatar initials="OS" tone="earned" label="Synthetic profile Omar Singh" /><p><strong>Omar Singh</strong><span>Those transition rounds looked sharp. Saving this sequence for Thursday.</span></p></div>
-          <div><Avatar initials="JR" tone="cobalt" label="Synthetic profile Jules Reed" /><p><strong>Jules Reed</strong><span>Great room energy. Thanks for keeping the pace welcoming.</span></p></div>
+          <div><Avatar initials="OS" tone="earned" label="Synthetic profile Omar Singh" art={profileArt.omarSingh} /><p><strong>Omar Singh</strong><span>Those transition rounds looked sharp. Saving this sequence for Thursday.</span></p></div>
+          <div><Avatar initials="JR" tone="cobalt" label="Synthetic profile Jules Reed" art={profileArt.julesReed} /><p><strong>Jules Reed</strong><span>Great room energy. Thanks for keeping the pace welcoming.</span></p></div>
           <small>2 of {post.commentCount} synthetic comments shown · read-only local preview</small>
         </div>
       ) : null}
@@ -329,10 +330,10 @@ export function ProfileView(): ReactNode {
         <button className="sa-button sa-button-secondary" type="button" onClick={() => dispatch({ type: "open-sheet", sheet: "share" })}><Share2 /> Share preview</button>
       </div>
       <section className="sa-profile-metrics" aria-label="Synthetic athlete summary">
-        <div><span>Verified record</span><strong>6–2</strong><small>No-Gi · synthetic</small></div>
-        <div><span>Belt</span><strong>{athlete.belt.rank}</strong><small>{athlete.belt.source}</small></div>
-        <div><span>Private journey</span><strong>18</strong><small>4,220 XP</small></div>
-        <div><span>Community</span><strong>{athlete.followerCount}</strong><small>followers</small></div>
+        <div data-system="record"><span>Verified record</span><strong>6–2</strong><small>No-Gi · synthetic</small></div>
+        <div data-system="identity"><span>Belt</span><strong>{athlete.belt.rank}</strong><small>{athlete.belt.source}</small></div>
+        <div data-system="journey"><span>Private journey</span><strong>18</strong><small>4,220 XP</small></div>
+        <div data-system="community"><span>Community</span><strong>{athlete.followerCount}</strong><small>followers</small></div>
       </section>
       <div className="sa-two-column">
         <section className="sa-surface">
@@ -355,10 +356,10 @@ export function DiscoverView(): ReactNode {
   const [scope, setScope] = useState<DiscoverScope>("all");
   const normalized = query.trim().toLowerCase();
   const cards = useMemo(() => [
-    { kind: "fighters" as const, title: "Maya Torres", detail: "Purple · Adult · Denver", href: "/app/profile", initials: "MT" },
-    { kind: "fighters" as const, title: "Nia Brooks", detail: "Blue · Adult · Denver", href: "/app/network", initials: "NB" },
-    ...gyms.map((gym) => ({ kind: "gyms" as const, title: gym.name, detail: `${gym.location.distanceMiles} mi · ${gym.verification}`, href: `/app/gyms?gym=${encodeURIComponent(gym.id)}`, initials: gym.name.split(" ").map((word) => word[0]).join("").slice(0, 2) })),
-    ...events.map((event) => ({ kind: "events" as const, title: event.name, detail: `${event.venue.city} · ${event.status}`, href: `/app/compete?event=${encodeURIComponent(event.id)}`, initials: "EV" })),
+    { kind: "fighters" as const, title: "Maya Torres", detail: "Purple · Adult · Denver", href: "/app/profile", initials: "MT", art: profileArt.mayaTorres },
+    { kind: "fighters" as const, title: "Nia Brooks", detail: "Blue · Adult · Denver", href: "/app/network", initials: "NB", art: profileArt.niaBrooks },
+    ...gyms.map((gym) => ({ kind: "gyms" as const, title: gym.name, detail: `${gym.location.distanceMiles} mi · ${gym.verification}`, href: `/app/gyms?gym=${encodeURIComponent(gym.id)}`, initials: gym.name.split(" ").map((word) => word[0]).join("").slice(0, 2), art: gym.name.startsWith("Northline") ? communityArt.northline : communityArt.eastbank })),
+    ...events.map((event) => ({ kind: "events" as const, title: event.name, detail: `${event.venue.city} · ${event.status}`, href: `/app/compete?event=${encodeURIComponent(event.id)}`, initials: "EV", art: communityArt.saparOpen })),
   ].filter((item) => (scope === "all" || item.kind === scope) && (!normalized || `${item.title} ${item.detail}`.toLowerCase().includes(normalized))), [normalized, scope]);
   return (
     <div className="sa-view">
@@ -372,7 +373,7 @@ export function DiscoverView(): ReactNode {
       <div className="sa-filter-tabs" role="group" aria-label="Discovery type">
         {(["all", "fighters", "gyms", "events"] as const).map((item) => <button type="button" key={item} aria-pressed={scope === item} onClick={() => setScope(item)}>{item}</button>)}
       </div>
-      {cards.length ? <div className="sa-discover-grid">{cards.map((card) => <Link href={card.href} key={`${card.kind}-${card.title}`}><Avatar initials={card.initials} tone={card.kind === "gyms" ? "verified" : card.kind === "events" ? "earned" : "social"} label={`Synthetic ${card.kind.slice(0, -1)} ${card.title}`} /><p><span>{card.kind}</span><strong>{card.title}</strong><small>{card.detail}</small></p><ArrowRight /></Link>)}</div> : <div className="sa-empty-state"><Compass /><h2>No local fixtures match</h2><p>Clear the query or choose another category. A production search service is proposed, not connected.</p><button type="button" className="sa-button sa-button-secondary" onClick={() => { setQuery(""); setScope("all"); }}>Reset search</button></div>}
+      {cards.length ? <div className="sa-discover-grid">{cards.map((card) => <Link href={card.href} data-kind={card.kind} key={`${card.kind}-${card.title}`}><Avatar initials={card.initials} tone={card.kind === "gyms" ? card.detail.includes("gym-confirmed") ? "verified" : "cobalt" : card.kind === "events" ? "earned" : "social"} label={`Synthetic ${card.kind.slice(0, -1)} ${card.title}`} art={card.art} /><p><span>{card.kind}</span><strong>{card.title}</strong><small>{card.detail}</small></p><ArrowRight /></Link>)}</div> : <div className="sa-empty-state"><Compass /><h2>No local fixtures match</h2><p>Clear the query or choose another category. A production search service is proposed, not connected.</p><button type="button" className="sa-button sa-button-secondary" onClick={() => { setQuery(""); setScope("all"); }}>Reset search</button></div>}
     </div>
   );
 }
@@ -380,10 +381,10 @@ export function DiscoverView(): ReactNode {
 export function NetworkView(): ReactNode {
   const state = usePrototypeState();
   const dispatch = usePrototypeDispatch();
-  const people: ReadonlyArray<{ readonly id: string; readonly name: string; readonly detail: string; readonly initials: string; readonly image?: string }> = [
-    { id: "athlete_nia_brooks", name: "Nia Brooks", detail: "Training partner · Northline", initials: "NB", image: "/generated/sapar-world/calibration/cartoon-nia-avatar.webp" },
-    { id: "athlete_lena_park", name: "Lena Park", detail: "Rival · Forge Academy", initials: "LP" },
-    { id: "athlete_rafael_almeida", name: "Rafael Almeida", detail: "Coach · Northline", initials: "RA", image: "/generated/sapar-world/calibration/cartoon-rafael-avatar.webp" },
+  const people: ReadonlyArray<{ readonly id: string; readonly name: string; readonly detail: string; readonly initials: string; readonly art: AvatarArt }> = [
+    { id: "athlete_nia_brooks", name: "Nia Brooks", detail: "Training partner · Northline", initials: "NB", art: profileArt.niaBrooks },
+    { id: "athlete_lena_park", name: "Lena Park", detail: "Rival · Forge Academy", initials: "LP", art: profileArt.lenaPark },
+    { id: "athlete_rafael_almeida", name: "Rafael Almeida", detail: "Coach · Northline", initials: "RA", art: profileArt.rafaelAlmeida },
   ];
   return (
     <div className="sa-view">
@@ -393,7 +394,7 @@ export function NetworkView(): ReactNode {
         <div><SyntheticLabel compact /><strong>The people make the mat.</strong><span>Original fictional adults · synthetic community story</span></div>
       </section>
       <div className="sa-network-summary"><div><Users /><strong>311</strong><span>Following</span></div><div><Building2 /><strong>3</strong><span>Gyms</span></div><div><Trophy /><strong>8</strong><span>Rivals</span></div></div>
-      <section className="sa-surface"><SectionHeading title="People in your orbit" detail="Follow state is local to this prototype session." /><div className="sa-network-list">{people.map((person) => { const following = state.followedAthleteIds.includes(person.id); return <div key={person.id}>{person.image ? <img className="sa-network-photo" src={person.image} alt={`Cartoon profile portrait of fictional adult ${person.name}`} width="96" height="96" loading="lazy" decoding="async" /> : <Avatar initials={person.initials} tone="social" label={`Synthetic athlete ${person.name}`} />}<p><strong>{person.name}</strong><small>{person.detail}</small></p><button type="button" aria-pressed={following} className={following ? "is-following" : ""} onClick={() => dispatch({ type: "toggle-follow", id: person.id })}>{following ? <Check /> : <UserPlus />}{following ? "Following" : "Follow"}</button></div>; })}</div></section>
+      <section className="sa-surface"><SectionHeading title="People in your orbit" detail="Follow state is local to this prototype session." /><div className="sa-network-list">{people.map((person) => { const following = state.followedAthleteIds.includes(person.id); return <div key={person.id}><Avatar initials={person.initials} tone="social" label={`Synthetic athlete ${person.name}`} art={person.art} /><p><strong>{person.name}</strong><small>{person.detail}</small></p><button type="button" aria-pressed={following} className={following ? "is-following" : ""} onClick={() => dispatch({ type: "toggle-follow", id: person.id })}>{following ? <Check /> : <UserPlus />}{following ? "Following" : "Follow"}</button></div>; })}</div></section>
     </div>
   );
 }

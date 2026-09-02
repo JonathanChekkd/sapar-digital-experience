@@ -19,7 +19,16 @@
       "muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#646D7F", "tonalRamp": ["oklch(18% 0.018 260)", "oklch(28% 0.018 260)", "oklch(38% 0.018 260)", "oklch(48% 0.018 260)", "oklch(58% 0.018 260)", "oklch(68% 0.018 260)", "oklch(82% 0.018 260)", "oklch(94% 0.018 260)"] },
       "line": { "role": "neutral", "displayName": "Warm Line", "canonical": "#DCD9D3", "tonalRamp": ["oklch(18% 0.009 75)", "oklch(28% 0.009 75)", "oklch(38% 0.009 75)", "oklch(48% 0.009 75)", "oklch(58% 0.009 75)", "oklch(68% 0.009 75)", "oklch(82% 0.009 75)", "oklch(94% 0.009 75)"] },
       "line-strong": { "role": "neutral", "displayName": "Strong Line", "canonical": "#B9BEC8", "tonalRamp": ["oklch(18% 0.012 260)", "oklch(28% 0.012 260)", "oklch(38% 0.012 260)", "oklch(48% 0.012 260)", "oklch(58% 0.012 260)", "oklch(68% 0.012 260)", "oklch(82% 0.012 260)", "oklch(94% 0.012 260)"] },
-      "danger": { "role": "tertiary", "displayName": "Safety Red", "canonical": "#A83243", "tonalRamp": ["oklch(18% 0.13 18)", "oklch(28% 0.13 18)", "oklch(38% 0.13 18)", "oklch(48% 0.13 18)", "oklch(58% 0.13 18)", "oklch(68% 0.13 18)", "oklch(82% 0.13 18)", "oklch(94% 0.13 18)"] }
+      "danger": { "role": "tertiary", "displayName": "Safety Red", "canonical": "#A83243", "tonalRamp": ["oklch(18% 0.13 18)", "oklch(28% 0.13 18)", "oklch(38% 0.13 18)", "oklch(48% 0.13 18)", "oklch(58% 0.13 18)", "oklch(68% 0.13 18)", "oklch(82% 0.13 18)", "oklch(94% 0.13 18)"] },
+      "social-ink": { "role": "secondary", "displayName": "Social Ink", "canonical": "#321714", "tonalRamp": ["#321714"] },
+      "social-edge": { "role": "secondary", "displayName": "Social Edge", "canonical": "#BA493F", "tonalRamp": ["#BA493F"] },
+      "social-shadow": { "role": "secondary", "displayName": "Social Shadow", "canonical": "#9D3C34", "tonalRamp": ["#9D3C34"] },
+      "earned-ink": { "role": "tertiary", "displayName": "Earned Ink", "canonical": "#755200", "tonalRamp": ["#755200"] },
+      "earned-shadow": { "role": "tertiary", "displayName": "Earned Shadow", "canonical": "#A97405", "tonalRamp": ["#A97405"] },
+      "verified-ink": { "role": "secondary", "displayName": "Verified Ink", "canonical": "#17673E", "tonalRamp": ["#17673E"] },
+      "neutral-ink": { "role": "neutral", "displayName": "Neutral State Ink", "canonical": "#4C5567", "tonalRamp": ["#4C5567"] },
+      "neutral-soft": { "role": "neutral", "displayName": "Neutral State Wash", "canonical": "#F0F1F3", "tonalRamp": ["#F0F1F3"] },
+      "on-dark-muted": { "role": "neutral", "displayName": "On Dark Muted", "canonical": "#D9E2F3", "tonalRamp": ["#D9E2F3"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Route Display", "purpose": "Fluid route introductions and high-energy hero statements." },

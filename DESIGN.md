@@ -13,6 +13,15 @@ colors:
   earned-soft: "#FFF3CE"
   social: "#F36B5F"
   social-soft: "#FFEBE8"
+  social-ink: "#321714"
+  social-edge: "#BA493F"
+  social-shadow: "#9D3C34"
+  earned-ink: "#755200"
+  earned-shadow: "#A97405"
+  verified-ink: "#17673E"
+  neutral-ink: "#4C5567"
+  neutral-soft: "#F0F1F3"
+  on-dark-muted: "#D9E2F3"
   ink: "#182035"
   muted: "#646D7F"
   line: "#DCD9D3"
@@ -152,6 +161,7 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 
 - **Court Green** (`colors.verified`): Means human-confirmed, available, successful, or evidence-attached—never merely private.
 - **Social Coral** (`colors.social`): Carries community warmth, reactions, social rails, and relational emphasis.
+- **Semantic Inks** (`colors.verified-ink`, `colors.earned-ink`, `colors.social-ink`): Maintain readable text and icons on each light semantic surface instead of falling back to generic gray or unsafe white.
 
 ### Tertiary
 
@@ -166,6 +176,8 @@ The palette pairs saturated athletic signals with a warm paper-like ground; ever
 - **Muted Ink** (`colors.muted`): Secondary copy that remains legible and calm.
 - **Warm Line** (`colors.line`) and **Strong Line** (`colors.line-strong`): Dividers, field boundaries, and restrained surface structure.
 - **Soft State Tints** (`colors.verified-soft`, `colors.earned-soft`, `colors.social-soft`): Quiet semantic backgrounds paired with their corresponding foreground role.
+- **Neutral State Pair** (`colors.neutral-soft`, `colors.neutral-ink`): Privacy, unavailable, and unconnected states only.
+- **On-Dark Muted** (`colors.on-dark-muted`): Secondary copy on dark identity and clubhouse fields.
 
 **The Truth-State Rule.** Green means human-confirmed or successful, amber means earned or explainable progress, coral means social warmth, and neutral gray means privacy or an unconnected state; private never masquerades as verified.
 
@@ -215,7 +227,7 @@ Depth is structural and tactile rather than glossy. Most surfaces rely on color 
 
 ## Shapes
 
-Structural surfaces use gently rounded 16px corners, controls use 12–13px corners, compact tags use 8px corners, and sheets use 18px top corners. Portraits, avatars, medals, icon wells, and Create controls use the recurring asymmetric 15px/9px or 14px/7px cut-corner rhythm, reinforced by dark outlines. Full circles are limited to progress nodes, notification counters, and truly circular indicators; full pills are not the default silhouette.
+Structural surfaces use gently rounded 16px corners, controls use 12–13px corners, compact tags use 8px corners, and sheets use 18px top corners. Entity marks, medals, icon wells, and Create controls use the recurring asymmetric 15px/9px or 14px/7px cut-corner rhythm, reinforced by dark outlines. Person portraits are circular, with a visible semantic ring and white separation edge, so a fighter reads as a social identity rather than a data monogram. Other full circles are limited to progress nodes, notification counters, and truly circular indicators; full pills are not the default silhouette.
 
 Borders are visible and purposeful: 1px warm lines for ordinary grouping, 2px ink or semantic strokes for tactile or important objects, and 5px colored top rules for section identity. Cropped imagery uses intentional framed windows and never replaces readable labels or interactive controls.
 

@@ -1,0 +1,7 @@
+{
+  "id": "sapar-social-avatar-atlas-v1",
+  "origin": "OpenAI built-in image generation",
+  "prompt": "Create an exact 4-column by 3-row atlas of 12 distinct fictional adult Brazilian jiu-jitsu athletes and coaches in a premium hybrid realistic-cartoon portrait style. Use saturated SAPAR cobalt, coral, emerald, amber, violet, and warm cream backdrops. Equal square cells, head-and-shoulders framing, no gaps, no text, no logos, no real public figures, no children, and no duplicated faces.",
+  "fictionalPeople": true,
+  "source": "/generated/sapar-world/social-avatar-atlas-v1.png"
+}

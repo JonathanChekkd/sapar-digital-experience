@@ -28,7 +28,8 @@ import {
 } from "lucide-react";
 import { Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
 import { events, ratingLanes, results } from "@/lib/sapar-prototype";
-import { Avatar, SectionHeading, StatusTag, SyntheticLabel } from "./primitives";
+import { Avatar, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
+import { profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
 
 type FormatFilter = "all" | "gi" | "no-gi";
@@ -143,9 +144,9 @@ export function ArenaView(): ReactNode {
       <h1 className="sr-only">Synthetic match arena</h1>
       <div className="sa-arena-nav"><Link href="/app/compete"><ArrowLeft /> Event hub</Link><StatusTag tone="verified"><ShieldCheck /> Human-confirmed result</StatusTag><SyntheticLabel compact /></div>
       <section className="sa-scoreboard" aria-label="Synthetic final match score">
-        <div><Avatar initials="MT" tone="cobalt" label="Synthetic athlete Maya Torres" /><p><strong>Maya Torres</strong><small>Northline · Purple</small></p><b>7</b></div>
+        <div><Avatar initials="MT" tone="cobalt" label="Synthetic athlete Maya Torres" art={profileArt.mayaTorres} /><p><strong>Maya Torres</strong><small>Northline · Purple</small></p><b>7</b></div>
         <span><small>Final</small><strong>05:00</strong><em>No-Gi · Lightweight</em></span>
-        <div><b>4</b><p><strong>Lena Park</strong><small>Forge · Purple</small></p><Avatar initials="LP" tone="social" label="Synthetic athlete Lena Park" /></div>
+        <div><b>4</b><p><strong>Lena Park</strong><small>Forge · Purple</small></p><Avatar initials="LP" tone="social" label="Synthetic athlete Lena Park" art={profileArt.lenaPark} /></div>
       </section>
       <div className="sa-arena-grid">
         <section className="sa-replay-stage">
@@ -212,7 +213,7 @@ export function ReplayView(): ReactNode {
         <img className="sa-result-replay-art" src="/generated/sapar-world/calibration/hybrid-training-replay.webp" alt="Fictional hybrid illustration of two adult grapplers demonstrating a guard exchange on a blue mat" width="1672" height="941" loading="eager" decoding="async" />
         <motion.div className="sa-result-field" initial={reduce ? false : { clipPath: "inset(0 100% 0 0)" }} animate={{ clipPath: "inset(0 0% 0 0)" }} transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }} aria-hidden="true" />
         <div className="sa-result-stage-copy"><SyntheticLabel compact /><span>Illustrative result reconstruction</span><h1>Result reconstruction.</h1><p>Human-confirmed outcome · fictional scene · no uploaded bout video is being analyzed</p></div>
-        <div className="sa-result-versus"><div><Avatar initials="MT" tone="cobalt" label="Maya Torres" /><strong>Maya<br />Torres</strong><small>Northline</small></div><span><StatusTag tone="verified">Verified</StatusTag><strong>{result.versions[0].score.display}</strong><small>Points · Final</small></span><div><Avatar initials="LP" tone="social" label="Lena Park" /><strong>Lena<br />Park</strong><small>Forge</small></div></div>
+        <div className="sa-result-versus"><div><Avatar initials="MT" tone="cobalt" label="Maya Torres" art={profileArt.mayaTorres} /><strong>Maya<br />Torres</strong><small>Northline</small></div><span><StatusTag tone="verified">Verified</StatusTag><strong>{result.versions[0].score.display}</strong><small>Points · Final</small></span><div><Avatar initials="LP" tone="social" label="Lena Park" art={profileArt.lenaPark} /><strong>Lena<br />Park</strong><small>Forge</small></div></div>
       </section>
       <section className="sa-player" aria-label="Synthetic replay controls"><button type="button" aria-label={playing ? "Pause synthetic replay" : position >= 100 ? "Replay synthetic result from the beginning" : "Play synthetic replay"} onClick={togglePlayback}>{playing ? <CirclePause /> : <CirclePlay />}</button><label><span className="sr-only">Synthetic replay position</span><input type="range" min="0" max="100" value={position} aria-valuetext={`${formatReplayTime(position)} of 5:00`} onChange={(event) => updatePosition(Number(event.currentTarget.value))} /></label><span>{formatReplayTime(position)} / 5:00</span><button type="button" aria-label="Restart synthetic replay" onClick={resetPlayback}><RotateCcw /></button></section>
       <div className="sa-result-summary">
@@ -296,6 +297,8 @@ interface LeaderboardRow {
   readonly initials: string;
   readonly avatarLabel: string;
   readonly isCurrent: boolean;
+  readonly art?: AvatarArt;
+  readonly tone?: UiTone;
 }
 
 interface LeaderboardFixture {
@@ -313,11 +316,11 @@ const leaderboardFixtures: Readonly<Record<LeaderboardScope, LeaderboardFixture>
     metricLabel: "No-Gi rating",
     changeLabel: "Change after latest eligible result",
     rows: [
-      { rank: 1, name: "Nia Brooks", metric: 1672, delta: 14, context: "18 eligible No-Gi results", initials: "NB", avatarLabel: "Synthetic athlete Nia Brooks", isCurrent: false },
-      { rank: 2, name: "Sofia Reyes", metric: 1611, delta: 8, context: "21 eligible No-Gi results", initials: "SR", avatarLabel: "Synthetic athlete Sofia Reyes", isCurrent: false },
-      { rank: 3, name: "Maya Torres", metric: 1548, delta: 22, context: "12 eligible No-Gi results · Vanguard III", initials: "MT", avatarLabel: "Synthetic athlete Maya Torres", isCurrent: true },
-      { rank: 4, name: "Lena Park", metric: 1516, delta: -11, context: "16 eligible No-Gi results", initials: "LP", avatarLabel: "Synthetic athlete Lena Park", isCurrent: false },
-      { rank: 5, name: "Keira Allen", metric: 1489, delta: 5, context: "14 eligible No-Gi results", initials: "KA", avatarLabel: "Synthetic athlete Keira Allen", isCurrent: false },
+      { rank: 1, name: "Nia Brooks", metric: 1672, delta: 14, context: "18 eligible No-Gi results", initials: "NB", avatarLabel: "Synthetic athlete Nia Brooks", isCurrent: false, art: profileArt.niaBrooks },
+      { rank: 2, name: "Sofia Reyes", metric: 1611, delta: 8, context: "21 eligible No-Gi results", initials: "SR", avatarLabel: "Synthetic athlete Sofia Reyes", isCurrent: false, art: profileArt.sofiaReyes },
+      { rank: 3, name: "Maya Torres", metric: 1548, delta: 22, context: "12 eligible No-Gi results · Vanguard III", initials: "MT", avatarLabel: "Synthetic athlete Maya Torres", isCurrent: true, art: profileArt.mayaTorres },
+      { rank: 4, name: "Lena Park", metric: 1516, delta: -11, context: "16 eligible No-Gi results", initials: "LP", avatarLabel: "Synthetic athlete Lena Park", isCurrent: false, art: profileArt.lenaPark },
+      { rank: 5, name: "Keira Allen", metric: 1489, delta: 5, context: "14 eligible No-Gi results", initials: "KA", avatarLabel: "Synthetic athlete Keira Allen", isCurrent: false, art: profileArt.keiraAllen },
     ],
   },
   season: {
@@ -326,11 +329,11 @@ const leaderboardFixtures: Readonly<Record<LeaderboardScope, LeaderboardFixture>
     metricLabel: "Season points",
     changeLabel: "Points from latest scored event",
     rows: [
-      { rank: 1, name: "Rafael Kim", metric: 940, delta: 90, context: "5 scored events", initials: "RK", avatarLabel: "Synthetic athlete Rafael Kim", isCurrent: false },
-      { rank: 2, name: "Nia Brooks", metric: 885, delta: 55, context: "5 scored events", initials: "NB", avatarLabel: "Synthetic athlete Nia Brooks", isCurrent: false },
-      { rank: 3, name: "Lena Park", metric: 842, delta: 72, context: "4 scored events", initials: "LP", avatarLabel: "Synthetic athlete Lena Park", isCurrent: false },
-      { rank: 4, name: "Maya Torres", metric: 810, delta: 110, context: "4 scored events · Vanguard III unchanged", initials: "MT", avatarLabel: "Synthetic athlete Maya Torres", isCurrent: true },
-      { rank: 5, name: "Jonah Price", metric: 768, delta: 48, context: "5 scored events", initials: "JP", avatarLabel: "Synthetic athlete Jonah Price", isCurrent: false },
+      { rank: 1, name: "Rafael Kim", metric: 940, delta: 90, context: "5 scored events", initials: "RK", avatarLabel: "Synthetic athlete Rafael Kim", isCurrent: false, art: profileArt.rafaelKim },
+      { rank: 2, name: "Nia Brooks", metric: 885, delta: 55, context: "5 scored events", initials: "NB", avatarLabel: "Synthetic athlete Nia Brooks", isCurrent: false, art: profileArt.niaBrooks },
+      { rank: 3, name: "Lena Park", metric: 842, delta: 72, context: "4 scored events", initials: "LP", avatarLabel: "Synthetic athlete Lena Park", isCurrent: false, art: profileArt.lenaPark },
+      { rank: 4, name: "Maya Torres", metric: 810, delta: 110, context: "4 scored events · Vanguard III unchanged", initials: "MT", avatarLabel: "Synthetic athlete Maya Torres", isCurrent: true, art: profileArt.mayaTorres },
+      { rank: 5, name: "Jonah Price", metric: 768, delta: 48, context: "5 scored events", initials: "JP", avatarLabel: "Synthetic athlete Jonah Price", isCurrent: false, art: profileArt.jonahPrice },
     ],
   },
   squad: {
@@ -339,11 +342,11 @@ const leaderboardFixtures: Readonly<Record<LeaderboardScope, LeaderboardFixture>
     metricLabel: "Squad points",
     changeLabel: "Points from latest team round",
     rows: [
-      { rank: 1, name: "Northline Blue", metric: 286, delta: 24, context: "8 eligible team results", initials: "NB", avatarLabel: "Synthetic squad Northline Blue", isCurrent: true },
-      { rank: 2, name: "Forge Cedar", metric: 261, delta: 18, context: "8 eligible team results", initials: "FC", avatarLabel: "Synthetic squad Forge Cedar", isCurrent: false },
-      { rank: 3, name: "Mesa Circle", metric: 244, delta: 31, context: "7 eligible team results", initials: "MC", avatarLabel: "Synthetic squad Mesa Circle", isCurrent: false },
-      { rank: 4, name: "Harbor Atlas", metric: 226, delta: -6, context: "8 eligible team results", initials: "HA", avatarLabel: "Synthetic squad Harbor Atlas", isCurrent: false },
-      { rank: 5, name: "Union Matworks", metric: 210, delta: 12, context: "7 eligible team results", initials: "UM", avatarLabel: "Synthetic squad Union Matworks", isCurrent: false },
+      { rank: 1, name: "Northline Blue", metric: 286, delta: 24, context: "8 eligible team results", initials: "NB", avatarLabel: "Synthetic squad Northline Blue", isCurrent: true, tone: "cobalt" },
+      { rank: 2, name: "Forge Cedar", metric: 261, delta: 18, context: "8 eligible team results", initials: "FC", avatarLabel: "Synthetic squad Forge Cedar", isCurrent: false, tone: "verified" },
+      { rank: 3, name: "Mesa Circle", metric: 244, delta: 31, context: "7 eligible team results", initials: "MC", avatarLabel: "Synthetic squad Mesa Circle", isCurrent: false, tone: "earned" },
+      { rank: 4, name: "Harbor Atlas", metric: 226, delta: -6, context: "8 eligible team results", initials: "HA", avatarLabel: "Synthetic squad Harbor Atlas", isCurrent: false, tone: "social" },
+      { rank: 5, name: "Union Matworks", metric: 210, delta: 12, context: "7 eligible team results", initials: "UM", avatarLabel: "Synthetic squad Union Matworks", isCurrent: false, tone: "neutral" },
     ],
   },
 };
@@ -354,8 +357,8 @@ export function LeaderboardsView(): ReactNode {
   return (
     <div className="sa-view">
       <div className="sa-view-intro"><div><h1>Standings with context.</h1><p>Competitive rating, season points, and squad standing remain distinct.</p></div><StatusTag tone="cobalt">Synthetic cohort</StatusTag></div>
-      <div className="sa-filter-tabs" role="group" aria-label="Leaderboard scope">{(["cohort", "season", "squad"] as const).map((item) => <button type="button" aria-pressed={scope === item} onClick={() => setScope(item)} key={item}>{item}</button>)}</div>
-      <section className="sa-surface"><SectionHeading title={fixture.title} detail={`${fixture.detail} · Illustrative, human-confirmed fixtures only`} /><p className="sa-search-note"><strong>{fixture.metricLabel}</strong> · {fixture.changeLabel}</p><div className="sa-leaderboard">{fixture.rows.map((row) => <div className={row.isCurrent ? "is-you" : ""} key={`${scope}-${row.name}`}><b>{row.rank}</b><Avatar initials={row.initials} tone={row.isCurrent ? "cobalt" : "neutral"} label={row.avatarLabel} /><p><strong>{row.name}</strong><small>{row.context}</small></p><span aria-label={`${fixture.metricLabel}: ${row.metric.toLocaleString()}`}>{row.metric.toLocaleString()}</span><em aria-label={`${fixture.changeLabel}: ${row.delta >= 0 ? "plus " : "minus "}${Math.abs(row.delta)}`} className={row.delta >= 0 ? "is-positive" : "is-negative"}>{row.delta >= 0 ? "+" : ""}{row.delta}</em></div>)}</div></section>
+      <div className={`sa-filter-tabs sa-leaderboard-tabs is-${scope}`} data-scope={scope} role="group" aria-label="Leaderboard scope">{(["cohort", "season", "squad"] as const).map((item) => <button type="button" data-scope={item} aria-pressed={scope === item} onClick={() => setScope(item)} key={item}>{item}</button>)}</div>
+      <section className={`sa-surface sa-leaderboard-surface is-${scope}`}><SectionHeading title={fixture.title} detail={`${fixture.detail} · Illustrative, human-confirmed fixtures only`} /><p className="sa-search-note sa-leaderboard-metric"><strong>{fixture.metricLabel}</strong> · {fixture.changeLabel}</p><div className={`sa-leaderboard is-${scope}`}>{fixture.rows.map((row) => <div className={row.isCurrent ? "is-you" : ""} data-rank={row.rank} key={`${scope}-${row.name}`}><b>{row.rank}</b><Avatar initials={row.initials} tone={row.tone ?? (row.isCurrent ? "cobalt" : "social")} label={row.avatarLabel} art={row.art} /><p><strong>{row.name}{row.isCurrent ? <span>{scope === "squad" ? "Your squad" : "You"}</span> : null}</strong><small>{row.context}</small></p><span aria-label={`${fixture.metricLabel}: ${row.metric.toLocaleString()}`}>{row.metric.toLocaleString()}</span><em aria-label={`${fixture.changeLabel}: ${row.delta >= 0 ? "plus " : "minus "}${Math.abs(row.delta)}`} className={row.delta >= 0 ? "is-positive" : "is-negative"}>{row.delta >= 0 ? "+" : ""}{row.delta}</em></div>)}</div></section>
       <div className="sa-honesty-note"><Info /><p><strong>Popularity is not performance</strong><span>Followers, purchases, XP, gym size, and badges cannot change a competitive rating or cohort position.</span></p></div>
     </div>
   );
