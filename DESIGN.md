@@ -44,3 +44,24 @@ Desktop uses asymmetrical editorial layouts and layered phone/data compositions.
 
 “UFC quality” is interpreted as polish, live-sport urgency, premium finishing, disciplined data graphics, and presentation confidence. The design must not copy UFC trademarks, octagon geometry, broadcast packages, slogans, fighter likenesses, or audio identity.
 
+## Implemented System Notes
+
+### Reusable Visual Patterns
+
+- **Palette roles:** SAPAR cobalt (`#0042ea`) is the sole primary action and signal color; arena black (`#101217`) grounds public storytelling; white, paper, and ink support legible proof and product surfaces. Mint means verified or successful, amber means pilot or validation, and red is reserved for destructive or disputed states.
+- **Type roles:** Space Grotesk carries compact, high-impact headings and metrics; Manrope carries body copy, labels, and controls. Display copy uses tight tracking, while labels use small uppercase text with generous tracking and numerals remain tabular where alignment matters.
+- **Broadcast modules:** Reuse numbered chapters, fine keylines, coordinate grids, restrained grain, glass overlays, and isolated cobalt edge light. Most hierarchy comes from tonal contrast and borders; strong shadows are reserved for floating product proof, phones, and other genuinely raised layers.
+- **Control family:** Primary buttons are solid cobalt, secondary actions are white or transparent keyline treatments, and status chips are compact outlined pills. Controls are at least 44px high; cards use purpose-based grouping and avoid decorative nesting.
+
+### Interaction Conventions
+
+- Hover states use a restrained 1px lift, border or color illumination, and occasional arrow translation on a roughly 200ms transition. Keyboard focus is always a visible 3px cobalt-light ring with offset.
+- Motion reveals hierarchy once: short fades, small vertical travel, compact shared-layout transitions, and settling numerals. Reduced-motion mode removes travel, scanning, parallax, and nonessential animation without removing state feedback.
+- Prototype state is never implicit. Keep the persistent concept banner, synthetic-data language, and explicit proof chips near the claim or interaction they qualify; AI remains described behind proof gates with “requires validation” language.
+- Below the desktop composition, layered modules collapse before copy does. Mobile orders identity, status, primary action, then supporting data; navigation becomes a drawer or bottom bar and retains full-size targets.
+
+### Intentional Deviations
+
+- The public experience stays in the dark arena world, while the dense app prototype shifts to white and paper work surfaces for scanability. A dark rail and persistent prototype banner preserve SAPAR continuity across that change.
+- The 12-column broadcast grid is an alignment discipline, not a visible template on every route. Editorial splits, proof rails, and exploded modules may resolve to simpler two-column or single-column structures when content or viewport demands it.
+- Rounded product frames and controls soften the coated-metal language to keep SAPAR elite but welcoming. Pill geometry remains limited to status labels; structural cards use controlled medium or large corners rather than fully rounded silhouettes.
