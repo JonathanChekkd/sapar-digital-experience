@@ -1,10 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@fontsource/barlow-condensed/900.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/manrope";
 import "./globals.css";
 import "./sapar-app.css";
 import "./sapar-gamification.css";
+import "./sapar-fighter-world.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://saparsport.com"),
@@ -54,7 +61,7 @@ export default function RootLayout({
           data-impeccable-direction="9c3a3594"
           dangerouslySetInnerHTML={{
             __html:
-              "<!-- IMPECCABLE_DIRECTION seed=9c3a3594; Mat Atlas Leaguehouse; approved Matchday Passport comp; warm cream ground; cobalt Fighter Passport; separate Gi and No-Gi lanes; Proof Thread journey; photoreal fictional adults framed by restrained illustrated topography; tactile center Create; mobile-first social navigation; no gradients, casino cues, government seals, or belt-rating conflation. -->",
+              "<!-- IMPECCABLE_DIRECTION seed=9c3a3594; Matchday Fighter World; approved cartoon-first Passport benchmark; original anime-inspired adult fighters; cobalt arena materials with coral, gold, emerald, cyan, and violet route energy; semantic fighter metadata; separate Gi and No-Gi lanes; tactile mobile-first social navigation; authored one-shot motion; no copied game trade dress, casino cues, random rewards, government seals, or belt-rating conflation. -->",
           }}
         />
         {children}

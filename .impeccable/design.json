@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-02T22:28:10Z",
-  "title": "Design System: SAPAR Matchday Passport",
+  "generatedAt": "2026-09-02T23:01:00Z",
+  "title": "Design System: SAPAR Matchday Fighter World",
   "extensions": {
     "colorMeta": {
       "cobalt": { "role": "primary", "displayName": "Matchday Cobalt", "canonical": "#003CCA", "tonalRamp": ["oklch(18% 0.18 262)", "oklch(28% 0.18 262)", "oklch(38% 0.18 262)", "oklch(48% 0.18 262)", "oklch(58% 0.18 262)", "oklch(68% 0.18 262)", "oklch(82% 0.18 262)", "oklch(94% 0.18 262)"] },
@@ -32,7 +32,12 @@
       "profile-shadow": { "role": "secondary", "displayName": "Passport Violet Shadow", "canonical": "#5630A8", "tonalRamp": ["#5630A8"] },
       "neutral-ink": { "role": "neutral", "displayName": "Neutral State Ink", "canonical": "#4C5567", "tonalRamp": ["#4C5567"] },
       "neutral-soft": { "role": "neutral", "displayName": "Neutral State Wash", "canonical": "#F0F1F3", "tonalRamp": ["#F0F1F3"] },
-      "on-dark-muted": { "role": "neutral", "displayName": "On Dark Muted", "canonical": "#D9E2F3", "tonalRamp": ["#D9E2F3"] }
+      "on-dark-muted": { "role": "neutral", "displayName": "On Dark Muted", "canonical": "#D9E2F3", "tonalRamp": ["#D9E2F3"] },
+      "electric": { "role": "secondary", "displayName": "Arena Electric", "canonical": "#1F6BFF", "tonalRamp": ["#1F6BFF"] },
+      "strike": { "role": "secondary", "displayName": "Strike Coral", "canonical": "#FF5A51", "tonalRamp": ["#FF5A51"] },
+      "champion": { "role": "tertiary", "displayName": "Champion Gold", "canonical": "#FFBD22", "tonalRamp": ["#FFBD22"] },
+      "aura": { "role": "secondary", "displayName": "Arena Cyan", "canonical": "#16C7D9", "tonalRamp": ["#16C7D9"] },
+      "violet": { "role": "secondary", "displayName": "Fighter Violet", "canonical": "#7D4EE8", "tonalRamp": ["#7D4EE8"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Route Display", "purpose": "Fluid route introductions and high-energy hero statements." },
@@ -155,8 +160,8 @@
     }
   ],
   "narrative": {
-    "northStar": "Matchday Passport",
-    "overview": "SAPAR feels like a portable identity object moving through a lively illustrated mat world: optimistic, tactile, evidence-aware, and unmistakably social. The experience is mobile-first and cartoon-first, with bold cobalt identity fields, warm cream reading ground, asymmetric outlined controls, and small route-map details that make training, competition, and community feel connected rather than filed into a dashboard.\n\nTrust remains visible inside the playfulness. Synthetic fixtures, proof status, corrections, rating lanes, privacy, and unconnected services are named in the interface instead of hidden behind spectacle. Hybrid human photography and stylized realism support community, training, and replay moments, but the code-native passport, proof thread, controls, and illustrated interface materials remain the primary world.\n\nSeason Command Lobby extends this Matchday Passport world rather than replacing it. Its compact HUD brings standings, rating, quests, and the private journey into one discovery layer while preserving them as separate records; its illustrated/hybrid athlete stage, amber competitive-tier plate, and node-rail proof route reuse the established cobalt-and-ink combat language without turning the rest of the product into a game lobby.\n\nThe normative color and type primitives remain on `.sa-app` in `app/sapar-app.css`. Season HUD, lobby, and proof-route mechanics live in `app/sapar-gamification.css`, loaded after the base stylesheet; keep that extension scoped to these shared progress surfaces instead of exporting its page composition to unrelated routes.",
+    "northStar": "Matchday Fighter World",
+    "overview": "SAPAR feels like a portable identity object moving through a lively illustrated mat world: optimistic, tactile, evidence-aware, and unmistakably social. The experience is mobile-first and cartoon-first, with bold cobalt identity fields, warm cream reading ground, asymmetric outlined controls, and small route-map details that make training, competition, and community feel connected rather than filed into a dashboard.\n\nTrust remains visible inside the playfulness. Synthetic fixtures, proof status, corrections, rating lanes, privacy, and unconnected services are named in the interface instead of hidden behind spectacle. Hybrid human photography and stylized realism support community, training, and replay moments, but the code-native passport, proof thread, controls, and illustrated interface materials remain the primary world.\n\nSeason Command Lobby extends this Matchday Passport world rather than replacing it. Its compact HUD brings standings, rating, quests, and the private journey into one discovery layer while preserving them as separate records. Fighter World carries that passport confidence across every route with original anime-inspired adult fighters, semantic metadata chips, route-specific arena art, and compact hard-shadow surfaces without copying a named game's trade dress. Location is cobalt, gym affiliation is green, belt context is violet, and self-declared adult division is amber; color supports visible text and never invents verification.\n\nThe normative primitives remain in `app/sapar-app.css`; Season mechanics live in `app/sapar-gamification.css`; route energy, fighter metadata, one-shot arena entrances, and tactile quest and reward surfaces live in `app/sapar-fighter-world.css`, loaded last.",
     "keyCharacteristics": [
       "Cartoon-first mobile social passport with secondary hybrid human imagery.",
       "Cobalt identity, coral community, amber evidence, green verification, violet profiles, cream ground, and charcoal ink.",
@@ -169,7 +174,10 @@
       "Rating Proof Route plots only the two disclosed snapshots around one eligible result and never implies undisclosed history.",
       "Season Command provides compact, separated entry points to standings, rating, evidence-based quests, and the private journey.",
       "Season progress is deterministic and evidence-led: competitive tier is tied only to eligible results, quests summarize completed steps, and fixture-backed XP and achievements belong only to the private journey.",
-      "Proof connectors occupy an icon/node rail and never cross text, becoming vertical on narrow screens and horizontal on wider screens."
+      "Proof connectors occupy an icon/node rail and never cross text, becoming vertical on narrow screens and horizontal on wider screens.",
+      "Original anime-inspired fighting energy stays bold and friendly without copying franchise characters, maps, iconography, or trade dress.",
+      "Fighter metadata is text-first and color-supported: location cobalt, gym green, belt violet, and self-declared adult division amber.",
+      "Route entrances happen once per mount; direct press feedback may repeat, but decorative energy never loops indefinitely."
     ],
     "rules": [
       { "name": "The Truth-State Rule", "body": "State-semantic green means a human-confirmed result or true success; locally saved previews remain amber, coral means social warmth, and neutral gray means privacy or an unconnected state. Discover's green route lane is navigation identity, never proof.", "section": "colors" },
@@ -184,6 +192,7 @@
       { "name": "The Tactile Stack Rule", "body": "Use hard 3–5px offsets to make actions and identity blocks feel pressable; use blurred shadows only when a layer truly floats above another layer.", "section": "elevation" },
       { "name": "The Season System Separation Rule", "body": "Standing, competitive rating, quest completion, and private journey progress may appear together for orientation, but they remain separate records with separate routes, labels, evidence, and update rules.", "section": "components" },
       { "name": "The One-Shot Season Motion Rule", "body": "Introduce athlete, crest, progress, or proof sequence once per mount; reserve repeatable motion for direct hover and press feedback. Never loop ambient lobby decoration, and always honor both OS reduced-motion and the in-app low-stimulation preference.", "section": "components" },
+      { "name": "The Fighter Metadata Rule", "body": "Location uses cobalt, gym affiliation uses green, belt context uses violet, and the self-declared adult division uses amber. Every chip retains visible text and none of these colors imply verification.", "section": "components" },
       { "name": "The Matchday Handoff Rule", "body": "URL-selected event changes use a 220–260ms opacity-and-6px handoff; reduced-motion and low-stimulation modes bypass travel and duration, and required state never depends on motion.", "section": "components" },
       { "name": "The Standing Handoff Rule", "body": "Query-backed scope changes use a 200ms opacity-and-6px handoff; reduced-motion mode removes travel and duration, while tab state, focus, rank, and metric remain explicit without animation.", "section": "components" },
       { "name": "The Two-Snapshot Rule", "body": "Plot only disclosed rating states. A selected window may change context, but it never creates intermediate points, smooths a fictional trend, or implies evidence the fixture does not contain.", "section": "components" },
@@ -203,6 +212,7 @@
       "Do keep the Season HUD's standings, rating, quest, and private-journey entries explicit, directly navigable, and semantically separate.",
       "Do keep Season quests evidence-based and present private XP, achievements, and tier progress as deterministic fixture-backed displays without implying a live award engine.",
       "Do keep the proof connector inside its icon/node rail, vertical below 760px and horizontal from 760px, with no text crossing.",
+      "Do use original anime-inspired adult fighter art and route-specific scenes while retaining live HTML for every label and action.",
       "Do keep Season-specific 760/860/1360 reflow scoped to the HUD, lobby, and proof route while retaining the 44px mobile target floor."
     ],
     "donts": [
@@ -215,7 +225,7 @@
       "Don't interpolate a smooth history, add undisclosed rating samples, or make a window label look like evidence the synthetic fixture does not contain.",
       "Don't use loot boxes, random drops, casino loops, fake scarcity, streak punishment, pay-to-win status, or serotonin-manipulation language.",
       "Don't let belt, private XP, achievements, followers, purchases, or social reach move competitive rating or tier.",
-      "Don't copy competitor trade dress, real athlete likenesses, federation marks, or unlicensed uniform branding."
+      "Don't copy competitor trade dress, named-game characters, maps, iconography, real athlete likenesses, federation marks, or unlicensed uniform branding."
     ]
   }
 }

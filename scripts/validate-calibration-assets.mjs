@@ -323,12 +323,9 @@ invariant(
 
 const applicationSourceFiles = [
   ...(await collectFiles(path.join(projectRoot, "app"), ".tsx")),
+  ...(await collectFiles(path.join(projectRoot, "app"), ".css")),
   ...(await collectFiles(path.join(projectRoot, "components"), ".tsx")),
 ];
-const appStylesheet = path.join(projectRoot, "app/sapar-app.css");
-if (await fileExists(appStylesheet)) {
-  applicationSourceFiles.push(appStylesheet);
-}
 
 const shippingWebpReferences = new Set();
 const webpReferencePattern = /\/generated\/[^"'()\s]+\.webp/g;
@@ -341,7 +338,7 @@ for (const sourceFile of applicationSourceFiles) {
 
 invariant(
   shippingWebpReferences.size > 0,
-  "No shipping WebP references were found in application TSX or app/sapar-app.css.",
+  "No shipping WebP references were found in application TSX or CSS.",
 );
 
 for (const webpReference of [...shippingWebpReferences].sort()) {

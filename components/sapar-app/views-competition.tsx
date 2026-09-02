@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { Suspense, useEffect, useMemo, useState, type KeyboardEvent, type ReactNode } from "react";
 import { events, ratingLanes, results } from "@/lib/sapar-prototype";
-import { Avatar, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
+import { Avatar, FighterMetaChips, SectionHeading, StatusTag, SyntheticLabel, type UiTone } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
 import { useLowMotion } from "./use-low-motion";
@@ -234,7 +234,11 @@ function CompetitionPassport(): ReactNode {
         <Avatar initials="MT" tone="cobalt" label="Synthetic athlete Maya Torres" art={profileArt.mayaTorres} />
         <div>
           <h2 id="competition-passport-title">Maya Torres</h2>
-          <p>Northline · Purple belt · Adult</p>
+          <FighterMetaChips compact label="Competition fighter details" items={[
+            { tone: "gym", label: "Northline" },
+            { tone: "belt", label: "Purple belt" },
+            { tone: "division", label: "Adult" },
+          ]} />
           <strong><Sparkles aria-hidden="true" /> Vanguard III</strong>
         </div>
       </div>

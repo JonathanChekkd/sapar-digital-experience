@@ -300,12 +300,13 @@ function PrototypeServiceStatus(): ReactNode {
 
 function Brand(): ReactNode {
   const reduce = useLowMotion();
+  const visible = { opacity: 1, y: 0, filter: "blur(0px)" } as const;
   return (
     <motion.span
       className="sa-brand"
       initial={reduce ? false : { opacity: 0.75, y: -4, filter: "blur(2px)" }}
-      animate={reduce ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      animate={visible}
+      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.img
         className="sa-brand-mark"
@@ -314,8 +315,8 @@ function Brand(): ReactNode {
         width="60"
         height="54"
         initial={reduce ? false : { rotate: -8, scale: 0.84 }}
-        animate={reduce ? undefined : { rotate: 0, scale: 1 }}
-        transition={{ type: "spring", stiffness: 220, damping: 18 }}
+        animate={{ rotate: 0, scale: 1 }}
+        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 18 }}
       />
       <span>SAPAR</span>
     </motion.span>
@@ -413,14 +414,16 @@ function BottomNavigation(): ReactNode {
 
 function AppFooter({ view }: { readonly view: AppView }): ReactNode {
   const reduce = useLowMotion();
+  const visible = { opacity: 1, y: 0, filter: "blur(0px)" } as const;
 
   return (
     <motion.footer
       className="sa-app-footer"
       initial={reduce ? false : { opacity: 0.9, y: 8, filter: "blur(2px)" }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      animate={reduce ? visible : undefined}
+      whileInView={reduce ? undefined : visible}
       viewport={{ once: true, amount: 0.6 }}
-      transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+      transition={reduce ? { duration: 0 } : { duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link href="/" className="sa-app-footer-brand" aria-label="SAPAR public home"><Brand /></Link>
       <p><strong>{viewTitles[view]} · interactive prototype</strong><span>Fictional fixtures. No official result, rating, booking, or payment.</span></p>

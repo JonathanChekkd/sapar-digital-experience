@@ -4654,7 +4654,7 @@
 
 /* Final product-wide pass: route identity, legible evidence, and truthful replay. */
 .sa-app[data-view="ratings"] .sa-view-intro {
-  background-image: url("/generated/sapar-world/calibration/rating-proof-thread.png");
+  background-image: url("/generated/sapar-world/calibration/rating-proof-thread.webp");
   background-position: center 42%;
   background-size: cover;
 }
@@ -4667,7 +4667,7 @@
 }
 
 .sa-app[data-view="settings"] .sa-view-intro {
-  background-image: url("/generated/sapar-world/calibration/safety-consent-review.png");
+  background-image: url("/generated/sapar-world/calibration/safety-consent-review.webp");
   background-position: center 38%;
   background-size: cover;
 }
@@ -4681,7 +4681,7 @@
 
 .sa-app[data-view="leaderboards"] .sa-view-intro,
 .sa-app[data-view="compete"] .sa-view-intro {
-  background-image: url("/generated/sapar-world/calibration/arena-regional-championship.png");
+  background-image: url("/generated/sapar-world/calibration/arena-regional-championship.webp");
   background-position: center 46%;
   background-size: cover;
 }

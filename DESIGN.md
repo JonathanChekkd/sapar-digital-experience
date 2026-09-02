@@ -1,6 +1,6 @@
 ---
-name: SAPAR Matchday Passport
-description: A cartoon-first mobile social passport with a season command layer for adult Jiu-Jitsu identity, community, competition, and proof.
+name: SAPAR Matchday Fighter World
+description: A cartoon-first mobile fighting world built around an adult Jiu-Jitsu passport, social competition, deterministic progress, and proof.
 colors:
   cobalt: "#003CCA"
   cobalt-dark: "#082A87"
@@ -26,6 +26,11 @@ colors:
   neutral-ink: "#4C5567"
   neutral-soft: "#F0F1F3"
   on-dark-muted: "#D9E2F3"
+  electric: "#1F6BFF"
+  strike: "#FF5A51"
+  champion: "#FFBD22"
+  aura: "#16C7D9"
+  violet: "#7D4EE8"
   ink: "#182035"
   muted: "#646D7F"
   line: "#DCD9D3"
@@ -157,11 +162,11 @@ components:
     padding: "18px 14px"
 ---
 
-# Design System: SAPAR Matchday Passport
+# Design System: SAPAR Matchday Fighter World
 
 ## Overview
 
-**Creative North Star: "Matchday Passport"**
+**Creative North Star: "Matchday Fighter World"**
 
 SAPAR feels like a portable identity object moving through a lively illustrated mat world: optimistic, tactile, evidence-aware, and unmistakably social. The experience is mobile-first and cartoon-first, with bold cobalt identity fields, warm cream reading ground, asymmetric outlined controls, and small route-map details that make training, competition, and community feel connected rather than filed into a dashboard.
 
@@ -169,7 +174,9 @@ Trust remains visible inside the playfulness. Synthetic fixtures, proof status, 
 
 Season Command Lobby extends this Matchday Passport world rather than replacing it. Its compact HUD brings standings, rating, quests, and the private journey into one discovery layer while preserving them as separate records; its illustrated/hybrid athlete stage, amber competitive-tier plate, and node-rail proof route reuse the established cobalt-and-ink combat language without turning the rest of the product into a game lobby.
 
-The normative color and type primitives remain on `.sa-app` in `app/sapar-app.css`. Season HUD, lobby, and proof-route mechanics live in `app/sapar-gamification.css`, loaded after the base stylesheet; keep that extension scoped to these shared progress surfaces instead of exporting its page composition to unrelated routes.
+Fighter World carries the passport's anime-inspired confidence across every route without copying any named game's trade dress. Original adult-fighter imagery, route-specific arena art, semantic metadata chips, and compact hard-shadow cards make each screen feel authored while live HTML retains every label, result, proof, and action. Location is cobalt, gym affiliation is green, belt context is violet, and the self-declared adult division is amber—color supports the visible text and never invents verification.
+
+The normative color and type primitives remain on `.sa-app` in `app/sapar-app.css`. Season HUD, lobby, and proof-route mechanics live in `app/sapar-gamification.css`. Route energy, fighter metadata, one-shot arena entrances, and tactile quest/reward surfaces live in `app/sapar-fighter-world.css`, loaded last; keep these extensions semantic and do not use them to imply random rewards or undisclosed evidence.
 
 **Key Characteristics:**
 
@@ -185,6 +192,9 @@ The normative color and type primitives remain on `.sa-app` in `app/sapar-app.cs
 - Season Command provides compact, separated entry points to standings, rating, evidence-based quests, and the private journey.
 - Season progress is deterministic and evidence-led: competitive tier is tied only to eligible results, quests summarize completed steps, and fixture-backed XP and achievements belong only to the private journey.
 - Proof connectors occupy an icon/node rail and never cross text, becoming vertical on narrow screens and horizontal on wider screens.
+- Original anime-inspired fighting energy stays bold and friendly: no copied franchise characters, maps, iconography, or trade dress.
+- Fighter metadata is text-first and color-supported: location cobalt, gym green, belt violet, and self-declared adult division amber.
+- Route entrances happen once per mount; direct press feedback may repeat, but no decorative energy loops run indefinitely.
 
 ## Colors
 

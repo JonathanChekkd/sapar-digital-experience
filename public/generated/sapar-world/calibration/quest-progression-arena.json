@@ -1,0 +1,10 @@
+{
+  "id": "quest-progression-arena",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "original anime-inspired quest arena with sculpted SAPAR progression nodes",
+  "generator": "OpenAI image generation",
+  "promptFile": "quest-progression-arena.prompt.txt"
+}

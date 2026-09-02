@@ -610,5 +610,22 @@
     "prototypeUse": "Community Trusted participation stamp in the Fighter Passport.",
     "fictionalPeople": false,
     "provenance": "OpenAI image generation with embedded prompt"
+  },
+  {
+    "id": "quest-progression-arena",
+    "category": "quest-progression",
+    "mediaRole": "narrative-illustration",
+    "styleRegister": "cartoon-first-game-key-art",
+    "src": "/generated/sapar-world/calibration/quest-progression-arena.png",
+    "promptFile": "public/generated/sapar-world/calibration/quest-progression-arena.prompt.txt",
+    "jsonSidecar": "public/generated/sapar-world/calibration/quest-progression-arena.json",
+    "alt": "Fictional adult grappler advancing through two completed evidence nodes toward one gold objective node.",
+    "aspect": "16:9",
+    "dimensions": { "width": 1672, "height": 941 },
+    "cropFocus": "64% 50%",
+    "priority": "high",
+    "prototypeUse": "Active quest route hero with deterministic evidence progression.",
+    "fictionalPeople": true,
+    "provenance": "OpenAI image generation with embedded prompt"
   }
 ]

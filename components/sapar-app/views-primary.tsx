@@ -14,7 +14,6 @@ import {
   Compass,
   Flag,
   Heart,
-  MapPin,
   MessageCircle,
   MoreHorizontal,
   Search,
@@ -27,7 +26,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
 import { athlete, achievements, events, gyms, posts, proofThreads, prototypeProgress, ratingLanes, results, type ProofStepKind } from "@/lib/sapar-prototype";
-import { Avatar, SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
+import { Avatar, FighterMetaChips, SectionHeading, StatusTag, SwitchRow, SyntheticLabel } from "./primitives";
 import { communityArt, profileArt, type AvatarArt } from "./profile-art";
 import { SeasonLobby } from "./season-lobby";
 import { usePrototypeDispatch, usePrototypeState } from "./state";
@@ -157,8 +156,8 @@ function PassportHero({ headingLevel = "h1" }: { readonly headingLevel?: "h1" | 
           <motion.img
             src="/generated/sapar-world/calibration/passport-maya-fullbleed.webp"
             alt="Cartoon-first portrait of fictional adult athlete Maya Torres in a white gi, integrated into a vibrant cobalt SAPAR passport"
-            width="1536"
-            height="2048"
+            width="1122"
+            height="1402"
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -171,8 +170,12 @@ function PassportHero({ headingLevel = "h1" }: { readonly headingLevel?: "h1" | 
         <div className="sa-passport-details">
           <div className="sa-passport-copy">
             <Heading id="sa-passport-name">{athlete.displayName}</Heading>
-            <span><MapPin aria-hidden="true" /> {athlete.location.city}, {athlete.location.region} · {gyms[0].name}</span>
-            <div className="sa-passport-tags"><span>{athlete.belt.rank} belt · self-declared demo</span><span>Adult</span></div>
+            <FighterMetaChips items={[
+              { tone: "location", label: `${athlete.location.city}, ${athlete.location.region}` },
+              { tone: "gym", label: gyms[0].name },
+              { tone: "belt", label: `${athlete.belt.rank} belt · self-declared demo` },
+              { tone: "division", label: "Adult" },
+            ]} />
           </div>
           <div className="sa-passport-ratings">
             {ratingLanes.map((lane) => <RatingLane key={lane.id} lane={lane} />)}
@@ -425,7 +428,7 @@ export function OnboardingView(): ReactNode {
   const [consent, setConsent] = useState(false);
   return (
     <div className="sa-view sa-onboarding-view">
-      <section className="sa-onboarding-hero"><SyntheticLabel /><h1>Build an identity that can travel from mat to mat.</h1><p>This prototype demonstrates role selection, adult eligibility, consent, privacy, and notification defaults before any social or competition flow.</p></section>
+      <section className="sa-onboarding-hero sa-route-hero"><SyntheticLabel /><h1>Build an identity that can travel from mat to mat.</h1><p>This prototype demonstrates role selection, adult eligibility, consent, privacy, and notification defaults before any social or competition flow.</p></section>
       <section className="sa-surface"><SectionHeading title="Choose your role" detail="You can change this local fixture later." /><div className="sa-role-grid">{(["athlete", "coach", "organizer"] as const).map((item) => <button type="button" aria-pressed={role === item} onClick={() => setRole(item)} key={item}><span>{item === "athlete" ? <Trophy /> : item === "coach" ? <Users /> : <Flag />}</span><strong>{item}</strong><small>{item === "athlete" ? "Train, connect, and compete" : item === "coach" ? "Guide athletes and confirm sessions" : "Publish events and govern results"}</small></button>)}</div></section>
       <section className="sa-surface"><SectionHeading title="Consent and privacy" detail="Calm, reversible choices—no pretense that an account was created." /><SwitchRow label="I confirm this prototype represents an adult user" description="Required to continue. This local confirmation does not verify age; minor workflows are excluded." checked={adultConfirmed} onChange={setAdultConfirmed} /><SwitchRow label="Use the local synthetic profile" description="No personal data, media, or precise location is collected." checked={consent} onChange={setConsent} /></section>
       <p id="sa-onboarding-requirements" className="sa-search-note">{adultConfirmed && consent ? "Both local confirmations are complete." : "Confirm adult eligibility and synthetic-profile consent to continue."}</p>

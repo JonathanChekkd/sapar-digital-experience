@@ -38,6 +38,13 @@ import {
 
 export type UiTone = "cobalt" | "verified" | "earned" | "social" | "neutral" | "critical";
 
+export type FighterMetaTone = "location" | "gym" | "belt" | "division";
+
+export interface FighterMetaItem {
+  readonly label: string;
+  readonly tone: FighterMetaTone;
+}
+
 export function SyntheticLabel({ compact = false }: { readonly compact?: boolean }): ReactNode {
   return (
     <span className={`sa-synthetic ${compact ? "is-compact" : ""}`}>
@@ -49,6 +56,14 @@ export function SyntheticLabel({ compact = false }: { readonly compact?: boolean
 
 export function StatusTag({ children, tone = "neutral" }: { readonly children: ReactNode; readonly tone?: UiTone }): ReactNode {
   return <span className={`sa-status sa-status-${tone}`}>{children}</span>;
+}
+
+export function FighterMetaChips({ items, label = "Fighter details", compact = false }: { readonly items: readonly FighterMetaItem[]; readonly label?: string; readonly compact?: boolean }): ReactNode {
+  return (
+    <ul className={`sa-fighter-meta ${compact ? "is-compact" : ""}`} aria-label={label}>
+      {items.map((item) => <li data-tone={item.tone} key={`${item.tone}-${item.label}`}>{item.label}</li>)}
+    </ul>
+  );
 }
 
 export function Avatar({ initials, tone = "cobalt", label, art }: { readonly initials: string; readonly tone?: UiTone; readonly label: string; readonly art?: AvatarArt }): ReactNode {
