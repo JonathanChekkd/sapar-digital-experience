@@ -1,0 +1,10 @@
+Use case: illustration-story
+Asset type: onboarding and empty-network illustration for SAPAR Discover
+Primary request: Create an optimistic original empty-network illustration showing that a new adult athlete can begin by finding a gym, open mat, or trusted training connection nearby.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, illustration finish, and adult character reference; do not reproduce its UI, text, seals, or exact athlete.
+Scene/backdrop: a fictional adult athlete in neutral training clothes stands at the edge of a bright cobalt mat while a small physical tabletop atlas unfolds into three inviting dimensional destinations: a sunlit gym doorway, a community open-mat circle, and a verified event marker; the paths are visible but not yet connected.
+Style/medium: polished original stylized 3D-cartoon narrative illustration with realistic adult proportions, tactile folded-map material, soft sculpted environments, premium mobile-app finish.
+Composition/framing: portrait 4:3, athlete in the lower third looking into the small atlas world, generous clear space above for live onboarding copy and actions.
+Lighting/mood: morning daylight, possibility without urgency, welcoming and calm.
+Color palette: warm cream, dominant cobalt, fresh green, coral, amber, charcoal.
+Constraints: fictional adult only; no readable text, logo, watermark, child, fake scarcity, streak pressure, ranking promise, casino cue, government map styling, copied character, or copied trade dress.

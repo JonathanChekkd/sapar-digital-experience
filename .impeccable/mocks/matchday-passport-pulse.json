@@ -1,0 +1,23 @@
+{
+  "image": "matchday-passport-pulse.png",
+  "promptFile": "matchday-passport-pulse.prompt.txt",
+  "approved": true,
+  "role": "approved north-star composition",
+  "carryForward": [
+    "portable fighter identity",
+    "separate Gi and No-Gi rating lanes",
+    "evidence journey ribbon",
+    "cream reading surfaces",
+    "tactile central Create control"
+  ],
+  "combineWith": [
+    "Mat Atlas proof-thread interaction",
+    "League Clubhouse social warmth and community priority"
+  ],
+  "doNotLiteralize": [
+    "government passport symbolism",
+    "generated text details",
+    "fake official seals",
+    "every section inside a rounded card"
+  ]
+}

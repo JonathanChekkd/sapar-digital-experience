@@ -1,0 +1,9 @@
+Use case: photorealistic-natural.
+Asset type: SAPAR mobile social feed hero for a community open-mat story, landscape 4:3.
+Input image: Use the referenced SAPAR hybrid image only as a style-quality and palette reference; do not copy its person, pose, clothing, or composition.
+Primary request: Create a candid premium sports-editorial photograph of six original fictional adults at a bright modern Brazilian Jiu-Jitsu gym.
+Scene: Two adults safely drill a seated guard-pass position in the foreground at low intensity while four teammates of varied genders, ethnicities, and realistic athletic body types sit or stand nearby smiling, coaching, and tying belts. Everyone is clearly an adult.
+Illustrated layer: Integrate restrained hand-painted SAPAR cobalt #003CCA and warm cream #FDF9F3 corner shapes, one coral #F36B5F motion swoop, subtle topographic contour lines, and a small court-green #248A57 accent.
+Photography: Keep faces and bodies genuinely photographic with natural skin texture, believable gi and rashguard fabric, window light, and an inclusive neighborhood-club warmth.
+Composition: Use generous negative space in the upper-left and lower-right for semantic UI overlays.
+Constraints: No text, letters, numbers, logos, brand marks, real athlete or celebrity likeness, copied face, minors, blood, injury, aggression, unsafe joint positions, scoreboards, medals, rating implications, government seals, watermark, casino cues, neon HUD, or copied trade dress. Original fictional people only; respectful safe training.

@@ -1,0 +1,10 @@
+{
+  "id": "cartoon-maya-passport",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "cartoon-first polished 2.5D SAPAR Fighter Passport portrait",
+  "generator": "OpenAI image generation",
+  "promptFile": "cartoon-maya-passport.prompt.txt"
+}

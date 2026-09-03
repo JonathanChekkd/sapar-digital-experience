@@ -1,0 +1,10 @@
+{
+  "id": "cartoon-rafael-avatar",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "cartoon-first polished 2.5D SAPAR coach avatar",
+  "generator": "OpenAI image generation",
+  "promptFile": "cartoon-rafael-avatar.prompt.txt"
+}

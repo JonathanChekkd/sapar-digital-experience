@@ -1,0 +1,470 @@
+/* Fighter World: route energy and semantic color layered over Matchday Passport. */
+
+.sa-app {
+  --sa-electric: #1f6bff;
+  --sa-strike: #ff5a51;
+  --sa-champion: #ffbd22;
+  --sa-aura: #16c7d9;
+  --sa-violet: #7d4ee8;
+  --sa-focus: #ffbd22;
+  --sa-route-accent: var(--sa-cobalt);
+  --sa-route-accent-dark: var(--sa-cobalt-dark);
+  --sa-route-accent-soft: var(--sa-cobalt-soft);
+}
+
+.sa-app[data-view="pulse"] {
+  --sa-route-accent: var(--sa-social);
+  --sa-route-accent-dark: var(--sa-social-ink);
+  --sa-route-accent-soft: var(--sa-social-soft);
+}
+
+.sa-app[data-view="profile"] {
+  --sa-route-accent: var(--sa-profile);
+  --sa-route-accent-dark: var(--sa-profile-ink);
+  --sa-route-accent-soft: var(--sa-profile-soft);
+}
+
+.sa-app:is([data-view="gyms"], [data-view="discover"], [data-view="network"]) {
+  --sa-route-accent: #20a66a;
+  --sa-route-accent-dark: #0d5636;
+  --sa-route-accent-soft: #dff7ea;
+}
+
+.sa-app:is([data-view="rewards"], [data-view="quests"], [data-view="create"]) {
+  --sa-route-accent: var(--sa-champion);
+  --sa-route-accent-dark: #684700;
+  --sa-route-accent-soft: #fff0b9;
+}
+
+.sa-app:is([data-view="onboarding"], [data-view="notifications"]) {
+  --sa-route-accent: var(--sa-aura);
+  --sa-route-accent-dark: #075b69;
+  --sa-route-accent-soft: #dcf9fc;
+}
+
+.sa-app[data-view="settings"] {
+  --sa-route-accent: var(--sa-violet);
+  --sa-route-accent-dark: #3f247f;
+  --sa-route-accent-soft: #f1eaff;
+}
+
+.sa-prototype-strip {
+  min-height: calc(32px + env(safe-area-inset-top));
+  padding-top: calc(7px + env(safe-area-inset-top));
+}
+
+.sa-service-group > button {
+  min-height: 44px;
+  padding-inline: 11px;
+}
+
+.sa-content {
+  background:
+    radial-gradient(circle at 96% 8%, color-mix(in srgb, var(--sa-route-accent) 10%, transparent) 0 8%, transparent 8.5%),
+    radial-gradient(circle at 5% 92%, color-mix(in srgb, var(--sa-route-accent) 7%, transparent) 0 10%, transparent 10.5%);
+}
+
+.sa-view-intro {
+  min-height: 210px;
+  isolation: isolate;
+  border: 2px solid var(--sa-route-accent-dark);
+  border-radius: 18px 10px 18px 10px;
+  box-shadow: 0 5px 0 var(--sa-route-accent-dark), 0 15px 32px rgba(7, 29, 92, .2);
+  animation: sa-arena-lock 480ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sa-view-intro::before {
+  inset: 0 !important;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(7, 18, 52, .96) 0%, rgba(7, 29, 92, .84) 52%, rgba(7, 29, 92, .34) 100%) !important;
+}
+
+.sa-view-intro::after,
+.sa-route-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: auto -12% 15% 38%;
+  height: 18px;
+  background: color-mix(in srgb, var(--sa-route-accent) 88%, white);
+  border: 2px solid rgba(255, 255, 255, .68);
+  box-shadow: 0 8px 0 color-mix(in srgb, var(--sa-route-accent-dark) 78%, transparent);
+  opacity: .82;
+  transform: rotate(-7deg) scaleX(0);
+  transform-origin: right center;
+  animation: sa-power-slash 540ms 150ms cubic-bezier(.16, 1, .3, 1) forwards;
+  pointer-events: none;
+}
+
+.sa-view-intro > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sa-view-intro h1 {
+  max-width: 11ch;
+  color: var(--sa-white);
+  font-family: "Barlow Condensed", var(--sa-display);
+  font-size: clamp(44px, 13vw, 76px);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: .84;
+  text-shadow: 0 3px 0 var(--sa-route-accent-dark);
+  text-transform: uppercase;
+}
+
+.sa-view-intro p {
+  max-width: 54ch;
+  color: #eef3ff;
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.sa-view-intro .sa-button-secondary {
+  border: 2px solid var(--sa-white);
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 4px 0 var(--sa-route-accent-dark);
+}
+
+.sa-app[data-view="quests"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/quest-progression-arena.webp");
+  background-position: center 50%;
+}
+
+.sa-app[data-view="rewards"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/achievement-verified-medallion.webp");
+  background-position: center 46%;
+}
+
+.sa-app[data-view="notifications"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/hybrid-nia-profile.webp");
+  background-position: center 42%;
+}
+
+.sa-app[data-view="network"] .sa-view-intro {
+  background-image: url("/generated/sapar-world/calibration/ui-mobile-atlas-background.webp");
+  background-position: center;
+}
+
+.sa-app[data-view="onboarding"] .sa-route-hero {
+  background-image:
+    linear-gradient(90deg, rgba(7, 29, 92, .95) 0%, rgba(7, 29, 92, .76) 58%, rgba(7, 29, 92, .28)),
+    url("/generated/sapar-world/calibration/onboarding-empty-network.webp");
+  background-position: center, center;
+  background-size: cover;
+}
+
+.sa-app[data-view="create"] .sa-route-hero {
+  background-image:
+    linear-gradient(90deg, rgba(7, 29, 92, .96) 0%, rgba(7, 29, 92, .74) 62%, rgba(7, 29, 92, .24)),
+    url("/generated/sapar-world/calibration/photo-open-mat-community.webp");
+  background-position: center, center;
+  background-size: cover;
+}
+
+.sa-route-hero {
+  isolation: isolate;
+  border: 2px solid var(--sa-route-accent-dark);
+  border-radius: 18px 10px 18px 10px;
+  box-shadow: 0 6px 0 var(--sa-route-accent-dark), 0 18px 32px rgba(7, 29, 92, .22);
+  animation: sa-arena-lock 480ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.sa-route-hero::after {
+  display: none;
+}
+
+.sa-route-hero::before {
+  z-index: 0;
+}
+
+.sa-route-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sa-fighter-meta {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+}
+
+.sa-fighter-meta li {
+  min-height: 28px;
+  padding: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid currentColor;
+  border-radius: 9px 5px 9px 5px;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1.15;
+  box-shadow: 0 3px 0 rgba(7, 29, 92, .22);
+}
+
+.sa-fighter-meta li[data-tone="location"] {
+  background: #082a87;
+  color: var(--sa-white);
+}
+
+.sa-fighter-meta li[data-tone="gym"] {
+  background: #dff7ea;
+  color: #0d5636;
+}
+
+.sa-fighter-meta li[data-tone="belt"] {
+  background: #efe7ff;
+  color: #3f247f;
+}
+
+.sa-fighter-meta li[data-tone="division"] {
+  background: #fff3ce;
+  color: #755200;
+}
+
+.sa-passport .sa-fighter-meta li[data-tone="gym"] {
+  background: rgba(13, 86, 54, .92);
+  color: var(--sa-white);
+}
+
+.sa-passport .sa-fighter-meta li[data-tone="belt"] {
+  background: rgba(63, 36, 127, .92);
+  color: var(--sa-white);
+}
+
+.sa-passport .sa-fighter-meta li[data-tone="division"] {
+  background: #fff3ce;
+  color: #755200;
+}
+
+.sa-fighter-meta.is-compact li {
+  min-height: 24px;
+  padding: 3px 6px;
+  font-size: 9px;
+  box-shadow: 0 2px 0 rgba(7, 29, 92, .18);
+}
+
+.sa-matchday-identity > div > span {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #dcf9fc;
+  border: 1px solid #16a4b4;
+  border-radius: 9px 5px 9px 5px;
+  color: #075b69;
+  font-weight: 850;
+}
+
+.sa-achievement-card,
+.sa-quest-list article {
+  border: 2px solid var(--sa-card-edge, var(--sa-route-accent-dark));
+  border-radius: 17px 10px 17px 10px;
+  box-shadow: 0 5px 0 var(--sa-card-edge, var(--sa-route-accent-dark)), 0 14px 26px rgba(7, 29, 92, .14);
+}
+
+.sa-achievement-card {
+  --sa-card-edge: var(--sa-cobalt-dark);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--sa-card-wash, var(--sa-cobalt-soft)) 92%, white) 0 34%, var(--sa-white) 34.5%);
+}
+
+.sa-achievement-card:nth-child(2n) {
+  --sa-card-edge: #8e5f00;
+  --sa-card-wash: #fff0b9;
+}
+
+.sa-achievement-card:nth-child(3n) {
+  --sa-card-edge: #9b3d35;
+  --sa-card-wash: #ffded9;
+}
+
+.sa-achievement-card:nth-child(4n) {
+  --sa-card-edge: #0d5636;
+  --sa-card-wash: #dff7ea;
+}
+
+.sa-achievement-progress {
+  height: 11px;
+  border: 1px solid var(--sa-card-edge);
+  background: rgba(255, 255, 255, .82);
+}
+
+.sa-achievement-progress i {
+  background: var(--sa-card-edge);
+}
+
+.sa-quest-list article {
+  --sa-card-edge: var(--sa-cobalt-dark);
+  background: linear-gradient(180deg, #e8efff 0 28%, var(--sa-white) 28.5%);
+}
+
+.sa-quest-list article:nth-child(2n) {
+  --sa-card-edge: #0d5636;
+  background: linear-gradient(180deg, #dff7ea 0 28%, var(--sa-white) 28.5%);
+}
+
+.sa-quest-list article:nth-child(3n) {
+  --sa-card-edge: #8e5f00;
+  background: linear-gradient(180deg, #fff0b9 0 28%, var(--sa-white) 28.5%);
+}
+
+.sa-quest-list article > header > span {
+  background: var(--sa-card-edge);
+  border: 2px solid var(--sa-white);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--sa-card-edge) 70%, black);
+}
+
+.sa-quest-list footer {
+  background: color-mix(in srgb, var(--sa-card-edge) 10%, var(--sa-cream));
+  border-top: 1px solid color-mix(in srgb, var(--sa-card-edge) 36%, transparent);
+}
+
+.sa-role-grid button,
+.sa-create-grid > button {
+  --sa-card-edge: var(--sa-cobalt-dark);
+  border: 2px solid var(--sa-card-edge);
+  box-shadow: 0 4px 0 var(--sa-card-edge);
+}
+
+.sa-role-grid button:nth-child(2),
+.sa-create-grid > button:nth-child(2) {
+  --sa-card-edge: #0d5636;
+  background: #e6f9ee;
+}
+
+.sa-role-grid button:nth-child(3),
+.sa-create-grid > button:nth-child(3) {
+  --sa-card-edge: #8e5f00;
+  background: #fff4ce;
+}
+
+.sa-role-grid button[aria-pressed="true"] {
+  background: var(--sa-route-accent-soft);
+  border-color: var(--sa-route-accent-dark);
+  box-shadow: 0 5px 0 var(--sa-route-accent-dark);
+  transform: translateY(-1px);
+}
+
+.sa-app[data-view="settings"] .sa-settings-grid > .sa-surface,
+.sa-app[data-view="notifications"] .sa-surface {
+  border-top: 5px solid var(--sa-route-accent);
+}
+
+.sa-app[data-view="settings"] .sa-setting-fact {
+  background: #dcf9fc;
+  border: 1px solid #16a4b4;
+  color: #075b69;
+}
+
+.sa-search-groups small,
+.sa-create-options > :where(button, a) > small,
+.sa-season-objectives small,
+.sa-season-objectives span > span {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.sa-season-objectives strong,
+.sa-season-objectives span > span {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.sa-app :where(.sa-button, .sa-tactile-arrow, .sa-achievement-card, .sa-create-grid > button, .sa-role-grid button):active {
+  box-shadow: none;
+  transform: translateY(3px) scale(.99);
+}
+
+.sa-app-footer {
+  border-top: 4px solid var(--sa-route-accent);
+}
+
+@keyframes sa-arena-lock {
+  from { opacity: .72; transform: translateY(14px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sa-power-slash {
+  to { opacity: .34; transform: rotate(-7deg) scaleX(1); }
+}
+
+@media (min-width: 700px) {
+  .sa-app-footer {
+    padding: 22px 26px calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .sa-view-intro {
+    min-height: 260px;
+    padding: 28px;
+  }
+
+  .sa-fighter-meta li {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .sa-app-footer {
+    padding-bottom: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sa-view-intro,
+  .sa-route-hero,
+  .sa-view-intro::after,
+  .sa-route-hero::before {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .sa-view-intro::after,
+  .sa-route-hero::before {
+    opacity: .24;
+  }
+
+  .sa-brand,
+  .sa-brand-mark,
+  .sa-app-footer {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+.sa-app.is-low-stimulation :where(.sa-view-intro, .sa-route-hero, .sa-view-intro::after, .sa-route-hero::before) {
+  animation: none !important;
+  transform: none !important;
+}
+
+.sa-app.is-low-stimulation :where(.sa-brand, .sa-brand-mark, .sa-app-footer) {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+@media (forced-colors: active) {
+  .sa-view-intro::after,
+  .sa-route-hero::before {
+    display: none;
+  }
+
+  .sa-fighter-meta li,
+  .sa-achievement-card,
+  .sa-quest-list article,
+  .sa-route-hero {
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+}

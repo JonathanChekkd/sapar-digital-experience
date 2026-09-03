@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: wide gym environment artwork for SAPAR gym discovery
+Primary request: Create Northside Jiu-Jitsu as an original fictional adult training gym environment in SAPAR's optimistic Mat Atlas Leaguehouse world.
+Input image: use the approved SAPAR Matchday Passport comp only as a palette, illustration finish, and material reference; do not reproduce its UI, text, seals, icons, or layout.
+Scene/backdrop: a welcoming converted neighborhood warehouse with high clerestory windows, warm cream walls, large clean cobalt mats, fresh green plants, amber wood cubbies, coral training pads, subtle atlas-line wall texture, and open sight lines; a few distant fictional adult athletes warming up respectfully.
+Style/medium: polished original stylized 3D-cartoon environment illustration, dimensional but believable, tactile mat vinyl, woven fabric, sunlit dust, premium mobile-game scene quality.
+Composition/framing: cinematic 16:9 landscape, eye-level wide angle, open central mat and useful negative space near the upper corners for live UI overlays.
+Lighting/mood: clear late-afternoon daylight, warm and communal, energetic without spectacle.
+Constraints: original environment; adults only; no readable text, brand logo, copied gym marks, watermark, children, blood, injury, aggressive violence, casino cue, or unsafe technique.

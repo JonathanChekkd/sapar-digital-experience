@@ -1,0 +1,11 @@
+{
+  "id": "stamp-identity-confirmed",
+  "createdAt": "2026-09-02T06:25:00Z",
+  "promptFile": "stamp-identity-confirmed.prompt.txt",
+  "sourcePng": "stamp-identity-confirmed.png",
+  "shippingWebp": "stamp-identity-confirmed.webp",
+  "dimensions": { "width": 1312, "height": 1199 },
+  "alpha": true,
+  "conversion": "ImageMagick WebP quality 88, method 6",
+  "provenance": "OpenAI built-in image generation and built-in alpha extraction with project-local source PNG and prompt"
+}

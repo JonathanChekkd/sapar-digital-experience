@@ -1,0 +1,10 @@
+{
+  "id": "competition-arena",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic regional matchday with illustrated SAPAR broadcast frame",
+  "generator": "OpenAI image generation",
+  "promptFile": "competition-arena.prompt.txt"
+}

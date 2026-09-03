@@ -1,0 +1,9 @@
+Use case: photorealistic-natural
+Asset type: post-match replay review photograph for SAPAR's evidence and learning surfaces
+Primary request: Create a premium candid photograph of a completely fictional adult athlete and adult coach reviewing a recent jiu-jitsu match together on a tablet at the quiet edge of an arena.
+Scene/backdrop: bright civic fieldhouse after a match, cobalt mat and cream seating softly out of focus, an amber equipment case and green towel nearby; the tablet interface is blank and unreadable so live UI can provide all facts.
+Subject: fictional Latino man athlete in his late twenties wearing an unbranded charcoal rashguard and fictional Black woman coach in her forties wearing a simple cobalt track jacket; both seated at equal height, calmly pointing to the tablet and discussing one moment.
+Style/medium: photorealistic natural documentary sports photography, 50mm lens, realistic skin and fabric texture, unforced expressions, shallow depth of field, restrained editorial grade.
+Composition/framing: horizontal 3:2, pair in the lower right, generous soft negative space above and left for live replay explanation.
+Lighting/mood: cool daylight with warm bounce, reflective, collaborative, constructive.
+Constraints: adult fictional people who do not resemble real athletes, celebrities, or public figures; no readable text or footage on the tablet, logo, watermark, branded or unlicensed uniform, child, blood, injury, medical claim, surveillance cue, casino cue, or copied trade dress.

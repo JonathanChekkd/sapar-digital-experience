@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -13,14 +12,25 @@ import {
   VolumeX,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type StatusTone = "blue" | "green" | "amber" | "neutral" | "red";
 
 export function SaparMark({ compact = false }: { compact?: boolean }) {
+  const reduce = useReducedMotion();
+
   return (
     <span className="sapar-wordmark" aria-label="SAPAR">
-      <img src="/brand/sapar-mark.svg" alt="" width="42" height="42" />
+      <motion.img
+        src="/brand/sapar-mark.svg"
+        alt=""
+        width="42"
+        height="42"
+        initial={reduce ? false : { opacity: 0, rotate: -7, scale: 0.86 }}
+        whileInView={reduce ? undefined : { opacity: 1, rotate: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.7 }}
+        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 210, damping: 18 }}
+      />
       {!compact && <span>SAPAR</span>}
     </span>
   );
@@ -71,13 +81,112 @@ const navItems = [
   ["/fighters", "Fighters"],
   ["/gyms", "Gyms"],
   ["/vision", "Technology"],
+  ["/demo", "Investor tour"],
 ] as const;
+
+const mobileNavigationFocusKey = "sapar-mobile-navigation-focus";
+
+function focusMainAfterNavigation(destinationPath: string, attemptsRemaining = 40): void {
+  const main = document.querySelector<HTMLElement>("#main-content, #sapar-app-content, main");
+  if ((window.location.pathname === destinationPath && main) || attemptsRemaining === 0) {
+    main?.focus();
+    try {
+      window.sessionStorage.removeItem(mobileNavigationFocusKey);
+    } catch {
+      // Focus recovery does not depend on storage cleanup.
+    }
+    return;
+  }
+  window.setTimeout(() => focusMainAfterNavigation(destinationPath, attemptsRemaining - 1), 50);
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState<string | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuLayerRef = useRef<HTMLDivElement>(null);
+  const pendingNavigationPathRef = useRef<string | null>(null);
+  const open = openPath === pathname;
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 150, damping: 28 });
+
+  const closeForNavigation = (destinationPath: string): void => {
+    pendingNavigationPathRef.current = destinationPath;
+    try {
+      window.sessionStorage.setItem(mobileNavigationFocusKey, destinationPath);
+    } catch {
+      // The in-memory ref still handles same-page navigation when storage is unavailable.
+    }
+    setOpenPath(null);
+    window.setTimeout(() => focusMainAfterNavigation(destinationPath), 0);
+  };
+
+  useEffect(() => {
+    let storedDestination: string | null = null;
+    try {
+      storedDestination = window.sessionStorage.getItem(mobileNavigationFocusKey);
+    } catch {
+      storedDestination = null;
+    }
+    if (open || (pendingNavigationPathRef.current !== pathname && storedDestination !== pathname)) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>("#main-content, #sapar-app-content, main")?.focus();
+      pendingNavigationPathRef.current = null;
+      try {
+        window.sessionStorage.removeItem(mobileNavigationFocusKey);
+      } catch {
+        // The destination focus is already complete.
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [open, pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const bodyOverflow = document.body.style.overflow;
+    const menuButton = menuButtonRef.current;
+    const desktopQuery = window.matchMedia("(min-width: 821px)");
+    const backgroundElements = Array.from(document.querySelectorAll<HTMLElement>("main, footer, .header-logo, .desktop-nav, .header-actions"));
+    const previousInert = backgroundElements.map((element) => element.inert);
+    const closeForDesktop = (event: MediaQueryListEvent): void => {
+      if (event.matches) setOpenPath(null);
+    };
+    const handleMenuKeyboard = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        setOpenPath(null);
+        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(menuLayerRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled]):not([tabindex='-1'])") ?? []);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    backgroundElements.forEach((element) => { element.inert = true; });
+    window.requestAnimationFrame(() => menuLayerRef.current?.querySelector<HTMLElement>(".mobile-nav-close")?.focus());
+    desktopQuery.addEventListener("change", closeForDesktop);
+    window.addEventListener("keydown", handleMenuKeyboard);
+    return () => {
+      document.body.style.overflow = bodyOverflow;
+      backgroundElements.forEach((element, index) => { element.inert = previousInert[index] ?? false; });
+      desktopQuery.removeEventListener("change", closeForDesktop);
+      window.removeEventListener("keydown", handleMenuKeyboard);
+      if (!pendingNavigationPathRef.current && window.matchMedia("(max-width: 820px)").matches) {
+        window.requestAnimationFrame(() => menuButton?.focus());
+      }
+    };
+  }, [open]);
 
   return (
     <>
@@ -85,30 +194,29 @@ export function SiteHeader() {
         Skip to content
       </a>
       <header className="site-header">
-        <motion.div className="scroll-progress" style={{ scaleX }} />
+        <motion.div className="scroll-progress" style={{ scaleX: reduce ? 1 : scaleX }} />
         <Link href="/" className="header-logo">
           <SaparMark />
         </Link>
         <nav aria-label="Primary" className="desktop-nav">
           {navItems.map(([href, label]) => (
-            <Link key={href} className={pathname === href ? "active" : ""} href={href}>
+            <Link key={href} className={pathname === href ? "active" : ""} href={href} aria-current={pathname === href ? "page" : undefined}>
               {label}
             </Link>
           ))}
         </nav>
         <div className="header-actions">
-          <Link className="button button-ghost desktop-cta" href="/demo">
-            Investor tour
-          </Link>
           <Link className="button button-primary desktop-cta" href="/app">
             Open prototype <ArrowRight size={16} aria-hidden="true" />
           </Link>
           <button
+            ref={menuButtonRef}
             className="menu-toggle"
             type="button"
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            onClick={() => setOpen((value) => !value)}
+            aria-controls="site-mobile-navigation"
+            onClick={() => setOpenPath((value) => value === pathname ? null : pathname)}
           >
             {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
@@ -116,24 +224,35 @@ export function SiteHeader() {
       </header>
       <AnimatePresence>
         {open && (
-          <motion.nav
-            aria-label="Mobile"
-            className="mobile-nav"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+          <motion.div
+            ref={menuLayerRef}
+            className="mobile-nav-layer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+            initial={reduce ? false : { opacity: 0, y: -12 }}
+            animate={reduce ? undefined : { opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -12 }}
+            transition={reduce ? { duration: 0 } : undefined}
           >
-            {navItems.map(([href, label], index) => (
-              <Link href={href} key={href} onClick={() => setOpen(false)}>
-                <span>0{index + 1}</span>
-                {label}
-                <ChevronRight aria-hidden="true" />
+            <button className="mobile-nav-scrim" type="button" tabIndex={-1} aria-hidden="true" onClick={() => setOpenPath(null)} />
+            <motion.nav id="site-mobile-navigation" aria-label="Mobile" className="mobile-nav">
+              <div className="mobile-nav-head">
+                <span>Navigate SAPAR</span>
+                <button className="mobile-nav-close" type="button" aria-label="Close navigation" onClick={() => setOpenPath(null)}><X aria-hidden="true" /></button>
+              </div>
+              {navItems.map(([href, label], index) => (
+                <Link href={href} key={href} className={pathname === href ? "active" : ""} aria-current={pathname === href ? "page" : undefined} onClick={() => closeForNavigation(href)}>
+                  <span>0{index + 1}</span>
+                  {label}
+                  <ChevronRight aria-hidden="true" />
+                </Link>
+              ))}
+              <Link className="button button-primary" href="/app" onClick={() => closeForNavigation("/app")}>
+                Open prototype <ArrowRight aria-hidden="true" />
               </Link>
-            ))}
-            <Link className="button button-primary" href="/app" onClick={() => setOpen(false)}>
-              Open prototype <ArrowRight aria-hidden="true" />
-            </Link>
-          </motion.nav>
+            </motion.nav>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

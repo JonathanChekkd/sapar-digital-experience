@@ -1,0 +1,10 @@
+{
+  "id": "hybrid-matchday-warmup",
+  "status": "generated",
+  "mediaType": "image/png",
+  "fictionalPeople": true,
+  "realPersonLikeness": false,
+  "style": "photorealistic teammate warm-up inside illustrated SAPAR story frame",
+  "generator": "OpenAI image generation",
+  "promptFile": "hybrid-matchday-warmup.prompt.txt"
+}

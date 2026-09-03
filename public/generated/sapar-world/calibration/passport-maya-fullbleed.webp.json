@@ -1,0 +1,11 @@
+{
+  "id": "passport-maya-fullbleed",
+  "createdAt": "2026-09-02T06:23:32Z",
+  "promptFile": "passport-maya-fullbleed.prompt.txt",
+  "sourcePng": "passport-maya-fullbleed.png",
+  "shippingWebp": "passport-maya-fullbleed.webp",
+  "dimensions": { "width": 1122, "height": 1402 },
+  "alpha": true,
+  "conversion": "ImageMagick WebP quality 90, method 6",
+  "provenance": "OpenAI built-in image generation with project-local source PNG, prompt, and deterministic alpha-cleanup record"
+}

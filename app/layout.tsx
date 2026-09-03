@@ -1,7 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import "@fontsource/barlow-condensed/900.css";
 import "@fontsource-variable/space-grotesk";
 import "@fontsource-variable/manrope";
 import "./globals.css";
+import "./sapar-app.css";
+import "./sapar-gamification.css";
+import "./sapar-fighter-world.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://saparsport.com"),
@@ -46,7 +56,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <template
+          data-impeccable-direction="9c3a3594"
+          dangerouslySetInnerHTML={{
+            __html:
+              "<!-- IMPECCABLE_DIRECTION seed=9c3a3594; Matchday Fighter World; approved cartoon-first Passport benchmark; original anime-inspired adult fighters; cobalt arena materials with coral, gold, emerald, cyan, and violet route energy; semantic fighter metadata; separate Gi and No-Gi lanes; tactile mobile-first social navigation; authored one-shot motion; no copied game trade dress, casino cues, random rewards, government seals, or belt-rating conflation. -->",
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

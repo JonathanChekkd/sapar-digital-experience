@@ -1,0 +1,17 @@
+{
+  "id": "stamp-identity-confirmed",
+  "status": "generated",
+  "mediaType": "image/png",
+  "dimensions": { "width": 1312, "height": 1199 },
+  "people": false,
+  "semanticContent": false,
+  "alpha": true,
+  "style": "original tactile 2.5D human-confirmed identity medallion",
+  "generator": "OpenAI built-in image generation",
+  "references": [
+    ".impeccable/mocks/matchday-passport-pulse.png",
+    "public/generated/sapar-world/calibration/achievement-verified-medallion.png"
+  ],
+  "promptFile": "stamp-identity-confirmed.prompt.txt",
+  "postProcessing": "Built-in background-extraction edit removed the generated checkerboard and preserved the medallion."
+}
